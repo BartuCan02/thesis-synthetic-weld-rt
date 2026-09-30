@@ -1,0 +1,33 @@
+\documentclass[11pt,a4paper,twoside]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage[hidelinks]{hyperref}
+\usepackage[style=numeric,backend=biber]{biblatex}
+\addbibresource{references.bib}
+\graphicspath{{figures/}}
+
+\title{Realistic Synthetic Data Generation for Defective Radiographic Testing Scans of Welds}
+\author{Hüseyin Bartu Can}
+\date{March 2027}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\input{chapters/01_introduction}
+\input{chapters/02_background}
+\input{chapters/03_related_work}
+\input{chapters/04_data}
+\input{chapters/05_method_physics}
+\input{chapters/06_method_inpainting}
+\input{chapters/07_experiments}
+\input{chapters/08_results}
+\input{chapters/09_discussion}
+\input{chapters/10_conclusion}
+
+\printbibliography
+\end{document}

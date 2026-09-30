@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.ruff_cache/
+# LaTeX
+thesis/*.aux thesis/*.bbl thesis/*.bcf thesis/*.blg thesis/*.log thesis/*.out thesis/*.toc thesis/*.run.xml thesis/*.fdb_latexmk thesis/*.fls thesis/*.synctex.gz thesis/main.pdf
+# data and outputs never go in git
+data/
+outputs/
+*.tif
+*.tiff
+*.npz
+*.pt
+*.ckpt
+.env
+.DS_Store

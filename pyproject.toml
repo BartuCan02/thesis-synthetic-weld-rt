@@ -1,0 +1,10 @@
+[project]
+name = "rtsynth"
+version = "0.0.1"
+description = "Synthetic defective weld radiographs: physics-informed compositing and inpainting augmentation"
+requires-python = "==3.12.*"
+dependencies = []
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
