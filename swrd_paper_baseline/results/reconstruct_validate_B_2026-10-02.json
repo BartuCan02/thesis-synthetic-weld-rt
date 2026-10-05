@@ -1,0 +1,6002 @@
+[
+ {
+  "crop": "B_DJ-RT-20220621-18",
+  "exposure": "DJ-RT-20220621-18",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 35,
+  "dy": 36,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20220708-23",
+  "exposure": "DJ-RT-20220708-23",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 3578,
+  "dy": 16,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20220708-24",
+  "exposure": "DJ-RT-20220708-24",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 2201,
+  "dy": 503,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20220708-32",
+  "exposure": "DJ-RT-20220708-32",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 2316,
+  "dy": 26,
+  "n_matched": 2,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "B_DJ-RT-20220708-37",
+  "exposure": "DJ-RT-20220708-37",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 3130,
+  "dy": 34,
+  "n_matched": 3,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "B_DJ-RT-20220708-48",
+  "exposure": "DJ-RT-20220708-48",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 2374,
+  "dy": 559,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20220810-20",
+  "exposure": "DJ-RT-20220810-20",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 2512,
+  "dy": 36,
+  "n_matched": 2,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20220810-33",
+  "exposure": "DJ-RT-20220810-33",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 6,
+  "dy": 28,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20220810-34",
+  "exposure": "DJ-RT-20220810-34",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 2517,
+  "dy": 51,
+  "n_matched": 2,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "B_DJ-RT-20221209-104",
+  "exposure": "DJ-RT-20221209-104",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 3620,
+  "dy": 6,
+  "n_matched": 2,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "B_DJ-RT-20221209-144",
+  "exposure": "DJ-RT-20221209-144",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 294,
+  "dy": 2,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20221209-145",
+  "exposure": "DJ-RT-20221209-145",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 1488,
+  "dy": 6,
+  "n_matched": 2,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20221209-185",
+  "exposure": "DJ-RT-20221209-185",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 6655,
+  "dy": 559,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20221209-186",
+  "exposure": "DJ-RT-20221209-186",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 2714,
+  "dy": 4,
+  "n_matched": 5,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "B_DJ-RT-20221209-187",
+  "exposure": "DJ-RT-20221209-187",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 2715,
+  "dy": 549,
+  "n_matched": 3,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "B_DJ-RT-20221209-188",
+  "exposure": "DJ-RT-20221209-188",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 3709,
+  "dy": 2,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20221209-189",
+  "exposure": "DJ-RT-20221209-189",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 3288,
+  "dy": 4,
+  "n_matched": 2,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "B_DJ-RT-20221209-190",
+  "exposure": "DJ-RT-20221209-190",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 2267,
+  "dy": 481,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20221209-90",
+  "exposure": "DJ-RT-20221209-90",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 3826,
+  "dy": 2,
+  "n_matched": 3,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "B_DJ-RT-20221209-95",
+  "exposure": "DJ-RT-20221209-95",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 2475,
+  "dy": 639,
+  "n_matched": 3,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "B_DJ-RT-20221215-1",
+  "exposure": "DJ-RT-20221215-1",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 6313,
+  "dy": 1,
+  "n_matched": 9,
+  "n_crop_polys": 11
+ },
+ {
+  "crop": "B_DJ-RT-20221215-10",
+  "exposure": "DJ-RT-20221215-10",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 3292,
+  "dy": 6,
+  "n_matched": 3,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "B_DJ-RT-20221215-11",
+  "exposure": "DJ-RT-20221215-11",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 413,
+  "dy": 6,
+  "n_matched": 3,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "B_DJ-RT-20221215-12",
+  "exposure": "DJ-RT-20221215-12",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 3072,
+  "dy": 4,
+  "n_matched": 4,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "B_DJ-RT-20221215-13",
+  "exposure": "DJ-RT-20221215-13",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 3154,
+  "dy": 4,
+  "n_matched": 3,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "B_DJ-RT-20221215-14",
+  "exposure": "DJ-RT-20221215-14",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 3468,
+  "dy": 6,
+  "n_matched": 4,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "B_DJ-RT-20221215-15",
+  "exposure": "DJ-RT-20221215-15",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 6300,
+  "dy": 1,
+  "n_matched": 2,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "B_DJ-RT-20221215-16",
+  "exposure": "DJ-RT-20221215-16",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 221,
+  "dy": 3,
+  "n_matched": 2,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "B_DJ-RT-20221215-17",
+  "exposure": "DJ-RT-20221215-17",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 794,
+  "dy": 8,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20221215-18",
+  "exposure": "DJ-RT-20221215-18",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 6264,
+  "dy": 3,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20221215-19",
+  "exposure": "DJ-RT-20221215-19",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 6099,
+  "dy": 3,
+  "n_matched": 9,
+  "n_crop_polys": 10
+ },
+ {
+  "crop": "B_DJ-RT-20221215-2",
+  "exposure": "DJ-RT-20221215-2",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 3479,
+  "dy": 3,
+  "n_matched": 9,
+  "n_crop_polys": 10
+ },
+ {
+  "crop": "B_DJ-RT-20221215-20",
+  "exposure": "DJ-RT-20221215-20",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 316,
+  "dy": 4,
+  "n_matched": 2,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "B_DJ-RT-20221215-21",
+  "exposure": "DJ-RT-20221215-21",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 6220,
+  "dy": 2,
+  "n_matched": 4,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "B_DJ-RT-20221215-22",
+  "exposure": "DJ-RT-20221215-22",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 2886,
+  "dy": 3,
+  "n_matched": 6,
+  "n_crop_polys": 7
+ },
+ {
+  "crop": "B_DJ-RT-20221215-23",
+  "exposure": "DJ-RT-20221215-23",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 6095,
+  "dy": 1,
+  "n_matched": 2,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "B_DJ-RT-20221215-24",
+  "exposure": "DJ-RT-20221215-24",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 3281,
+  "dy": 3,
+  "n_matched": 4,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "B_DJ-RT-20221215-25",
+  "exposure": "DJ-RT-20221215-25",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 3121,
+  "dy": 4,
+  "n_matched": 8,
+  "n_crop_polys": 10
+ },
+ {
+  "crop": "B_DJ-RT-20221215-26",
+  "exposure": "DJ-RT-20221215-26",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 253,
+  "dy": 3,
+  "n_matched": 4,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "B_DJ-RT-20221215-27",
+  "exposure": "DJ-RT-20221215-27",
+  "status": "exact",
+  "rot90": 0,
+  "dx": 6189,
+  "dy": 3,
+  "n_matched": 2,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "B_DJ-RT-20221215-28",
+  "exposure": "DJ-RT-20221215-28",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-29",
+  "exposure": "DJ-RT-20221215-29",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-3",
+  "exposure": "DJ-RT-20221215-3",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-30",
+  "exposure": "DJ-RT-20221215-30",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-31",
+  "exposure": "DJ-RT-20221215-31",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-33",
+  "exposure": "DJ-RT-20221215-33",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-35",
+  "exposure": "DJ-RT-20221215-35",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-36",
+  "exposure": "DJ-RT-20221215-36",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-37",
+  "exposure": "DJ-RT-20221215-37",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-38",
+  "exposure": "DJ-RT-20221215-38",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-39",
+  "exposure": "DJ-RT-20221215-39",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-40",
+  "exposure": "DJ-RT-20221215-40",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-41",
+  "exposure": "DJ-RT-20221215-41",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-42",
+  "exposure": "DJ-RT-20221215-42",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-43",
+  "exposure": "DJ-RT-20221215-43",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-44",
+  "exposure": "DJ-RT-20221215-44",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-45",
+  "exposure": "DJ-RT-20221215-45",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-46",
+  "exposure": "DJ-RT-20221215-46",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-47",
+  "exposure": "DJ-RT-20221215-47",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-48",
+  "exposure": "DJ-RT-20221215-48",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-49",
+  "exposure": "DJ-RT-20221215-49",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-5",
+  "exposure": "DJ-RT-20221215-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-50",
+  "exposure": "DJ-RT-20221215-50",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-51",
+  "exposure": "DJ-RT-20221215-51",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-53",
+  "exposure": "DJ-RT-20221215-53",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-54",
+  "exposure": "DJ-RT-20221215-54",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-55",
+  "exposure": "DJ-RT-20221215-55",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-56",
+  "exposure": "DJ-RT-20221215-56",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-57",
+  "exposure": "DJ-RT-20221215-57",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-58",
+  "exposure": "DJ-RT-20221215-58",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-59",
+  "exposure": "DJ-RT-20221215-59",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-6",
+  "exposure": "DJ-RT-20221215-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-60",
+  "exposure": "DJ-RT-20221215-60",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-61",
+  "exposure": "DJ-RT-20221215-61",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-62",
+  "exposure": "DJ-RT-20221215-62",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-63",
+  "exposure": "DJ-RT-20221215-63",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-64",
+  "exposure": "DJ-RT-20221215-64",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-65",
+  "exposure": "DJ-RT-20221215-65",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-66",
+  "exposure": "DJ-RT-20221215-66",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-67",
+  "exposure": "DJ-RT-20221215-67",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-68",
+  "exposure": "DJ-RT-20221215-68",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-7",
+  "exposure": "DJ-RT-20221215-7",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-8",
+  "exposure": "DJ-RT-20221215-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221215-9",
+  "exposure": "DJ-RT-20221215-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221216-33",
+  "exposure": "DJ-RT-20221216-33",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221216-35",
+  "exposure": "DJ-RT-20221216-35",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221216-39",
+  "exposure": "DJ-RT-20221216-39",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221216-40",
+  "exposure": "DJ-RT-20221216-40",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221216-42",
+  "exposure": "DJ-RT-20221216-42",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221216-47",
+  "exposure": "DJ-RT-20221216-47",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221216-52",
+  "exposure": "DJ-RT-20221216-52",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221216-55",
+  "exposure": "DJ-RT-20221216-55",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221216-56",
+  "exposure": "DJ-RT-20221216-56",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221216-62",
+  "exposure": "DJ-RT-20221216-62",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221216-69",
+  "exposure": "DJ-RT-20221216-69",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221216-72",
+  "exposure": "DJ-RT-20221216-72",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221216-73",
+  "exposure": "DJ-RT-20221216-73",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-1",
+  "exposure": "DJ-RT-20221226-1",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-100",
+  "exposure": "DJ-RT-20221226-100",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-101",
+  "exposure": "DJ-RT-20221226-101",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-102",
+  "exposure": "DJ-RT-20221226-102",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-103",
+  "exposure": "DJ-RT-20221226-103",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-104",
+  "exposure": "DJ-RT-20221226-104",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-105",
+  "exposure": "DJ-RT-20221226-105",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-106",
+  "exposure": "DJ-RT-20221226-106",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-107",
+  "exposure": "DJ-RT-20221226-107",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-108",
+  "exposure": "DJ-RT-20221226-108",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-109",
+  "exposure": "DJ-RT-20221226-109",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-11",
+  "exposure": "DJ-RT-20221226-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-112",
+  "exposure": "DJ-RT-20221226-112",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-113",
+  "exposure": "DJ-RT-20221226-113",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-114",
+  "exposure": "DJ-RT-20221226-114",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-116",
+  "exposure": "DJ-RT-20221226-116",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-117",
+  "exposure": "DJ-RT-20221226-117",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-118",
+  "exposure": "DJ-RT-20221226-118",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-119",
+  "exposure": "DJ-RT-20221226-119",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-120",
+  "exposure": "DJ-RT-20221226-120",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-121",
+  "exposure": "DJ-RT-20221226-121",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-124",
+  "exposure": "DJ-RT-20221226-124",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-125",
+  "exposure": "DJ-RT-20221226-125",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-127",
+  "exposure": "DJ-RT-20221226-127",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-128",
+  "exposure": "DJ-RT-20221226-128",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-129",
+  "exposure": "DJ-RT-20221226-129",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-13",
+  "exposure": "DJ-RT-20221226-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-130",
+  "exposure": "DJ-RT-20221226-130",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-131",
+  "exposure": "DJ-RT-20221226-131",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-133",
+  "exposure": "DJ-RT-20221226-133",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-135",
+  "exposure": "DJ-RT-20221226-135",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-136",
+  "exposure": "DJ-RT-20221226-136",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-137",
+  "exposure": "DJ-RT-20221226-137",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-138",
+  "exposure": "DJ-RT-20221226-138",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-139",
+  "exposure": "DJ-RT-20221226-139",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-14",
+  "exposure": "DJ-RT-20221226-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-140",
+  "exposure": "DJ-RT-20221226-140",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-141",
+  "exposure": "DJ-RT-20221226-141",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-143",
+  "exposure": "DJ-RT-20221226-143",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-144",
+  "exposure": "DJ-RT-20221226-144",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-145",
+  "exposure": "DJ-RT-20221226-145",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-146",
+  "exposure": "DJ-RT-20221226-146",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-147",
+  "exposure": "DJ-RT-20221226-147",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-15",
+  "exposure": "DJ-RT-20221226-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-150",
+  "exposure": "DJ-RT-20221226-150",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-151",
+  "exposure": "DJ-RT-20221226-151",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-153",
+  "exposure": "DJ-RT-20221226-153",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-154",
+  "exposure": "DJ-RT-20221226-154",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-156",
+  "exposure": "DJ-RT-20221226-156",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-157",
+  "exposure": "DJ-RT-20221226-157",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-159",
+  "exposure": "DJ-RT-20221226-159",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-16",
+  "exposure": "DJ-RT-20221226-16",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-160",
+  "exposure": "DJ-RT-20221226-160",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-161",
+  "exposure": "DJ-RT-20221226-161",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-163",
+  "exposure": "DJ-RT-20221226-163",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-164",
+  "exposure": "DJ-RT-20221226-164",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-166",
+  "exposure": "DJ-RT-20221226-166",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-167",
+  "exposure": "DJ-RT-20221226-167",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-168",
+  "exposure": "DJ-RT-20221226-168",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-169",
+  "exposure": "DJ-RT-20221226-169",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-17",
+  "exposure": "DJ-RT-20221226-17",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-173",
+  "exposure": "DJ-RT-20221226-173",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-175",
+  "exposure": "DJ-RT-20221226-175",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-176",
+  "exposure": "DJ-RT-20221226-176",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-177",
+  "exposure": "DJ-RT-20221226-177",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-18",
+  "exposure": "DJ-RT-20221226-18",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-181",
+  "exposure": "DJ-RT-20221226-181",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-182",
+  "exposure": "DJ-RT-20221226-182",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-184",
+  "exposure": "DJ-RT-20221226-184",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-186",
+  "exposure": "DJ-RT-20221226-186",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-187",
+  "exposure": "DJ-RT-20221226-187",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-188",
+  "exposure": "DJ-RT-20221226-188",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-19",
+  "exposure": "DJ-RT-20221226-19",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-190",
+  "exposure": "DJ-RT-20221226-190",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-191",
+  "exposure": "DJ-RT-20221226-191",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-193",
+  "exposure": "DJ-RT-20221226-193",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-194",
+  "exposure": "DJ-RT-20221226-194",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-195",
+  "exposure": "DJ-RT-20221226-195",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-197",
+  "exposure": "DJ-RT-20221226-197",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-198",
+  "exposure": "DJ-RT-20221226-198",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-2",
+  "exposure": "DJ-RT-20221226-2",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-201",
+  "exposure": "DJ-RT-20221226-201",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-208",
+  "exposure": "DJ-RT-20221226-208",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-209",
+  "exposure": "DJ-RT-20221226-209",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-21",
+  "exposure": "DJ-RT-20221226-21",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-210",
+  "exposure": "DJ-RT-20221226-210",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-23",
+  "exposure": "DJ-RT-20221226-23",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-233",
+  "exposure": "DJ-RT-20221226-233",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-235",
+  "exposure": "DJ-RT-20221226-235",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-236",
+  "exposure": "DJ-RT-20221226-236",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-238",
+  "exposure": "DJ-RT-20221226-238",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-239",
+  "exposure": "DJ-RT-20221226-239",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-24",
+  "exposure": "DJ-RT-20221226-24",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-241",
+  "exposure": "DJ-RT-20221226-241",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-25",
+  "exposure": "DJ-RT-20221226-25",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-254",
+  "exposure": "DJ-RT-20221226-254",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-26",
+  "exposure": "DJ-RT-20221226-26",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-270",
+  "exposure": "DJ-RT-20221226-270",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-28",
+  "exposure": "DJ-RT-20221226-28",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-3",
+  "exposure": "DJ-RT-20221226-3",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-30",
+  "exposure": "DJ-RT-20221226-30",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-31",
+  "exposure": "DJ-RT-20221226-31",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-32",
+  "exposure": "DJ-RT-20221226-32",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-34",
+  "exposure": "DJ-RT-20221226-34",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-35",
+  "exposure": "DJ-RT-20221226-35",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-36",
+  "exposure": "DJ-RT-20221226-36",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-37",
+  "exposure": "DJ-RT-20221226-37",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-38",
+  "exposure": "DJ-RT-20221226-38",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-39",
+  "exposure": "DJ-RT-20221226-39",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-4",
+  "exposure": "DJ-RT-20221226-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-40",
+  "exposure": "DJ-RT-20221226-40",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-41",
+  "exposure": "DJ-RT-20221226-41",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-42",
+  "exposure": "DJ-RT-20221226-42",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-43",
+  "exposure": "DJ-RT-20221226-43",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-44",
+  "exposure": "DJ-RT-20221226-44",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-45",
+  "exposure": "DJ-RT-20221226-45",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-47",
+  "exposure": "DJ-RT-20221226-47",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-48",
+  "exposure": "DJ-RT-20221226-48",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-49",
+  "exposure": "DJ-RT-20221226-49",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-5",
+  "exposure": "DJ-RT-20221226-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-50",
+  "exposure": "DJ-RT-20221226-50",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-51",
+  "exposure": "DJ-RT-20221226-51",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-52",
+  "exposure": "DJ-RT-20221226-52",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-53",
+  "exposure": "DJ-RT-20221226-53",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-56",
+  "exposure": "DJ-RT-20221226-56",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-57",
+  "exposure": "DJ-RT-20221226-57",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-58",
+  "exposure": "DJ-RT-20221226-58",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-59",
+  "exposure": "DJ-RT-20221226-59",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-6",
+  "exposure": "DJ-RT-20221226-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-60",
+  "exposure": "DJ-RT-20221226-60",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-61",
+  "exposure": "DJ-RT-20221226-61",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-63",
+  "exposure": "DJ-RT-20221226-63",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-64",
+  "exposure": "DJ-RT-20221226-64",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-65",
+  "exposure": "DJ-RT-20221226-65",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-66",
+  "exposure": "DJ-RT-20221226-66",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-67",
+  "exposure": "DJ-RT-20221226-67",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-68",
+  "exposure": "DJ-RT-20221226-68",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-69",
+  "exposure": "DJ-RT-20221226-69",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-70",
+  "exposure": "DJ-RT-20221226-70",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-71",
+  "exposure": "DJ-RT-20221226-71",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-72",
+  "exposure": "DJ-RT-20221226-72",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-73",
+  "exposure": "DJ-RT-20221226-73",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-74",
+  "exposure": "DJ-RT-20221226-74",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-75",
+  "exposure": "DJ-RT-20221226-75",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-76",
+  "exposure": "DJ-RT-20221226-76",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-77",
+  "exposure": "DJ-RT-20221226-77",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-78",
+  "exposure": "DJ-RT-20221226-78",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-79",
+  "exposure": "DJ-RT-20221226-79",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-80",
+  "exposure": "DJ-RT-20221226-80",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-81",
+  "exposure": "DJ-RT-20221226-81",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-82",
+  "exposure": "DJ-RT-20221226-82",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-83",
+  "exposure": "DJ-RT-20221226-83",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-84",
+  "exposure": "DJ-RT-20221226-84",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-85",
+  "exposure": "DJ-RT-20221226-85",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-86",
+  "exposure": "DJ-RT-20221226-86",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-87",
+  "exposure": "DJ-RT-20221226-87",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-88",
+  "exposure": "DJ-RT-20221226-88",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-89",
+  "exposure": "DJ-RT-20221226-89",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-9",
+  "exposure": "DJ-RT-20221226-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-91",
+  "exposure": "DJ-RT-20221226-91",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-92",
+  "exposure": "DJ-RT-20221226-92",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-93",
+  "exposure": "DJ-RT-20221226-93",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-94",
+  "exposure": "DJ-RT-20221226-94",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-95",
+  "exposure": "DJ-RT-20221226-95",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-96",
+  "exposure": "DJ-RT-20221226-96",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-97",
+  "exposure": "DJ-RT-20221226-97",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-98",
+  "exposure": "DJ-RT-20221226-98",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221226-99",
+  "exposure": "DJ-RT-20221226-99",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221227-107",
+  "exposure": "DJ-RT-20221227-107",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221227-121",
+  "exposure": "DJ-RT-20221227-121",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221227-123",
+  "exposure": "DJ-RT-20221227-123",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221227-127",
+  "exposure": "DJ-RT-20221227-127",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221227-144",
+  "exposure": "DJ-RT-20221227-144",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221227-145",
+  "exposure": "DJ-RT-20221227-145",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221227-163",
+  "exposure": "DJ-RT-20221227-163",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221227-34",
+  "exposure": "DJ-RT-20221227-34",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221227-35",
+  "exposure": "DJ-RT-20221227-35",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221227-74",
+  "exposure": "DJ-RT-20221227-74",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221227-79",
+  "exposure": "DJ-RT-20221227-79",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221227-80",
+  "exposure": "DJ-RT-20221227-80",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221227-84",
+  "exposure": "DJ-RT-20221227-84",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221227-88",
+  "exposure": "DJ-RT-20221227-88",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221227-90",
+  "exposure": "DJ-RT-20221227-90",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221227-95",
+  "exposure": "DJ-RT-20221227-95",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221228-1",
+  "exposure": "DJ-RT-20221228-1",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221228-10",
+  "exposure": "DJ-RT-20221228-10",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221228-12",
+  "exposure": "DJ-RT-20221228-12",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221228-25",
+  "exposure": "DJ-RT-20221228-25",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221228-27",
+  "exposure": "DJ-RT-20221228-27",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221228-33",
+  "exposure": "DJ-RT-20221228-33",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221228-46",
+  "exposure": "DJ-RT-20221228-46",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221228-49",
+  "exposure": "DJ-RT-20221228-49",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221228-5",
+  "exposure": "DJ-RT-20221228-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221228-50",
+  "exposure": "DJ-RT-20221228-50",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221228-52",
+  "exposure": "DJ-RT-20221228-52",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221228-63",
+  "exposure": "DJ-RT-20221228-63",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221228-73",
+  "exposure": "DJ-RT-20221228-73",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221228-75",
+  "exposure": "DJ-RT-20221228-75",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221228-78",
+  "exposure": "DJ-RT-20221228-78",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20221228-88",
+  "exposure": "DJ-RT-20221228-88",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-11",
+  "exposure": "DJ-RT-20230105-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-12",
+  "exposure": "DJ-RT-20230105-12",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-13",
+  "exposure": "DJ-RT-20230105-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-14",
+  "exposure": "DJ-RT-20230105-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-17",
+  "exposure": "DJ-RT-20230105-17",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-21",
+  "exposure": "DJ-RT-20230105-21",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-23",
+  "exposure": "DJ-RT-20230105-23",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-26",
+  "exposure": "DJ-RT-20230105-26",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-27",
+  "exposure": "DJ-RT-20230105-27",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-29",
+  "exposure": "DJ-RT-20230105-29",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-3",
+  "exposure": "DJ-RT-20230105-3",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-32",
+  "exposure": "DJ-RT-20230105-32",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-33",
+  "exposure": "DJ-RT-20230105-33",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-35",
+  "exposure": "DJ-RT-20230105-35",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-37",
+  "exposure": "DJ-RT-20230105-37",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-38",
+  "exposure": "DJ-RT-20230105-38",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-4",
+  "exposure": "DJ-RT-20230105-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-5",
+  "exposure": "DJ-RT-20230105-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-6",
+  "exposure": "DJ-RT-20230105-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-7",
+  "exposure": "DJ-RT-20230105-7",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-8",
+  "exposure": "DJ-RT-20230105-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230105-9",
+  "exposure": "DJ-RT-20230105-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-13",
+  "exposure": "DJ-RT-20230106-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-14",
+  "exposure": "DJ-RT-20230106-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-15",
+  "exposure": "DJ-RT-20230106-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-17",
+  "exposure": "DJ-RT-20230106-17",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-2",
+  "exposure": "DJ-RT-20230106-2",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-21",
+  "exposure": "DJ-RT-20230106-21",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-22",
+  "exposure": "DJ-RT-20230106-22",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-23",
+  "exposure": "DJ-RT-20230106-23",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-25",
+  "exposure": "DJ-RT-20230106-25",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-26",
+  "exposure": "DJ-RT-20230106-26",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-27",
+  "exposure": "DJ-RT-20230106-27",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-3",
+  "exposure": "DJ-RT-20230106-3",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-31",
+  "exposure": "DJ-RT-20230106-31",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-32",
+  "exposure": "DJ-RT-20230106-32",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-33",
+  "exposure": "DJ-RT-20230106-33",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-35",
+  "exposure": "DJ-RT-20230106-35",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-37",
+  "exposure": "DJ-RT-20230106-37",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-39",
+  "exposure": "DJ-RT-20230106-39",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-4",
+  "exposure": "DJ-RT-20230106-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-40",
+  "exposure": "DJ-RT-20230106-40",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-41",
+  "exposure": "DJ-RT-20230106-41",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-42",
+  "exposure": "DJ-RT-20230106-42",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-44",
+  "exposure": "DJ-RT-20230106-44",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-45",
+  "exposure": "DJ-RT-20230106-45",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-46",
+  "exposure": "DJ-RT-20230106-46",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-49",
+  "exposure": "DJ-RT-20230106-49",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-50",
+  "exposure": "DJ-RT-20230106-50",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-51",
+  "exposure": "DJ-RT-20230106-51",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-56",
+  "exposure": "DJ-RT-20230106-56",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-57",
+  "exposure": "DJ-RT-20230106-57",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-58",
+  "exposure": "DJ-RT-20230106-58",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-6",
+  "exposure": "DJ-RT-20230106-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-61",
+  "exposure": "DJ-RT-20230106-61",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-63",
+  "exposure": "DJ-RT-20230106-63",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-65",
+  "exposure": "DJ-RT-20230106-65",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-67",
+  "exposure": "DJ-RT-20230106-67",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-69",
+  "exposure": "DJ-RT-20230106-69",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-7",
+  "exposure": "DJ-RT-20230106-7",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-74",
+  "exposure": "DJ-RT-20230106-74",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-75",
+  "exposure": "DJ-RT-20230106-75",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-76",
+  "exposure": "DJ-RT-20230106-76",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-81",
+  "exposure": "DJ-RT-20230106-81",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-82",
+  "exposure": "DJ-RT-20230106-82",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-83",
+  "exposure": "DJ-RT-20230106-83",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-84",
+  "exposure": "DJ-RT-20230106-84",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-85",
+  "exposure": "DJ-RT-20230106-85",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-86",
+  "exposure": "DJ-RT-20230106-86",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-87",
+  "exposure": "DJ-RT-20230106-87",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-88",
+  "exposure": "DJ-RT-20230106-88",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230106-90",
+  "exposure": "DJ-RT-20230106-90",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-1",
+  "exposure": "DJ-RT-20230109-1",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-10",
+  "exposure": "DJ-RT-20230109-10",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-11",
+  "exposure": "DJ-RT-20230109-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-12",
+  "exposure": "DJ-RT-20230109-12",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-15",
+  "exposure": "DJ-RT-20230109-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-16",
+  "exposure": "DJ-RT-20230109-16",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-17",
+  "exposure": "DJ-RT-20230109-17",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-18",
+  "exposure": "DJ-RT-20230109-18",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-19",
+  "exposure": "DJ-RT-20230109-19",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-20",
+  "exposure": "DJ-RT-20230109-20",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-21",
+  "exposure": "DJ-RT-20230109-21",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-22",
+  "exposure": "DJ-RT-20230109-22",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-23",
+  "exposure": "DJ-RT-20230109-23",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-24",
+  "exposure": "DJ-RT-20230109-24",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-25",
+  "exposure": "DJ-RT-20230109-25",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-26",
+  "exposure": "DJ-RT-20230109-26",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-27",
+  "exposure": "DJ-RT-20230109-27",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-3",
+  "exposure": "DJ-RT-20230109-3",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-31",
+  "exposure": "DJ-RT-20230109-31",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-32",
+  "exposure": "DJ-RT-20230109-32",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-33",
+  "exposure": "DJ-RT-20230109-33",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-35",
+  "exposure": "DJ-RT-20230109-35",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-36",
+  "exposure": "DJ-RT-20230109-36",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-38",
+  "exposure": "DJ-RT-20230109-38",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-39",
+  "exposure": "DJ-RT-20230109-39",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-40",
+  "exposure": "DJ-RT-20230109-40",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-41",
+  "exposure": "DJ-RT-20230109-41",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-42",
+  "exposure": "DJ-RT-20230109-42",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-45",
+  "exposure": "DJ-RT-20230109-45",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-46",
+  "exposure": "DJ-RT-20230109-46",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-47",
+  "exposure": "DJ-RT-20230109-47",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-48",
+  "exposure": "DJ-RT-20230109-48",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-49",
+  "exposure": "DJ-RT-20230109-49",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-5",
+  "exposure": "DJ-RT-20230109-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-50",
+  "exposure": "DJ-RT-20230109-50",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-52",
+  "exposure": "DJ-RT-20230109-52",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-56",
+  "exposure": "DJ-RT-20230109-56",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-6",
+  "exposure": "DJ-RT-20230109-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-7",
+  "exposure": "DJ-RT-20230109-7",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-8",
+  "exposure": "DJ-RT-20230109-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230109-9",
+  "exposure": "DJ-RT-20230109-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-1",
+  "exposure": "DJ-RT-20230110-1",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-10",
+  "exposure": "DJ-RT-20230110-10",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-11",
+  "exposure": "DJ-RT-20230110-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-13",
+  "exposure": "DJ-RT-20230110-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-14",
+  "exposure": "DJ-RT-20230110-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-15",
+  "exposure": "DJ-RT-20230110-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-18",
+  "exposure": "DJ-RT-20230110-18",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-19",
+  "exposure": "DJ-RT-20230110-19",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-2",
+  "exposure": "DJ-RT-20230110-2",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-20",
+  "exposure": "DJ-RT-20230110-20",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-22",
+  "exposure": "DJ-RT-20230110-22",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-24",
+  "exposure": "DJ-RT-20230110-24",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-27",
+  "exposure": "DJ-RT-20230110-27",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-29",
+  "exposure": "DJ-RT-20230110-29",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-3",
+  "exposure": "DJ-RT-20230110-3",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-31",
+  "exposure": "DJ-RT-20230110-31",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-34",
+  "exposure": "DJ-RT-20230110-34",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-35",
+  "exposure": "DJ-RT-20230110-35",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-36",
+  "exposure": "DJ-RT-20230110-36",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-38",
+  "exposure": "DJ-RT-20230110-38",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-4",
+  "exposure": "DJ-RT-20230110-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-41",
+  "exposure": "DJ-RT-20230110-41",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-43",
+  "exposure": "DJ-RT-20230110-43",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-44",
+  "exposure": "DJ-RT-20230110-44",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-45",
+  "exposure": "DJ-RT-20230110-45",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-46",
+  "exposure": "DJ-RT-20230110-46",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-47",
+  "exposure": "DJ-RT-20230110-47",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-48",
+  "exposure": "DJ-RT-20230110-48",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-49",
+  "exposure": "DJ-RT-20230110-49",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-5",
+  "exposure": "DJ-RT-20230110-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-50",
+  "exposure": "DJ-RT-20230110-50",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-51",
+  "exposure": "DJ-RT-20230110-51",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-52",
+  "exposure": "DJ-RT-20230110-52",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-53",
+  "exposure": "DJ-RT-20230110-53",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-54",
+  "exposure": "DJ-RT-20230110-54",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-57",
+  "exposure": "DJ-RT-20230110-57",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-58",
+  "exposure": "DJ-RT-20230110-58",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230110-6",
+  "exposure": "DJ-RT-20230110-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-1",
+  "exposure": "DJ-RT-20230112-1",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-10",
+  "exposure": "DJ-RT-20230112-10",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-11",
+  "exposure": "DJ-RT-20230112-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-12",
+  "exposure": "DJ-RT-20230112-12",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-18",
+  "exposure": "DJ-RT-20230112-18",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-21",
+  "exposure": "DJ-RT-20230112-21",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-23",
+  "exposure": "DJ-RT-20230112-23",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-24",
+  "exposure": "DJ-RT-20230112-24",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-26",
+  "exposure": "DJ-RT-20230112-26",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-31",
+  "exposure": "DJ-RT-20230112-31",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-32",
+  "exposure": "DJ-RT-20230112-32",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-33",
+  "exposure": "DJ-RT-20230112-33",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-35",
+  "exposure": "DJ-RT-20230112-35",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-4",
+  "exposure": "DJ-RT-20230112-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-5",
+  "exposure": "DJ-RT-20230112-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-6",
+  "exposure": "DJ-RT-20230112-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230112-9",
+  "exposure": "DJ-RT-20230112-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230113-1",
+  "exposure": "DJ-RT-20230113-1",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230113-10",
+  "exposure": "DJ-RT-20230113-10",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230113-4",
+  "exposure": "DJ-RT-20230113-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230113-5",
+  "exposure": "DJ-RT-20230113-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230113-6",
+  "exposure": "DJ-RT-20230113-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230113-7",
+  "exposure": "DJ-RT-20230113-7",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230113-8",
+  "exposure": "DJ-RT-20230113-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230113-9",
+  "exposure": "DJ-RT-20230113-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-1",
+  "exposure": "DJ-RT-20230214-1",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-10",
+  "exposure": "DJ-RT-20230214-10",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-12",
+  "exposure": "DJ-RT-20230214-12",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-13",
+  "exposure": "DJ-RT-20230214-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-14",
+  "exposure": "DJ-RT-20230214-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-15",
+  "exposure": "DJ-RT-20230214-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-16",
+  "exposure": "DJ-RT-20230214-16",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-17",
+  "exposure": "DJ-RT-20230214-17",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-18",
+  "exposure": "DJ-RT-20230214-18",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-19",
+  "exposure": "DJ-RT-20230214-19",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-2",
+  "exposure": "DJ-RT-20230214-2",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-22",
+  "exposure": "DJ-RT-20230214-22",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-23",
+  "exposure": "DJ-RT-20230214-23",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-24",
+  "exposure": "DJ-RT-20230214-24",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-25",
+  "exposure": "DJ-RT-20230214-25",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-26",
+  "exposure": "DJ-RT-20230214-26",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-29",
+  "exposure": "DJ-RT-20230214-29",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-3",
+  "exposure": "DJ-RT-20230214-3",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-31",
+  "exposure": "DJ-RT-20230214-31",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-33",
+  "exposure": "DJ-RT-20230214-33",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-34",
+  "exposure": "DJ-RT-20230214-34",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-35",
+  "exposure": "DJ-RT-20230214-35",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-38",
+  "exposure": "DJ-RT-20230214-38",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-4",
+  "exposure": "DJ-RT-20230214-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-40",
+  "exposure": "DJ-RT-20230214-40",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-41",
+  "exposure": "DJ-RT-20230214-41",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-42",
+  "exposure": "DJ-RT-20230214-42",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-44",
+  "exposure": "DJ-RT-20230214-44",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-45",
+  "exposure": "DJ-RT-20230214-45",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-47",
+  "exposure": "DJ-RT-20230214-47",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-48",
+  "exposure": "DJ-RT-20230214-48",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-49",
+  "exposure": "DJ-RT-20230214-49",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-5",
+  "exposure": "DJ-RT-20230214-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-50",
+  "exposure": "DJ-RT-20230214-50",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-51",
+  "exposure": "DJ-RT-20230214-51",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-52",
+  "exposure": "DJ-RT-20230214-52",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-53",
+  "exposure": "DJ-RT-20230214-53",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-54",
+  "exposure": "DJ-RT-20230214-54",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-55",
+  "exposure": "DJ-RT-20230214-55",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-56",
+  "exposure": "DJ-RT-20230214-56",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-57",
+  "exposure": "DJ-RT-20230214-57",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-58",
+  "exposure": "DJ-RT-20230214-58",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-59",
+  "exposure": "DJ-RT-20230214-59",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-6",
+  "exposure": "DJ-RT-20230214-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-60",
+  "exposure": "DJ-RT-20230214-60",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-61",
+  "exposure": "DJ-RT-20230214-61",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-62",
+  "exposure": "DJ-RT-20230214-62",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-64",
+  "exposure": "DJ-RT-20230214-64",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-65",
+  "exposure": "DJ-RT-20230214-65",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-66",
+  "exposure": "DJ-RT-20230214-66",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-67",
+  "exposure": "DJ-RT-20230214-67",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-68",
+  "exposure": "DJ-RT-20230214-68",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-69",
+  "exposure": "DJ-RT-20230214-69",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-70",
+  "exposure": "DJ-RT-20230214-70",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-72",
+  "exposure": "DJ-RT-20230214-72",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-8",
+  "exposure": "DJ-RT-20230214-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230214-9",
+  "exposure": "DJ-RT-20230214-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230215-1",
+  "exposure": "DJ-RT-20230215-1",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230215-10",
+  "exposure": "DJ-RT-20230215-10",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230215-12",
+  "exposure": "DJ-RT-20230215-12",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230215-2",
+  "exposure": "DJ-RT-20230215-2",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230215-3",
+  "exposure": "DJ-RT-20230215-3",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230215-4",
+  "exposure": "DJ-RT-20230215-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230215-5",
+  "exposure": "DJ-RT-20230215-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230215-6",
+  "exposure": "DJ-RT-20230215-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230215-7",
+  "exposure": "DJ-RT-20230215-7",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230215-8",
+  "exposure": "DJ-RT-20230215-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230215-9",
+  "exposure": "DJ-RT-20230215-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-104",
+  "exposure": "DJ-RT-20230220-104",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-107",
+  "exposure": "DJ-RT-20230220-107",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-11",
+  "exposure": "DJ-RT-20230220-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-21",
+  "exposure": "DJ-RT-20230220-21",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-31",
+  "exposure": "DJ-RT-20230220-31",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-32",
+  "exposure": "DJ-RT-20230220-32",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-33",
+  "exposure": "DJ-RT-20230220-33",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-4",
+  "exposure": "DJ-RT-20230220-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-5",
+  "exposure": "DJ-RT-20230220-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-52",
+  "exposure": "DJ-RT-20230220-52",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-53",
+  "exposure": "DJ-RT-20230220-53",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-54",
+  "exposure": "DJ-RT-20230220-54",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-60",
+  "exposure": "DJ-RT-20230220-60",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-63",
+  "exposure": "DJ-RT-20230220-63",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-65",
+  "exposure": "DJ-RT-20230220-65",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-69",
+  "exposure": "DJ-RT-20230220-69",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-76",
+  "exposure": "DJ-RT-20230220-76",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-77",
+  "exposure": "DJ-RT-20230220-77",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-86",
+  "exposure": "DJ-RT-20230220-86",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-9",
+  "exposure": "DJ-RT-20230220-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230220-91",
+  "exposure": "DJ-RT-20230220-91",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-14",
+  "exposure": "DJ-RT-20230221-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-15",
+  "exposure": "DJ-RT-20230221-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-16",
+  "exposure": "DJ-RT-20230221-16",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-18",
+  "exposure": "DJ-RT-20230221-18",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-20",
+  "exposure": "DJ-RT-20230221-20",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-21",
+  "exposure": "DJ-RT-20230221-21",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-22",
+  "exposure": "DJ-RT-20230221-22",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-23",
+  "exposure": "DJ-RT-20230221-23",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-24",
+  "exposure": "DJ-RT-20230221-24",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-26",
+  "exposure": "DJ-RT-20230221-26",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-27",
+  "exposure": "DJ-RT-20230221-27",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-28",
+  "exposure": "DJ-RT-20230221-28",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-29",
+  "exposure": "DJ-RT-20230221-29",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-32",
+  "exposure": "DJ-RT-20230221-32",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-33",
+  "exposure": "DJ-RT-20230221-33",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-34",
+  "exposure": "DJ-RT-20230221-34",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-35",
+  "exposure": "DJ-RT-20230221-35",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-38",
+  "exposure": "DJ-RT-20230221-38",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230221-9",
+  "exposure": "DJ-RT-20230221-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-1",
+  "exposure": "DJ-RT-20230222-1",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-11",
+  "exposure": "DJ-RT-20230222-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-13",
+  "exposure": "DJ-RT-20230222-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-15",
+  "exposure": "DJ-RT-20230222-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-2",
+  "exposure": "DJ-RT-20230222-2",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-20",
+  "exposure": "DJ-RT-20230222-20",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-21",
+  "exposure": "DJ-RT-20230222-21",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-22",
+  "exposure": "DJ-RT-20230222-22",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-23",
+  "exposure": "DJ-RT-20230222-23",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-24",
+  "exposure": "DJ-RT-20230222-24",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-25",
+  "exposure": "DJ-RT-20230222-25",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-26",
+  "exposure": "DJ-RT-20230222-26",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-28",
+  "exposure": "DJ-RT-20230222-28",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-29",
+  "exposure": "DJ-RT-20230222-29",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-3",
+  "exposure": "DJ-RT-20230222-3",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-30",
+  "exposure": "DJ-RT-20230222-30",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-33",
+  "exposure": "DJ-RT-20230222-33",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-34",
+  "exposure": "DJ-RT-20230222-34",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-4",
+  "exposure": "DJ-RT-20230222-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-51",
+  "exposure": "DJ-RT-20230222-51",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-7",
+  "exposure": "DJ-RT-20230222-7",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230222-9",
+  "exposure": "DJ-RT-20230222-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230223-109",
+  "exposure": "DJ-RT-20230223-109",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230223-129",
+  "exposure": "DJ-RT-20230223-129",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230223-159",
+  "exposure": "DJ-RT-20230223-159",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230223-73",
+  "exposure": "DJ-RT-20230223-73",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-112",
+  "exposure": "DJ-RT-20230224-112",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-36",
+  "exposure": "DJ-RT-20230224-36",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-38",
+  "exposure": "DJ-RT-20230224-38",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-45",
+  "exposure": "DJ-RT-20230224-45",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-59",
+  "exposure": "DJ-RT-20230224-59",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-64",
+  "exposure": "DJ-RT-20230224-64",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-65",
+  "exposure": "DJ-RT-20230224-65",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-67",
+  "exposure": "DJ-RT-20230224-67",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-72",
+  "exposure": "DJ-RT-20230224-72",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-74",
+  "exposure": "DJ-RT-20230224-74",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-75",
+  "exposure": "DJ-RT-20230224-75",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-76",
+  "exposure": "DJ-RT-20230224-76",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-77",
+  "exposure": "DJ-RT-20230224-77",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-79",
+  "exposure": "DJ-RT-20230224-79",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-85",
+  "exposure": "DJ-RT-20230224-85",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-87",
+  "exposure": "DJ-RT-20230224-87",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-88",
+  "exposure": "DJ-RT-20230224-88",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230224-95",
+  "exposure": "DJ-RT-20230224-95",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-14",
+  "exposure": "DJ-RT-20230227-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-15",
+  "exposure": "DJ-RT-20230227-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-17",
+  "exposure": "DJ-RT-20230227-17",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-2",
+  "exposure": "DJ-RT-20230227-2",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-22",
+  "exposure": "DJ-RT-20230227-22",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-27",
+  "exposure": "DJ-RT-20230227-27",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-29",
+  "exposure": "DJ-RT-20230227-29",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-30",
+  "exposure": "DJ-RT-20230227-30",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-31",
+  "exposure": "DJ-RT-20230227-31",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-33",
+  "exposure": "DJ-RT-20230227-33",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-34",
+  "exposure": "DJ-RT-20230227-34",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-37",
+  "exposure": "DJ-RT-20230227-37",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-38",
+  "exposure": "DJ-RT-20230227-38",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-40",
+  "exposure": "DJ-RT-20230227-40",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-41",
+  "exposure": "DJ-RT-20230227-41",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-42",
+  "exposure": "DJ-RT-20230227-42",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-43",
+  "exposure": "DJ-RT-20230227-43",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-44",
+  "exposure": "DJ-RT-20230227-44",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-45",
+  "exposure": "DJ-RT-20230227-45",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-46",
+  "exposure": "DJ-RT-20230227-46",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-47",
+  "exposure": "DJ-RT-20230227-47",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-48",
+  "exposure": "DJ-RT-20230227-48",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-7",
+  "exposure": "DJ-RT-20230227-7",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230227-8",
+  "exposure": "DJ-RT-20230227-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-1",
+  "exposure": "DJ-RT-20230306-1",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-10",
+  "exposure": "DJ-RT-20230306-10",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-100",
+  "exposure": "DJ-RT-20230306-100",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-11",
+  "exposure": "DJ-RT-20230306-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-12",
+  "exposure": "DJ-RT-20230306-12",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-13",
+  "exposure": "DJ-RT-20230306-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-131",
+  "exposure": "DJ-RT-20230306-131",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-134",
+  "exposure": "DJ-RT-20230306-134",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-137",
+  "exposure": "DJ-RT-20230306-137",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-138",
+  "exposure": "DJ-RT-20230306-138",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-14",
+  "exposure": "DJ-RT-20230306-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-15",
+  "exposure": "DJ-RT-20230306-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-16",
+  "exposure": "DJ-RT-20230306-16",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-18",
+  "exposure": "DJ-RT-20230306-18",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-19",
+  "exposure": "DJ-RT-20230306-19",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-2",
+  "exposure": "DJ-RT-20230306-2",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-20",
+  "exposure": "DJ-RT-20230306-20",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-22",
+  "exposure": "DJ-RT-20230306-22",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-23",
+  "exposure": "DJ-RT-20230306-23",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-24",
+  "exposure": "DJ-RT-20230306-24",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-27",
+  "exposure": "DJ-RT-20230306-27",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-28",
+  "exposure": "DJ-RT-20230306-28",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-29",
+  "exposure": "DJ-RT-20230306-29",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-31",
+  "exposure": "DJ-RT-20230306-31",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-32",
+  "exposure": "DJ-RT-20230306-32",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-33",
+  "exposure": "DJ-RT-20230306-33",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-34",
+  "exposure": "DJ-RT-20230306-34",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-35",
+  "exposure": "DJ-RT-20230306-35",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-36",
+  "exposure": "DJ-RT-20230306-36",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-37",
+  "exposure": "DJ-RT-20230306-37",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-38",
+  "exposure": "DJ-RT-20230306-38",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-39",
+  "exposure": "DJ-RT-20230306-39",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-4",
+  "exposure": "DJ-RT-20230306-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-40",
+  "exposure": "DJ-RT-20230306-40",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-41",
+  "exposure": "DJ-RT-20230306-41",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-42",
+  "exposure": "DJ-RT-20230306-42",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-44",
+  "exposure": "DJ-RT-20230306-44",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-45",
+  "exposure": "DJ-RT-20230306-45",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-5",
+  "exposure": "DJ-RT-20230306-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-50",
+  "exposure": "DJ-RT-20230306-50",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-51",
+  "exposure": "DJ-RT-20230306-51",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-52",
+  "exposure": "DJ-RT-20230306-52",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-53",
+  "exposure": "DJ-RT-20230306-53",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-54",
+  "exposure": "DJ-RT-20230306-54",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-58",
+  "exposure": "DJ-RT-20230306-58",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-59",
+  "exposure": "DJ-RT-20230306-59",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-6",
+  "exposure": "DJ-RT-20230306-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-60",
+  "exposure": "DJ-RT-20230306-60",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-62",
+  "exposure": "DJ-RT-20230306-62",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-65",
+  "exposure": "DJ-RT-20230306-65",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-66",
+  "exposure": "DJ-RT-20230306-66",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-67",
+  "exposure": "DJ-RT-20230306-67",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-7",
+  "exposure": "DJ-RT-20230306-7",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-75",
+  "exposure": "DJ-RT-20230306-75",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-8",
+  "exposure": "DJ-RT-20230306-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-82",
+  "exposure": "DJ-RT-20230306-82",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-83",
+  "exposure": "DJ-RT-20230306-83",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-84",
+  "exposure": "DJ-RT-20230306-84",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-9",
+  "exposure": "DJ-RT-20230306-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-91",
+  "exposure": "DJ-RT-20230306-91",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-92",
+  "exposure": "DJ-RT-20230306-92",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-93",
+  "exposure": "DJ-RT-20230306-93",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230306-94",
+  "exposure": "DJ-RT-20230306-94",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-11",
+  "exposure": "DJ-RT-20230315-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-12",
+  "exposure": "DJ-RT-20230315-12",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-13",
+  "exposure": "DJ-RT-20230315-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-14",
+  "exposure": "DJ-RT-20230315-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-15",
+  "exposure": "DJ-RT-20230315-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-16",
+  "exposure": "DJ-RT-20230315-16",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-17",
+  "exposure": "DJ-RT-20230315-17",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-19",
+  "exposure": "DJ-RT-20230315-19",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-20",
+  "exposure": "DJ-RT-20230315-20",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-21",
+  "exposure": "DJ-RT-20230315-21",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-22",
+  "exposure": "DJ-RT-20230315-22",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-23",
+  "exposure": "DJ-RT-20230315-23",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-24",
+  "exposure": "DJ-RT-20230315-24",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-26",
+  "exposure": "DJ-RT-20230315-26",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-27",
+  "exposure": "DJ-RT-20230315-27",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-28",
+  "exposure": "DJ-RT-20230315-28",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-31",
+  "exposure": "DJ-RT-20230315-31",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-32",
+  "exposure": "DJ-RT-20230315-32",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-33",
+  "exposure": "DJ-RT-20230315-33",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-35",
+  "exposure": "DJ-RT-20230315-35",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-36",
+  "exposure": "DJ-RT-20230315-36",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-38",
+  "exposure": "DJ-RT-20230315-38",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-41",
+  "exposure": "DJ-RT-20230315-41",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-48",
+  "exposure": "DJ-RT-20230315-48",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-49",
+  "exposure": "DJ-RT-20230315-49",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-5",
+  "exposure": "DJ-RT-20230315-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-50",
+  "exposure": "DJ-RT-20230315-50",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-51",
+  "exposure": "DJ-RT-20230315-51",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-52",
+  "exposure": "DJ-RT-20230315-52",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-54",
+  "exposure": "DJ-RT-20230315-54",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-56",
+  "exposure": "DJ-RT-20230315-56",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-57",
+  "exposure": "DJ-RT-20230315-57",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-59",
+  "exposure": "DJ-RT-20230315-59",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-6",
+  "exposure": "DJ-RT-20230315-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-61",
+  "exposure": "DJ-RT-20230315-61",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-62",
+  "exposure": "DJ-RT-20230315-62",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-63",
+  "exposure": "DJ-RT-20230315-63",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-69",
+  "exposure": "DJ-RT-20230315-69",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-70",
+  "exposure": "DJ-RT-20230315-70",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-71",
+  "exposure": "DJ-RT-20230315-71",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-72",
+  "exposure": "DJ-RT-20230315-72",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-73",
+  "exposure": "DJ-RT-20230315-73",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-74",
+  "exposure": "DJ-RT-20230315-74",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-75",
+  "exposure": "DJ-RT-20230315-75",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-76",
+  "exposure": "DJ-RT-20230315-76",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-78",
+  "exposure": "DJ-RT-20230315-78",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-79",
+  "exposure": "DJ-RT-20230315-79",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-81",
+  "exposure": "DJ-RT-20230315-81",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-83",
+  "exposure": "DJ-RT-20230315-83",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-85",
+  "exposure": "DJ-RT-20230315-85",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-89",
+  "exposure": "DJ-RT-20230315-89",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230315-90",
+  "exposure": "DJ-RT-20230315-90",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230321-127",
+  "exposure": "DJ-RT-20230321-127",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230321-128",
+  "exposure": "DJ-RT-20230321-128",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230321-129",
+  "exposure": "DJ-RT-20230321-129",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230321-133",
+  "exposure": "DJ-RT-20230321-133",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230321-139",
+  "exposure": "DJ-RT-20230321-139",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230321-150",
+  "exposure": "DJ-RT-20230321-150",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230321-151",
+  "exposure": "DJ-RT-20230321-151",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230321-156",
+  "exposure": "DJ-RT-20230321-156",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-1",
+  "exposure": "DJ-RT-20230403-1",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-10",
+  "exposure": "DJ-RT-20230403-10",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-12",
+  "exposure": "DJ-RT-20230403-12",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-13",
+  "exposure": "DJ-RT-20230403-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-14",
+  "exposure": "DJ-RT-20230403-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-15",
+  "exposure": "DJ-RT-20230403-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-18",
+  "exposure": "DJ-RT-20230403-18",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-21",
+  "exposure": "DJ-RT-20230403-21",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-22",
+  "exposure": "DJ-RT-20230403-22",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-23",
+  "exposure": "DJ-RT-20230403-23",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-26",
+  "exposure": "DJ-RT-20230403-26",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-27",
+  "exposure": "DJ-RT-20230403-27",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-3",
+  "exposure": "DJ-RT-20230403-3",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-4",
+  "exposure": "DJ-RT-20230403-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-5",
+  "exposure": "DJ-RT-20230403-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-8",
+  "exposure": "DJ-RT-20230403-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230403-9",
+  "exposure": "DJ-RT-20230403-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-10",
+  "exposure": "DJ-RT-20230410-10",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-106",
+  "exposure": "DJ-RT-20230410-106",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-107",
+  "exposure": "DJ-RT-20230410-107",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-11",
+  "exposure": "DJ-RT-20230410-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-118",
+  "exposure": "DJ-RT-20230410-118",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-120",
+  "exposure": "DJ-RT-20230410-120",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-15",
+  "exposure": "DJ-RT-20230410-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-18",
+  "exposure": "DJ-RT-20230410-18",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-22",
+  "exposure": "DJ-RT-20230410-22",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-24",
+  "exposure": "DJ-RT-20230410-24",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-25",
+  "exposure": "DJ-RT-20230410-25",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-27",
+  "exposure": "DJ-RT-20230410-27",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-30",
+  "exposure": "DJ-RT-20230410-30",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-36",
+  "exposure": "DJ-RT-20230410-36",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-4",
+  "exposure": "DJ-RT-20230410-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-42",
+  "exposure": "DJ-RT-20230410-42",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-43",
+  "exposure": "DJ-RT-20230410-43",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-44",
+  "exposure": "DJ-RT-20230410-44",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-46",
+  "exposure": "DJ-RT-20230410-46",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-48",
+  "exposure": "DJ-RT-20230410-48",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-5",
+  "exposure": "DJ-RT-20230410-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-51",
+  "exposure": "DJ-RT-20230410-51",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-52",
+  "exposure": "DJ-RT-20230410-52",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-57",
+  "exposure": "DJ-RT-20230410-57",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-60",
+  "exposure": "DJ-RT-20230410-60",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-61",
+  "exposure": "DJ-RT-20230410-61",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-63",
+  "exposure": "DJ-RT-20230410-63",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-64",
+  "exposure": "DJ-RT-20230410-64",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-65",
+  "exposure": "DJ-RT-20230410-65",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-66",
+  "exposure": "DJ-RT-20230410-66",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-69",
+  "exposure": "DJ-RT-20230410-69",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-78",
+  "exposure": "DJ-RT-20230410-78",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-79",
+  "exposure": "DJ-RT-20230410-79",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-81",
+  "exposure": "DJ-RT-20230410-81",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230410-97",
+  "exposure": "DJ-RT-20230410-97",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230418-33",
+  "exposure": "DJ-RT-20230418-33",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230418-35",
+  "exposure": "DJ-RT-20230418-35",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230418-37",
+  "exposure": "DJ-RT-20230418-37",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230418-38",
+  "exposure": "DJ-RT-20230418-38",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230418-39",
+  "exposure": "DJ-RT-20230418-39",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230418-40",
+  "exposure": "DJ-RT-20230418-40",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230418-41",
+  "exposure": "DJ-RT-20230418-41",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230418-42",
+  "exposure": "DJ-RT-20230418-42",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230418-43",
+  "exposure": "DJ-RT-20230418-43",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230418-44",
+  "exposure": "DJ-RT-20230418-44",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230418-45",
+  "exposure": "DJ-RT-20230418-45",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230418-46",
+  "exposure": "DJ-RT-20230418-46",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230418-47",
+  "exposure": "DJ-RT-20230418-47",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230418-48",
+  "exposure": "DJ-RT-20230418-48",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230418-51",
+  "exposure": "DJ-RT-20230418-51",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230418-52",
+  "exposure": "DJ-RT-20230418-52",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-12",
+  "exposure": "DJ-RT-20230704-12",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-123",
+  "exposure": "DJ-RT-20230704-123",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-125",
+  "exposure": "DJ-RT-20230704-125",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-13",
+  "exposure": "DJ-RT-20230704-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-14",
+  "exposure": "DJ-RT-20230704-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-151",
+  "exposure": "DJ-RT-20230704-151",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-152",
+  "exposure": "DJ-RT-20230704-152",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-158",
+  "exposure": "DJ-RT-20230704-158",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-17",
+  "exposure": "DJ-RT-20230704-17",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-177",
+  "exposure": "DJ-RT-20230704-177",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-178",
+  "exposure": "DJ-RT-20230704-178",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-18",
+  "exposure": "DJ-RT-20230704-18",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-184",
+  "exposure": "DJ-RT-20230704-184",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-23",
+  "exposure": "DJ-RT-20230704-23",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-24",
+  "exposure": "DJ-RT-20230704-24",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-26",
+  "exposure": "DJ-RT-20230704-26",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-28",
+  "exposure": "DJ-RT-20230704-28",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-36",
+  "exposure": "DJ-RT-20230704-36",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-37",
+  "exposure": "DJ-RT-20230704-37",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-39",
+  "exposure": "DJ-RT-20230704-39",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-40",
+  "exposure": "DJ-RT-20230704-40",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-45",
+  "exposure": "DJ-RT-20230704-45",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-46",
+  "exposure": "DJ-RT-20230704-46",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-48",
+  "exposure": "DJ-RT-20230704-48",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-55",
+  "exposure": "DJ-RT-20230704-55",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-56",
+  "exposure": "DJ-RT-20230704-56",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-57",
+  "exposure": "DJ-RT-20230704-57",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-58",
+  "exposure": "DJ-RT-20230704-58",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-6",
+  "exposure": "DJ-RT-20230704-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-64",
+  "exposure": "DJ-RT-20230704-64",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230704-8",
+  "exposure": "DJ-RT-20230704-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230705-103",
+  "exposure": "DJ-RT-20230705-103",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230705-15",
+  "exposure": "DJ-RT-20230705-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230705-2",
+  "exposure": "DJ-RT-20230705-2",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230705-46",
+  "exposure": "DJ-RT-20230705-46",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230705-47",
+  "exposure": "DJ-RT-20230705-47",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230706-101",
+  "exposure": "DJ-RT-20230706-101",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230706-163",
+  "exposure": "DJ-RT-20230706-163",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-1",
+  "exposure": "DJ-RT-20230707-1",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-100",
+  "exposure": "DJ-RT-20230707-100",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-105",
+  "exposure": "DJ-RT-20230707-105",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-121",
+  "exposure": "DJ-RT-20230707-121",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-133",
+  "exposure": "DJ-RT-20230707-133",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-134",
+  "exposure": "DJ-RT-20230707-134",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-135",
+  "exposure": "DJ-RT-20230707-135",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-143",
+  "exposure": "DJ-RT-20230707-143",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-147",
+  "exposure": "DJ-RT-20230707-147",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-151",
+  "exposure": "DJ-RT-20230707-151",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-152",
+  "exposure": "DJ-RT-20230707-152",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-155",
+  "exposure": "DJ-RT-20230707-155",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-169",
+  "exposure": "DJ-RT-20230707-169",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-173",
+  "exposure": "DJ-RT-20230707-173",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-175",
+  "exposure": "DJ-RT-20230707-175",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-176",
+  "exposure": "DJ-RT-20230707-176",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-192",
+  "exposure": "DJ-RT-20230707-192",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-2",
+  "exposure": "DJ-RT-20230707-2",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-28",
+  "exposure": "DJ-RT-20230707-28",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-46",
+  "exposure": "DJ-RT-20230707-46",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-48",
+  "exposure": "DJ-RT-20230707-48",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-49",
+  "exposure": "DJ-RT-20230707-49",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-52",
+  "exposure": "DJ-RT-20230707-52",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-54",
+  "exposure": "DJ-RT-20230707-54",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-57",
+  "exposure": "DJ-RT-20230707-57",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-58",
+  "exposure": "DJ-RT-20230707-58",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-59",
+  "exposure": "DJ-RT-20230707-59",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-60",
+  "exposure": "DJ-RT-20230707-60",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-61",
+  "exposure": "DJ-RT-20230707-61",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-65",
+  "exposure": "DJ-RT-20230707-65",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-71",
+  "exposure": "DJ-RT-20230707-71",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-73",
+  "exposure": "DJ-RT-20230707-73",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-75",
+  "exposure": "DJ-RT-20230707-75",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-88",
+  "exposure": "DJ-RT-20230707-88",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-89",
+  "exposure": "DJ-RT-20230707-89",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-93",
+  "exposure": "DJ-RT-20230707-93",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230707-95",
+  "exposure": "DJ-RT-20230707-95",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230718-60",
+  "exposure": "DJ-RT-20230718-60",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230719-3",
+  "exposure": "DJ-RT-20230719-3",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230721-138",
+  "exposure": "DJ-RT-20230721-138",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230721-174",
+  "exposure": "DJ-RT-20230721-174",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230721-193",
+  "exposure": "DJ-RT-20230721-193",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230721-39",
+  "exposure": "DJ-RT-20230721-39",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230721-62",
+  "exposure": "DJ-RT-20230721-62",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230724-10",
+  "exposure": "DJ-RT-20230724-10",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230724-14",
+  "exposure": "DJ-RT-20230724-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230724-26",
+  "exposure": "DJ-RT-20230724-26",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230724-4",
+  "exposure": "DJ-RT-20230724-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230920-51",
+  "exposure": "DJ-RT-20230920-51",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230920-53",
+  "exposure": "DJ-RT-20230920-53",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230921-36",
+  "exposure": "DJ-RT-20230921-36",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-20230921-37",
+  "exposure": "DJ-RT-20230921-37",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230801-11",
+  "exposure": "DJ-RT-T-20230801-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230801-22",
+  "exposure": "DJ-RT-T-20230801-22",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230801-23",
+  "exposure": "DJ-RT-T-20230801-23",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230801-36",
+  "exposure": "DJ-RT-T-20230801-36",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230801-37",
+  "exposure": "DJ-RT-T-20230801-37",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230801-39",
+  "exposure": "DJ-RT-T-20230801-39",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230801-4",
+  "exposure": "DJ-RT-T-20230801-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230801-41",
+  "exposure": "DJ-RT-T-20230801-41",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230801-5",
+  "exposure": "DJ-RT-T-20230801-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230801-8",
+  "exposure": "DJ-RT-T-20230801-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-10",
+  "exposure": "DJ-RT-T-20230803-10",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-101",
+  "exposure": "DJ-RT-T-20230803-101",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-102",
+  "exposure": "DJ-RT-T-20230803-102",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-103",
+  "exposure": "DJ-RT-T-20230803-103",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-104",
+  "exposure": "DJ-RT-T-20230803-104",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-11",
+  "exposure": "DJ-RT-T-20230803-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-115",
+  "exposure": "DJ-RT-T-20230803-115",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-116",
+  "exposure": "DJ-RT-T-20230803-116",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-117",
+  "exposure": "DJ-RT-T-20230803-117",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-121",
+  "exposure": "DJ-RT-T-20230803-121",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-122",
+  "exposure": "DJ-RT-T-20230803-122",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-13",
+  "exposure": "DJ-RT-T-20230803-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-14",
+  "exposure": "DJ-RT-T-20230803-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-15",
+  "exposure": "DJ-RT-T-20230803-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-18",
+  "exposure": "DJ-RT-T-20230803-18",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-19",
+  "exposure": "DJ-RT-T-20230803-19",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-20",
+  "exposure": "DJ-RT-T-20230803-20",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-21",
+  "exposure": "DJ-RT-T-20230803-21",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-22",
+  "exposure": "DJ-RT-T-20230803-22",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-24",
+  "exposure": "DJ-RT-T-20230803-24",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-25",
+  "exposure": "DJ-RT-T-20230803-25",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-26",
+  "exposure": "DJ-RT-T-20230803-26",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-30",
+  "exposure": "DJ-RT-T-20230803-30",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-32",
+  "exposure": "DJ-RT-T-20230803-32",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-35",
+  "exposure": "DJ-RT-T-20230803-35",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-36",
+  "exposure": "DJ-RT-T-20230803-36",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-37",
+  "exposure": "DJ-RT-T-20230803-37",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-38",
+  "exposure": "DJ-RT-T-20230803-38",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-39",
+  "exposure": "DJ-RT-T-20230803-39",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-4",
+  "exposure": "DJ-RT-T-20230803-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-40",
+  "exposure": "DJ-RT-T-20230803-40",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-44",
+  "exposure": "DJ-RT-T-20230803-44",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-46",
+  "exposure": "DJ-RT-T-20230803-46",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-5",
+  "exposure": "DJ-RT-T-20230803-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-51",
+  "exposure": "DJ-RT-T-20230803-51",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-52",
+  "exposure": "DJ-RT-T-20230803-52",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-54",
+  "exposure": "DJ-RT-T-20230803-54",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-55",
+  "exposure": "DJ-RT-T-20230803-55",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-56",
+  "exposure": "DJ-RT-T-20230803-56",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-58",
+  "exposure": "DJ-RT-T-20230803-58",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-59",
+  "exposure": "DJ-RT-T-20230803-59",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-6",
+  "exposure": "DJ-RT-T-20230803-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-62",
+  "exposure": "DJ-RT-T-20230803-62",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-65",
+  "exposure": "DJ-RT-T-20230803-65",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-66",
+  "exposure": "DJ-RT-T-20230803-66",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-67",
+  "exposure": "DJ-RT-T-20230803-67",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-68",
+  "exposure": "DJ-RT-T-20230803-68",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-69",
+  "exposure": "DJ-RT-T-20230803-69",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-75",
+  "exposure": "DJ-RT-T-20230803-75",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-78",
+  "exposure": "DJ-RT-T-20230803-78",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-8",
+  "exposure": "DJ-RT-T-20230803-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-83",
+  "exposure": "DJ-RT-T-20230803-83",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-84",
+  "exposure": "DJ-RT-T-20230803-84",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-96",
+  "exposure": "DJ-RT-T-20230803-96",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230803-99",
+  "exposure": "DJ-RT-T-20230803-99",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-10",
+  "exposure": "DJ-RT-T-20230804-10",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-11",
+  "exposure": "DJ-RT-T-20230804-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-14",
+  "exposure": "DJ-RT-T-20230804-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-16",
+  "exposure": "DJ-RT-T-20230804-16",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-17",
+  "exposure": "DJ-RT-T-20230804-17",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-18",
+  "exposure": "DJ-RT-T-20230804-18",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-2",
+  "exposure": "DJ-RT-T-20230804-2",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-21",
+  "exposure": "DJ-RT-T-20230804-21",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-38",
+  "exposure": "DJ-RT-T-20230804-38",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-4",
+  "exposure": "DJ-RT-T-20230804-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-44",
+  "exposure": "DJ-RT-T-20230804-44",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-45",
+  "exposure": "DJ-RT-T-20230804-45",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-46",
+  "exposure": "DJ-RT-T-20230804-46",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-47",
+  "exposure": "DJ-RT-T-20230804-47",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-49",
+  "exposure": "DJ-RT-T-20230804-49",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-5",
+  "exposure": "DJ-RT-T-20230804-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-54",
+  "exposure": "DJ-RT-T-20230804-54",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-58",
+  "exposure": "DJ-RT-T-20230804-58",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-59",
+  "exposure": "DJ-RT-T-20230804-59",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-67",
+  "exposure": "DJ-RT-T-20230804-67",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-69",
+  "exposure": "DJ-RT-T-20230804-69",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-70",
+  "exposure": "DJ-RT-T-20230804-70",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-71",
+  "exposure": "DJ-RT-T-20230804-71",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-72",
+  "exposure": "DJ-RT-T-20230804-72",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-73",
+  "exposure": "DJ-RT-T-20230804-73",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-74",
+  "exposure": "DJ-RT-T-20230804-74",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-75",
+  "exposure": "DJ-RT-T-20230804-75",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-76",
+  "exposure": "DJ-RT-T-20230804-76",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-77",
+  "exposure": "DJ-RT-T-20230804-77",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-78",
+  "exposure": "DJ-RT-T-20230804-78",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-79",
+  "exposure": "DJ-RT-T-20230804-79",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-8",
+  "exposure": "DJ-RT-T-20230804-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-80",
+  "exposure": "DJ-RT-T-20230804-80",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-81",
+  "exposure": "DJ-RT-T-20230804-81",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-82",
+  "exposure": "DJ-RT-T-20230804-82",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-83",
+  "exposure": "DJ-RT-T-20230804-83",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230804-9",
+  "exposure": "DJ-RT-T-20230804-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-1",
+  "exposure": "DJ-RT-T-20230919-1",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-10",
+  "exposure": "DJ-RT-T-20230919-10",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-11",
+  "exposure": "DJ-RT-T-20230919-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-12",
+  "exposure": "DJ-RT-T-20230919-12",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-13",
+  "exposure": "DJ-RT-T-20230919-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-14",
+  "exposure": "DJ-RT-T-20230919-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-15",
+  "exposure": "DJ-RT-T-20230919-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-16",
+  "exposure": "DJ-RT-T-20230919-16",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-17",
+  "exposure": "DJ-RT-T-20230919-17",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-18",
+  "exposure": "DJ-RT-T-20230919-18",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-19",
+  "exposure": "DJ-RT-T-20230919-19",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-20",
+  "exposure": "DJ-RT-T-20230919-20",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-21",
+  "exposure": "DJ-RT-T-20230919-21",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-24",
+  "exposure": "DJ-RT-T-20230919-24",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-25",
+  "exposure": "DJ-RT-T-20230919-25",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-27",
+  "exposure": "DJ-RT-T-20230919-27",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-28",
+  "exposure": "DJ-RT-T-20230919-28",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-29",
+  "exposure": "DJ-RT-T-20230919-29",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-3",
+  "exposure": "DJ-RT-T-20230919-3",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-30",
+  "exposure": "DJ-RT-T-20230919-30",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-4",
+  "exposure": "DJ-RT-T-20230919-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-5",
+  "exposure": "DJ-RT-T-20230919-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-7",
+  "exposure": "DJ-RT-T-20230919-7",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-8",
+  "exposure": "DJ-RT-T-20230919-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230919-9",
+  "exposure": "DJ-RT-T-20230919-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-1",
+  "exposure": "DJ-RT-T-20230921-1",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-12",
+  "exposure": "DJ-RT-T-20230921-12",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-13",
+  "exposure": "DJ-RT-T-20230921-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-14",
+  "exposure": "DJ-RT-T-20230921-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-16",
+  "exposure": "DJ-RT-T-20230921-16",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-17",
+  "exposure": "DJ-RT-T-20230921-17",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-19",
+  "exposure": "DJ-RT-T-20230921-19",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-2",
+  "exposure": "DJ-RT-T-20230921-2",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-20",
+  "exposure": "DJ-RT-T-20230921-20",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-22",
+  "exposure": "DJ-RT-T-20230921-22",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-23",
+  "exposure": "DJ-RT-T-20230921-23",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-3",
+  "exposure": "DJ-RT-T-20230921-3",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-4",
+  "exposure": "DJ-RT-T-20230921-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-5",
+  "exposure": "DJ-RT-T-20230921-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-6",
+  "exposure": "DJ-RT-T-20230921-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-7",
+  "exposure": "DJ-RT-T-20230921-7",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230921-8",
+  "exposure": "DJ-RT-T-20230921-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-1",
+  "exposure": "DJ-RT-T-20230927-1",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-11",
+  "exposure": "DJ-RT-T-20230927-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-12",
+  "exposure": "DJ-RT-T-20230927-12",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-13",
+  "exposure": "DJ-RT-T-20230927-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-14",
+  "exposure": "DJ-RT-T-20230927-14",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-15",
+  "exposure": "DJ-RT-T-20230927-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-16",
+  "exposure": "DJ-RT-T-20230927-16",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-17",
+  "exposure": "DJ-RT-T-20230927-17",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-18",
+  "exposure": "DJ-RT-T-20230927-18",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-19",
+  "exposure": "DJ-RT-T-20230927-19",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-2",
+  "exposure": "DJ-RT-T-20230927-2",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-20",
+  "exposure": "DJ-RT-T-20230927-20",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-21",
+  "exposure": "DJ-RT-T-20230927-21",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-3",
+  "exposure": "DJ-RT-T-20230927-3",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-4",
+  "exposure": "DJ-RT-T-20230927-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-5",
+  "exposure": "DJ-RT-T-20230927-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-6",
+  "exposure": "DJ-RT-T-20230927-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-7",
+  "exposure": "DJ-RT-T-20230927-7",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-8",
+  "exposure": "DJ-RT-T-20230927-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20230927-9",
+  "exposure": "DJ-RT-T-20230927-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-10",
+  "exposure": "DJ-RT-T-20231007-10",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-11",
+  "exposure": "DJ-RT-T-20231007-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-12",
+  "exposure": "DJ-RT-T-20231007-12",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-13",
+  "exposure": "DJ-RT-T-20231007-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-15",
+  "exposure": "DJ-RT-T-20231007-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-17",
+  "exposure": "DJ-RT-T-20231007-17",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-18",
+  "exposure": "DJ-RT-T-20231007-18",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-19",
+  "exposure": "DJ-RT-T-20231007-19",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-2",
+  "exposure": "DJ-RT-T-20231007-2",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-20",
+  "exposure": "DJ-RT-T-20231007-20",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-21",
+  "exposure": "DJ-RT-T-20231007-21",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-22",
+  "exposure": "DJ-RT-T-20231007-22",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-23",
+  "exposure": "DJ-RT-T-20231007-23",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-24",
+  "exposure": "DJ-RT-T-20231007-24",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-26",
+  "exposure": "DJ-RT-T-20231007-26",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-27",
+  "exposure": "DJ-RT-T-20231007-27",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-28",
+  "exposure": "DJ-RT-T-20231007-28",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-29",
+  "exposure": "DJ-RT-T-20231007-29",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-3",
+  "exposure": "DJ-RT-T-20231007-3",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-30",
+  "exposure": "DJ-RT-T-20231007-30",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-31",
+  "exposure": "DJ-RT-T-20231007-31",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-32",
+  "exposure": "DJ-RT-T-20231007-32",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-33",
+  "exposure": "DJ-RT-T-20231007-33",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-34",
+  "exposure": "DJ-RT-T-20231007-34",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-35",
+  "exposure": "DJ-RT-T-20231007-35",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-36",
+  "exposure": "DJ-RT-T-20231007-36",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-37",
+  "exposure": "DJ-RT-T-20231007-37",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-38",
+  "exposure": "DJ-RT-T-20231007-38",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-39",
+  "exposure": "DJ-RT-T-20231007-39",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-4",
+  "exposure": "DJ-RT-T-20231007-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-40",
+  "exposure": "DJ-RT-T-20231007-40",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-5",
+  "exposure": "DJ-RT-T-20231007-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-6",
+  "exposure": "DJ-RT-T-20231007-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-7",
+  "exposure": "DJ-RT-T-20231007-7",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-8",
+  "exposure": "DJ-RT-T-20231007-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231007-9",
+  "exposure": "DJ-RT-T-20231007-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-10",
+  "exposure": "DJ-RT-T-20231008-10",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-12",
+  "exposure": "DJ-RT-T-20231008-12",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-13",
+  "exposure": "DJ-RT-T-20231008-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-15",
+  "exposure": "DJ-RT-T-20231008-15",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-22",
+  "exposure": "DJ-RT-T-20231008-22",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-24",
+  "exposure": "DJ-RT-T-20231008-24",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-25",
+  "exposure": "DJ-RT-T-20231008-25",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-26",
+  "exposure": "DJ-RT-T-20231008-26",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-28",
+  "exposure": "DJ-RT-T-20231008-28",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-36",
+  "exposure": "DJ-RT-T-20231008-36",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-4",
+  "exposure": "DJ-RT-T-20231008-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-40",
+  "exposure": "DJ-RT-T-20231008-40",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-45",
+  "exposure": "DJ-RT-T-20231008-45",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-47",
+  "exposure": "DJ-RT-T-20231008-47",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-49",
+  "exposure": "DJ-RT-T-20231008-49",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-5",
+  "exposure": "DJ-RT-T-20231008-5",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-54",
+  "exposure": "DJ-RT-T-20231008-54",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-59",
+  "exposure": "DJ-RT-T-20231008-59",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-6",
+  "exposure": "DJ-RT-T-20231008-6",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-8",
+  "exposure": "DJ-RT-T-20231008-8",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231008-9",
+  "exposure": "DJ-RT-T-20231008-9",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231009-11",
+  "exposure": "DJ-RT-T-20231009-11",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231009-12",
+  "exposure": "DJ-RT-T-20231009-12",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231009-13",
+  "exposure": "DJ-RT-T-20231009-13",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231009-16",
+  "exposure": "DJ-RT-T-20231009-16",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231009-17",
+  "exposure": "DJ-RT-T-20231009-17",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231009-18",
+  "exposure": "DJ-RT-T-20231009-18",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231009-4",
+  "exposure": "DJ-RT-T-20231009-4",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231009-7",
+  "exposure": "DJ-RT-T-20231009-7",
+  "status": "missing original tif"
+ },
+ {
+  "crop": "B_DJ-RT-T-20231009-9",
+  "exposure": "DJ-RT-T-20231009-9",
+  "status": "missing original tif"
+ }
+]

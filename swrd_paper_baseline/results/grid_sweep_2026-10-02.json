@@ -1,0 +1,588 @@
+{
+ "phase1": [
+  [
+   300936,
+   "ceil",
+   "ceil",
+   "exclusive",
+   "dedup"
+  ],
+  [
+   303270,
+   "ceil",
+   "ceil",
+   "exclusive",
+   "all"
+  ],
+  [
+   315127,
+   "ceil",
+   "round",
+   "exclusive",
+   "dedup"
+  ],
+  [
+   317598,
+   "ceil",
+   "round",
+   "exclusive",
+   "all"
+  ],
+  [
+   325907,
+   "ceil",
+   "ceil",
+   "inclusive",
+   "dedup"
+  ],
+  [
+   327974,
+   "ceil",
+   "floor",
+   "exclusive",
+   "dedup"
+  ],
+  [
+   328357,
+   "ceil",
+   "ceil",
+   "inclusive",
+   "all"
+  ],
+  [
+   330531,
+   "ceil",
+   "floor",
+   "exclusive",
+   "all"
+  ],
+  [
+   374021,
+   "round",
+   "ceil",
+   "exclusive",
+   "dedup"
+  ],
+  [
+   374033,
+   "floor",
+   "ceil",
+   "exclusive",
+   "dedup"
+  ],
+  [
+   376950,
+   "round",
+   "ceil",
+   "exclusive",
+   "all"
+  ],
+  [
+   376962,
+   "floor",
+   "ceil",
+   "exclusive",
+   "all"
+  ],
+  [
+   378157,
+   "ceil",
+   "round",
+   "inclusive",
+   "dedup"
+  ],
+  [
+   380958,
+   "ceil",
+   "round",
+   "inclusive",
+   "all"
+  ],
+  [
+   387754,
+   "round",
+   "round",
+   "exclusive",
+   "dedup"
+  ],
+  [
+   390818,
+   "round",
+   "round",
+   "exclusive",
+   "all"
+  ],
+  [
+   398996,
+   "round",
+   "ceil",
+   "inclusive",
+   "dedup"
+  ],
+  [
+   400167,
+   "round",
+   "floor",
+   "exclusive",
+   "dedup"
+  ],
+  [
+   402041,
+   "round",
+   "ceil",
+   "inclusive",
+   "all"
+  ],
+  [
+   402947,
+   "floor",
+   "round",
+   "exclusive",
+   "dedup"
+  ],
+  [
+   403307,
+   "round",
+   "floor",
+   "exclusive",
+   "all"
+  ],
+  [
+   406139,
+   "floor",
+   "round",
+   "exclusive",
+   "all"
+  ],
+  [
+   412726,
+   "round",
+   "round",
+   "inclusive",
+   "dedup"
+  ],
+  [
+   415906,
+   "round",
+   "round",
+   "inclusive",
+   "all"
+  ],
+  [
+   425115,
+   "ceil",
+   "floor",
+   "inclusive",
+   "dedup"
+  ],
+  [
+   425133,
+   "round",
+   "floor",
+   "inclusive",
+   "dedup"
+  ],
+  [
+   427289,
+   "floor",
+   "ceil",
+   "inclusive",
+   "dedup"
+  ],
+  [
+   428371,
+   "ceil",
+   "floor",
+   "inclusive",
+   "all"
+  ],
+  [
+   428389,
+   "round",
+   "floor",
+   "inclusive",
+   "all"
+  ],
+  [
+   428994,
+   "floor",
+   "floor",
+   "exclusive",
+   "dedup"
+  ],
+  [
+   430606,
+   "floor",
+   "ceil",
+   "inclusive",
+   "all"
+  ],
+  [
+   432406,
+   "floor",
+   "floor",
+   "exclusive",
+   "all"
+  ],
+  [
+   441304,
+   "floor",
+   "round",
+   "inclusive",
+   "dedup"
+  ],
+  [
+   444756,
+   "floor",
+   "round",
+   "inclusive",
+   "all"
+  ],
+  [
+   453960,
+   "floor",
+   "floor",
+   "inclusive",
+   "dedup"
+  ],
+  [
+   457488,
+   "floor",
+   "floor",
+   "inclusive",
+   "all"
+  ],
+  [
+   466086,
+   "ceil",
+   "ceil",
+   "flush",
+   "dedup"
+  ],
+  [
+   469695,
+   "ceil",
+   "ceil",
+   "flush",
+   "all"
+  ],
+  [
+   481015,
+   "ceil",
+   "round",
+   "flush",
+   "dedup"
+  ],
+  [
+   484767,
+   "ceil",
+   "round",
+   "flush",
+   "all"
+  ],
+  [
+   494552,
+   "ceil",
+   "floor",
+   "flush",
+   "dedup"
+  ],
+  [
+   498398,
+   "ceil",
+   "floor",
+   "flush",
+   "all"
+  ],
+  [
+   541959,
+   "round",
+   "ceil",
+   "flush",
+   "dedup"
+  ],
+  [
+   541977,
+   "floor",
+   "ceil",
+   "flush",
+   "dedup"
+  ],
+  [
+   546187,
+   "round",
+   "ceil",
+   "flush",
+   "all"
+  ],
+  [
+   546205,
+   "floor",
+   "ceil",
+   "flush",
+   "all"
+  ],
+  [
+   556201,
+   "round",
+   "round",
+   "flush",
+   "dedup"
+  ],
+  [
+   560569,
+   "round",
+   "round",
+   "flush",
+   "all"
+  ],
+  [
+   569087,
+   "round",
+   "floor",
+   "flush",
+   "dedup"
+  ],
+  [
+   572005,
+   "floor",
+   "round",
+   "flush",
+   "dedup"
+  ],
+  [
+   573534,
+   "round",
+   "floor",
+   "flush",
+   "all"
+  ],
+  [
+   576506,
+   "floor",
+   "round",
+   "flush",
+   "all"
+  ],
+  [
+   599075,
+   "floor",
+   "floor",
+   "flush",
+   "dedup"
+  ],
+  [
+   603804,
+   "floor",
+   "floor",
+   "flush",
+   "all"
+  ],
+  [
+   640976,
+   "ceil",
+   "ceil",
+   "pad",
+   "dedup"
+  ],
+  [
+   645932,
+   "ceil",
+   "ceil",
+   "pad",
+   "all"
+  ],
+  [
+   697228,
+   "ceil",
+   "round",
+   "pad",
+   "dedup"
+  ],
+  [
+   702561,
+   "ceil",
+   "round",
+   "pad",
+   "all"
+  ],
+  [
+   719665,
+   "floor",
+   "ceil",
+   "pad",
+   "dedup"
+  ],
+  [
+   719665,
+   "round",
+   "ceil",
+   "pad",
+   "dedup"
+  ],
+  [
+   725264,
+   "floor",
+   "ceil",
+   "pad",
+   "all"
+  ],
+  [
+   725264,
+   "round",
+   "ceil",
+   "pad",
+   "all"
+  ],
+  [
+   734437,
+   "round",
+   "round",
+   "pad",
+   "dedup"
+  ],
+  [
+   740181,
+   "round",
+   "round",
+   "pad",
+   "all"
+  ],
+  [
+   747800,
+   "ceil",
+   "floor",
+   "pad",
+   "dedup"
+  ],
+  [
+   747800,
+   "round",
+   "floor",
+   "pad",
+   "dedup"
+  ],
+  [
+   750862,
+   "floor",
+   "round",
+   "pad",
+   "dedup"
+  ],
+  [
+   753626,
+   "ceil",
+   "floor",
+   "pad",
+   "all"
+  ],
+  [
+   753626,
+   "round",
+   "floor",
+   "pad",
+   "all"
+  ],
+  [
+   756744,
+   "floor",
+   "round",
+   "pad",
+   "all"
+  ],
+  [
+   778969,
+   "floor",
+   "floor",
+   "pad",
+   "dedup"
+  ],
+  [
+   785087,
+   "floor",
+   "floor",
+   "pad",
+   "all"
+  ]
+ ],
+ "phase2": {
+  "ceil/round/inclusive": {
+   "images": "dedup",
+   "tiles": 378157,
+   "positives": 74131,
+   "per_class": {
+    "porosity": 97217,
+    "inclusion": 8794,
+    "crack": 12054,
+    "undercut": 932,
+    "lack_of_fusion": 5893,
+    "lack_of_penetration": 16635
+   }
+  },
+  "round/round/exclusive": {
+   "images": "dedup",
+   "tiles": 387754,
+   "positives": 75586,
+   "per_class": {
+    "porosity": 96297,
+    "inclusion": 8894,
+    "crack": 12881,
+    "undercut": 968,
+    "lack_of_fusion": 6003,
+    "lack_of_penetration": 17067
+   }
+  },
+  "round/ceil/inclusive": {
+   "images": "dedup",
+   "tiles": 398996,
+   "positives": 77602,
+   "per_class": {
+    "porosity": 99976,
+    "inclusion": 9092,
+    "crack": 13082,
+    "undercut": 980,
+    "lack_of_fusion": 6188,
+    "lack_of_penetration": 17469
+   }
+  },
+  "round/floor/exclusive": {
+   "images": "dedup",
+   "tiles": 400167,
+   "positives": 77740,
+   "per_class": {
+    "porosity": 99312,
+    "inclusion": 9085,
+    "crack": 13138,
+    "undercut": 1004,
+    "lack_of_fusion": 6249,
+    "lack_of_penetration": 17561
+   }
+  },
+  "floor/round/exclusive": {
+   "images": "dedup",
+   "tiles": 402947,
+   "positives": 78336,
+   "per_class": {
+    "porosity": 99880,
+    "inclusion": 9131,
+    "crack": 13227,
+    "undercut": 1001,
+    "lack_of_fusion": 6380,
+    "lack_of_penetration": 17591
+   }
+  },
+  "round/round/inclusive": {
+   "images": "dedup",
+   "tiles": 412726,
+   "positives": 79957,
+   "per_class": {
+    "porosity": 102992,
+    "inclusion": 9410,
+    "crack": 13356,
+    "undercut": 1024,
+    "lack_of_fusion": 6350,
+    "lack_of_penetration": 17919
+   }
+  }
+ }
+}

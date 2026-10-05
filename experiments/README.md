@@ -10,7 +10,7 @@ SegFormer mit_b4, 7 classes, SWRD v7 only, March 2026. Macro IoU 0.4838. Ids in 
 ## Work packages
 | WP | folder | milestone | status |
 |---|---|---|---|
-| WP1 | `wp1_benchmark/` | M1 23 Oct 2026 | not started |
+| WP1 | `wp1_benchmark/` + `../swrd_paper_baseline/` | M1 23 Oct 2026 | planning: reproduce the SWRD paper's YOLOv8 baseline first (plan awaiting approval) |
 | WP2 | `wp2_physics/` | M2 4 Dec 2026 | not started |
 | WP3 | `wp3_inpainting/` | M3 15 Jan 2027 | not started |
 | WP4 | `wp4_ab_physical_vs_naive/` | M4 29 Jan 2027 | not started |

@@ -1,0 +1,1902 @@
+[
+ {
+  "crop": "A_DJ-RT-20240105-100",
+  "exposure": "DJ-RT-20240105-100",
+  "status": "written A_DJ-RT-20240105-100.tif (753, 8352) uint16",
+  "rot90": 0,
+  "dx": 39,
+  "dy": 376,
+  "n_matched": 24,
+  "n_crop_polys": 26
+ },
+ {
+  "crop": "A_DJ-RT-20240105-101",
+  "exposure": "DJ-RT-20240105-101",
+  "status": "written A_DJ-RT-20240105-101.tif (561, 8317) uint16",
+  "rot90": 0,
+  "dx": 42,
+  "dy": 657,
+  "n_matched": 13,
+  "n_crop_polys": 14
+ },
+ {
+  "crop": "A_DJ-RT-20240105-105",
+  "exposure": "DJ-RT-20240105-105",
+  "status": "written A_DJ-RT-20240105-105.tif (579, 7989) uint16",
+  "rot90": 0,
+  "dx": 373,
+  "dy": 631,
+  "n_matched": 13,
+  "n_crop_polys": 15
+ },
+ {
+  "crop": "A_DJ-RT-20240105-106",
+  "exposure": "DJ-RT-20240105-106",
+  "status": "written A_DJ-RT-20240105-106.tif (511, 7941) uint16",
+  "rot90": 0,
+  "dx": 424,
+  "dy": 533,
+  "n_matched": 19,
+  "n_crop_polys": 20
+ },
+ {
+  "crop": "A_DJ-RT-20240105-108",
+  "exposure": "DJ-RT-20240105-108",
+  "status": "written A_DJ-RT-20240105-108.tif (442, 7842) uint16",
+  "rot90": 0,
+  "dx": 47,
+  "dy": 693,
+  "n_matched": 18,
+  "n_crop_polys": 19
+ },
+ {
+  "crop": "A_DJ-RT-20240105-109",
+  "exposure": "DJ-RT-20240105-109",
+  "status": "written A_DJ-RT-20240105-109.tif (493, 8344) uint16",
+  "rot90": 0,
+  "dx": 28,
+  "dy": 711,
+  "n_matched": 9,
+  "n_crop_polys": 11
+ },
+ {
+  "crop": "A_DJ-RT-20240105-11",
+  "exposure": "DJ-RT-20240105-11",
+  "status": "written A_DJ-RT-20240105-11.tif (469, 6705) uint16",
+  "rot90": 0,
+  "dx": 28,
+  "dy": 578,
+  "n_matched": 3,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "A_DJ-RT-20240105-110",
+  "exposure": "DJ-RT-20240105-110",
+  "status": "written A_DJ-RT-20240105-110.tif (516, 8328) uint16",
+  "rot90": 0,
+  "dx": 42,
+  "dy": 666,
+  "n_matched": 11,
+  "n_crop_polys": 13
+ },
+ {
+  "crop": "A_DJ-RT-20240105-112",
+  "exposure": "DJ-RT-20240105-112",
+  "status": "written A_DJ-RT-20240105-112.tif (583, 8350) uint16",
+  "rot90": 0,
+  "dx": 32,
+  "dy": 605,
+  "n_matched": 12,
+  "n_crop_polys": 14
+ },
+ {
+  "crop": "A_DJ-RT-20240105-113",
+  "exposure": "DJ-RT-20240105-113",
+  "status": "written A_DJ-RT-20240105-113.tif (470, 7932) uint16",
+  "rot90": 0,
+  "dx": 460,
+  "dy": 664,
+  "n_matched": 11,
+  "n_crop_polys": 12
+ },
+ {
+  "crop": "A_DJ-RT-20240105-114",
+  "exposure": "DJ-RT-20240105-114",
+  "status": "written A_DJ-RT-20240105-114.tif (397, 8011) uint16",
+  "rot90": 0,
+  "dx": 369,
+  "dy": 649,
+  "n_matched": 8,
+  "n_crop_polys": 9
+ },
+ {
+  "crop": "A_DJ-RT-20240105-115",
+  "exposure": "DJ-RT-20240105-115",
+  "status": "written A_DJ-RT-20240105-115.tif (515, 8107) uint16",
+  "rot90": 0,
+  "dx": 39,
+  "dy": 713,
+  "n_matched": 12,
+  "n_crop_polys": 14
+ },
+ {
+  "crop": "A_DJ-RT-20240105-116",
+  "exposure": "DJ-RT-20240105-116",
+  "status": "written A_DJ-RT-20240105-116.tif (482, 8069) uint16",
+  "rot90": 0,
+  "dx": 304,
+  "dy": 686,
+  "n_matched": 11,
+  "n_crop_polys": 12
+ },
+ {
+  "crop": "A_DJ-RT-20240105-117",
+  "exposure": "DJ-RT-20240105-117",
+  "status": "written A_DJ-RT-20240105-117.tif (844, 8323) uint16",
+  "rot90": 0,
+  "dx": 35,
+  "dy": 394,
+  "n_matched": 19,
+  "n_crop_polys": 21
+ },
+ {
+  "crop": "A_DJ-RT-20240105-12",
+  "exposure": "DJ-RT-20240105-12",
+  "status": "written A_DJ-RT-20240105-12.tif (753, 6389) uint16",
+  "rot90": 0,
+  "dx": 35,
+  "dy": 514,
+  "n_matched": 18,
+  "n_crop_polys": 19
+ },
+ {
+  "crop": "A_DJ-RT-20240105-120",
+  "exposure": "DJ-RT-20240105-120",
+  "status": "written A_DJ-RT-20240105-120.tif (465, 8063) uint16",
+  "rot90": 0,
+  "dx": 44,
+  "dy": 821,
+  "n_matched": 26,
+  "n_crop_polys": 27
+ },
+ {
+  "crop": "A_DJ-RT-20240105-121",
+  "exposure": "DJ-RT-20240105-121",
+  "status": "written A_DJ-RT-20240105-121.tif (488, 8333) uint16",
+  "rot90": 0,
+  "dx": 36,
+  "dy": 699,
+  "n_matched": 15,
+  "n_crop_polys": 16
+ },
+ {
+  "crop": "A_DJ-RT-20240105-122",
+  "exposure": "DJ-RT-20240105-122",
+  "status": "written A_DJ-RT-20240105-122.tif (488, 7988) uint16",
+  "rot90": 0,
+  "dx": 395,
+  "dy": 554,
+  "n_matched": 38,
+  "n_crop_polys": 39
+ },
+ {
+  "crop": "A_DJ-RT-20240105-123",
+  "exposure": "DJ-RT-20240105-123",
+  "status": "written A_DJ-RT-20240105-123.tif (567, 8017) uint16",
+  "rot90": 0,
+  "dx": 376,
+  "dy": 652,
+  "n_matched": 7,
+  "n_crop_polys": 9
+ },
+ {
+  "crop": "A_DJ-RT-20240105-124",
+  "exposure": "DJ-RT-20240105-124",
+  "status": "written A_DJ-RT-20240105-124.tif (471, 7994) uint16",
+  "rot90": 0,
+  "dx": 401,
+  "dy": 644,
+  "n_matched": 11,
+  "n_crop_polys": 12
+ },
+ {
+  "crop": "A_DJ-RT-20240105-126",
+  "exposure": "DJ-RT-20240105-126",
+  "status": "written A_DJ-RT-20240105-126.tif (589, 8066) uint16",
+  "rot90": 0,
+  "dx": 44,
+  "dy": 603,
+  "n_matched": 7,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "A_DJ-RT-20240105-127",
+  "exposure": "DJ-RT-20240105-127",
+  "status": "written A_DJ-RT-20240105-127.tif (459, 8322) uint16",
+  "rot90": 0,
+  "dx": 32,
+  "dy": 692,
+  "n_matched": 6,
+  "n_crop_polys": 11
+ },
+ {
+  "crop": "A_DJ-RT-20240105-128",
+  "exposure": "DJ-RT-20240105-128",
+  "status": "written A_DJ-RT-20240105-128.tif (663, 8311) uint16",
+  "rot90": 0,
+  "dx": 54,
+  "dy": 501,
+  "n_matched": 11,
+  "n_crop_polys": 14
+ },
+ {
+  "crop": "A_DJ-RT-20240105-13",
+  "exposure": "DJ-RT-20240105-13",
+  "status": "written A_DJ-RT-20240105-13.tif (713, 6341) uint16",
+  "rot90": 0,
+  "dx": 674,
+  "dy": 362,
+  "n_matched": 8,
+  "n_crop_polys": 9
+ },
+ {
+  "crop": "A_DJ-RT-20240105-130",
+  "exposure": "DJ-RT-20240105-130",
+  "status": "written A_DJ-RT-20240105-130.tif (511, 8057) uint16",
+  "rot90": 0,
+  "dx": 28,
+  "dy": 638,
+  "n_matched": 20,
+  "n_crop_polys": 20
+ },
+ {
+  "crop": "A_DJ-RT-20240105-131",
+  "exposure": "DJ-RT-20240105-131",
+  "status": "written A_DJ-RT-20240105-131.tif (612, 7921) uint16",
+  "rot90": 0,
+  "dx": 449,
+  "dy": 667,
+  "n_matched": 3,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "A_DJ-RT-20240105-132",
+  "exposure": "DJ-RT-20240105-132",
+  "status": "written A_DJ-RT-20240105-132.tif (533, 7989) uint16",
+  "rot90": 0,
+  "dx": 345,
+  "dy": 630,
+  "n_matched": 6,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "A_DJ-RT-20240105-133",
+  "exposure": "DJ-RT-20240105-133",
+  "status": "written A_DJ-RT-20240105-133.tif (889, 8362) uint16",
+  "rot90": 0,
+  "dx": 29,
+  "dy": 445,
+  "n_matched": 18,
+  "n_crop_polys": 19
+ },
+ {
+  "crop": "A_DJ-RT-20240105-134",
+  "exposure": "DJ-RT-20240105-134",
+  "status": "written A_DJ-RT-20240105-134.tif (453, 7842) uint16",
+  "rot90": 0,
+  "dx": 510,
+  "dy": 581,
+  "n_matched": 3,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "A_DJ-RT-20240105-135",
+  "exposure": "DJ-RT-20240105-135",
+  "status": "written A_DJ-RT-20240105-135.tif (521, 7773) uint16",
+  "rot90": 0,
+  "dx": 586,
+  "dy": 676,
+  "n_matched": 5,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "A_DJ-RT-20240105-139",
+  "exposure": "DJ-RT-20240105-139",
+  "status": "written A_DJ-RT-20240105-139.tif (708, 8361) uint16",
+  "rot90": 0,
+  "dx": 28,
+  "dy": 383,
+  "n_matched": 18,
+  "n_crop_polys": 21
+ },
+ {
+  "crop": "A_DJ-RT-20240105-14",
+  "exposure": "DJ-RT-20240105-14",
+  "status": "written A_DJ-RT-20240105-14.tif (645, 6449) uint16",
+  "rot90": 0,
+  "dx": 556,
+  "dy": 491,
+  "n_matched": 27,
+  "n_crop_polys": 28
+ },
+ {
+  "crop": "A_DJ-RT-20240105-141",
+  "exposure": "DJ-RT-20240105-141",
+  "status": "written A_DJ-RT-20240105-141.tif (770, 8333) uint16",
+  "rot90": 0,
+  "dx": 33,
+  "dy": 359,
+  "n_matched": 21,
+  "n_crop_polys": 23
+ },
+ {
+  "crop": "A_DJ-RT-20240105-142",
+  "exposure": "DJ-RT-20240105-142",
+  "status": "written A_DJ-RT-20240105-142.tif (578, 8345) uint16",
+  "rot90": 0,
+  "dx": 27,
+  "dy": 619,
+  "n_matched": 26,
+  "n_crop_polys": 28
+ },
+ {
+  "crop": "A_DJ-RT-20240105-143",
+  "exposure": "DJ-RT-20240105-143",
+  "status": "written A_DJ-RT-20240105-143.tif (584, 8311) uint16",
+  "rot90": 0,
+  "dx": 50,
+  "dy": 574,
+  "n_matched": 20,
+  "n_crop_polys": 22
+ },
+ {
+  "crop": "A_DJ-RT-20240105-144",
+  "exposure": "DJ-RT-20240105-144",
+  "status": "written A_DJ-RT-20240105-144.tif (566, 8311) uint16",
+  "rot90": 0,
+  "dx": 46,
+  "dy": 614,
+  "n_matched": 13,
+  "n_crop_polys": 15
+ },
+ {
+  "crop": "A_DJ-RT-20240105-145",
+  "exposure": "DJ-RT-20240105-145",
+  "status": "written A_DJ-RT-20240105-145.tif (392, 7994) uint16",
+  "rot90": 0,
+  "dx": 370,
+  "dy": 721,
+  "n_matched": 2,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "A_DJ-RT-20240105-146",
+  "exposure": "DJ-RT-20240105-146",
+  "status": "written A_DJ-RT-20240105-146.tif (447, 7977) uint16",
+  "rot90": 0,
+  "dx": 402,
+  "dy": 656,
+  "n_matched": 19,
+  "n_crop_polys": 20
+ },
+ {
+  "crop": "A_DJ-RT-20240105-147",
+  "exposure": "DJ-RT-20240105-147",
+  "status": "written A_DJ-RT-20240105-147.tif (459, 7971) uint16",
+  "rot90": 0,
+  "dx": 386,
+  "dy": 680,
+  "n_matched": 9,
+  "n_crop_polys": 11
+ },
+ {
+  "crop": "A_DJ-RT-20240105-148",
+  "exposure": "DJ-RT-20240105-148",
+  "status": "written A_DJ-RT-20240105-148.tif (584, 8000) uint16",
+  "rot90": 0,
+  "dx": 41,
+  "dy": 662,
+  "n_matched": 27,
+  "n_crop_polys": 29
+ },
+ {
+  "crop": "A_DJ-RT-20240105-15",
+  "exposure": "DJ-RT-20240105-15",
+  "status": "written A_DJ-RT-20240105-15.tif (553, 6245) uint16",
+  "rot90": 0,
+  "dx": 785,
+  "dy": 668,
+  "n_matched": 10,
+  "n_crop_polys": 11
+ },
+ {
+  "crop": "A_DJ-RT-20240105-150",
+  "exposure": "DJ-RT-20240105-150",
+  "status": "written A_DJ-RT-20240105-150.tif (493, 8307) uint16",
+  "rot90": 0,
+  "dx": 45,
+  "dy": 661,
+  "n_matched": 20,
+  "n_crop_polys": 22
+ },
+ {
+  "crop": "A_DJ-RT-20240105-16",
+  "exposure": "DJ-RT-20240105-16",
+  "status": "written A_DJ-RT-20240105-16.tif (685, 6964) uint16",
+  "rot90": 0,
+  "dx": 37,
+  "dy": 604,
+  "n_matched": 27,
+  "n_crop_polys": 28
+ },
+ {
+  "crop": "A_DJ-RT-20240105-17",
+  "exposure": "DJ-RT-20240105-17",
+  "status": "written A_DJ-RT-20240105-17.tif (721, 6933) uint16",
+  "rot90": 0,
+  "dx": 44,
+  "dy": 484,
+  "n_matched": 16,
+  "n_crop_polys": 18
+ },
+ {
+  "crop": "A_DJ-RT-20240105-18",
+  "exposure": "DJ-RT-20240105-18",
+  "status": "written A_DJ-RT-20240105-18.tif (573, 6705) uint16",
+  "rot90": 0,
+  "dx": 29,
+  "dy": 562,
+  "n_matched": 9,
+  "n_crop_polys": 10
+ },
+ {
+  "crop": "A_DJ-RT-20240105-19",
+  "exposure": "DJ-RT-20240105-19",
+  "status": "written A_DJ-RT-20240105-19.tif (505, 6313) uint16",
+  "rot90": 0,
+  "dx": 679,
+  "dy": 577,
+  "n_matched": 14,
+  "n_crop_polys": 15
+ },
+ {
+  "crop": "A_DJ-RT-20240105-20",
+  "exposure": "DJ-RT-20240105-20",
+  "status": "written A_DJ-RT-20240105-20.tif (601, 6441) uint16",
+  "rot90": 0,
+  "dx": 558,
+  "dy": 686,
+  "n_matched": 24,
+  "n_crop_polys": 25
+ },
+ {
+  "crop": "A_DJ-RT-20240105-21",
+  "exposure": "DJ-RT-20240105-21",
+  "status": "written A_DJ-RT-20240105-21.tif (473, 6505) uint16",
+  "rot90": 0,
+  "dx": 497,
+  "dy": 676,
+  "n_matched": 6,
+  "n_crop_polys": 7
+ },
+ {
+  "crop": "A_DJ-RT-20240105-22",
+  "exposure": "DJ-RT-20240105-22",
+  "status": "written A_DJ-RT-20240105-22.tif (505, 6269) uint16",
+  "rot90": 0,
+  "dx": 720,
+  "dy": 628,
+  "n_matched": 20,
+  "n_crop_polys": 21
+ },
+ {
+  "crop": "A_DJ-RT-20240105-23",
+  "exposure": "DJ-RT-20240105-23",
+  "status": "written A_DJ-RT-20240105-23.tif (509, 6334) uint16",
+  "rot90": 0,
+  "dx": 639,
+  "dy": 642,
+  "n_matched": 23,
+  "n_crop_polys": 25
+ },
+ {
+  "crop": "A_DJ-RT-20240105-24",
+  "exposure": "DJ-RT-20240105-24",
+  "status": "written A_DJ-RT-20240105-24.tif (517, 6317) uint16",
+  "rot90": 0,
+  "dx": 709,
+  "dy": 604,
+  "n_matched": 11,
+  "n_crop_polys": 12
+ },
+ {
+  "crop": "A_DJ-RT-20240105-25",
+  "exposure": "DJ-RT-20240105-25",
+  "status": "written A_DJ-RT-20240105-25.tif (533, 6969) uint16",
+  "rot90": 0,
+  "dx": 47,
+  "dy": 557,
+  "n_matched": 28,
+  "n_crop_polys": 30
+ },
+ {
+  "crop": "A_DJ-RT-20240105-26",
+  "exposure": "DJ-RT-20240105-26",
+  "status": "written A_DJ-RT-20240105-26.tif (641, 6445) uint16",
+  "rot90": 0,
+  "dx": 33,
+  "dy": 679,
+  "n_matched": 23,
+  "n_crop_polys": 24
+ },
+ {
+  "crop": "A_DJ-RT-20240105-27",
+  "exposure": "DJ-RT-20240105-27",
+  "status": "written A_DJ-RT-20240105-27.tif (517, 6421) uint16",
+  "rot90": 0,
+  "dx": 594,
+  "dy": 662,
+  "n_matched": 13,
+  "n_crop_polys": 16
+ },
+ {
+  "crop": "A_DJ-RT-20240105-28",
+  "exposure": "DJ-RT-20240105-28",
+  "status": "written A_DJ-RT-20240105-28.tif (521, 6465) uint16",
+  "rot90": 0,
+  "dx": 547,
+  "dy": 587,
+  "n_matched": 11,
+  "n_crop_polys": 12
+ },
+ {
+  "crop": "A_DJ-RT-20240105-29",
+  "exposure": "DJ-RT-20240105-29",
+  "status": "written A_DJ-RT-20240105-29.tif (577, 6397) uint16",
+  "rot90": 0,
+  "dx": 597,
+  "dy": 654,
+  "n_matched": 3,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "A_DJ-RT-20240105-30",
+  "exposure": "DJ-RT-20240105-30",
+  "status": "written A_DJ-RT-20240105-30.tif (601, 6577) uint16",
+  "rot90": 0,
+  "dx": 39,
+  "dy": 552,
+  "n_matched": 13,
+  "n_crop_polys": 14
+ },
+ {
+  "crop": "A_DJ-RT-20240105-32",
+  "exposure": "DJ-RT-20240105-32",
+  "status": "written A_DJ-RT-20240105-32.tif (709, 6947) uint16",
+  "rot90": 0,
+  "dx": 42,
+  "dy": 501,
+  "n_matched": 19,
+  "n_crop_polys": 22
+ },
+ {
+  "crop": "A_DJ-RT-20240105-33",
+  "exposure": "DJ-RT-20240105-33",
+  "status": "written A_DJ-RT-20240105-33.tif (485, 6673) uint16",
+  "rot90": 0,
+  "dx": 359,
+  "dy": 592,
+  "n_matched": 7,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "A_DJ-RT-20240105-34",
+  "exposure": "DJ-RT-20240105-34",
+  "status": "written A_DJ-RT-20240105-34.tif (773, 6965) uint16",
+  "rot90": 0,
+  "dx": 44,
+  "dy": 397,
+  "n_matched": 3,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "A_DJ-RT-20240105-36",
+  "exposure": "DJ-RT-20240105-36",
+  "status": "written A_DJ-RT-20240105-36.tif (584, 6954) uint16",
+  "rot90": 0,
+  "dx": 38,
+  "dy": 580,
+  "n_matched": 30,
+  "n_crop_polys": 33
+ },
+ {
+  "crop": "A_DJ-RT-20240105-38",
+  "exposure": "DJ-RT-20240105-38",
+  "status": "written A_DJ-RT-20240105-38.tif (625, 6953) uint16",
+  "rot90": 0,
+  "dx": 41,
+  "dy": 542,
+  "n_matched": 16,
+  "n_crop_polys": 21
+ },
+ {
+  "crop": "A_DJ-RT-20240105-40",
+  "exposure": "DJ-RT-20240105-40",
+  "status": "written A_DJ-RT-20240105-40.tif (577, 6349) uint16",
+  "rot90": 0,
+  "dx": 657,
+  "dy": 630,
+  "n_matched": 5,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "A_DJ-RT-20240105-41",
+  "exposure": "DJ-RT-20240105-41",
+  "status": "written A_DJ-RT-20240105-41.tif (573, 6461) uint16",
+  "rot90": 0,
+  "dx": 40,
+  "dy": 443,
+  "n_matched": 31,
+  "n_crop_polys": 32
+ },
+ {
+  "crop": "A_DJ-RT-20240105-43",
+  "exposure": "DJ-RT-20240105-43",
+  "status": "written A_DJ-RT-20240105-43.tif (569, 6457) uint16",
+  "rot90": 0,
+  "dx": 549,
+  "dy": 596,
+  "n_matched": 35,
+  "n_crop_polys": 39
+ },
+ {
+  "crop": "A_DJ-RT-20240105-45",
+  "exposure": "DJ-RT-20240105-45",
+  "status": "written A_DJ-RT-20240105-45.tif (573, 6577) uint16",
+  "rot90": 0,
+  "dx": 439,
+  "dy": 623,
+  "n_matched": 8,
+  "n_crop_polys": 11
+ },
+ {
+  "crop": "A_DJ-RT-20240105-47",
+  "exposure": "DJ-RT-20240105-47",
+  "status": "written A_DJ-RT-20240105-47.tif (665, 6381) uint16",
+  "rot90": 0,
+  "dx": 588,
+  "dy": 642,
+  "n_matched": 44,
+  "n_crop_polys": 46
+ },
+ {
+  "crop": "A_DJ-RT-20240105-48",
+  "exposure": "DJ-RT-20240105-48",
+  "status": "written A_DJ-RT-20240105-48.tif (721, 6493) uint16",
+  "rot90": 0,
+  "dx": 503,
+  "dy": 597,
+  "n_matched": 23,
+  "n_crop_polys": 24
+ },
+ {
+  "crop": "A_DJ-RT-20240105-50",
+  "exposure": "DJ-RT-20240105-50",
+  "status": "written A_DJ-RT-20240105-50.tif (433, 6657) uint16",
+  "rot90": 0,
+  "dx": 33,
+  "dy": 703,
+  "n_matched": 9,
+  "n_crop_polys": 10
+ },
+ {
+  "crop": "A_DJ-RT-20240105-51",
+  "exposure": "DJ-RT-20240105-51",
+  "status": "written A_DJ-RT-20240105-51.tif (785, 6655) uint16",
+  "rot90": 0,
+  "dx": 38,
+  "dy": 457,
+  "n_matched": 30,
+  "n_crop_polys": 31
+ },
+ {
+  "crop": "A_DJ-RT-20240105-52",
+  "exposure": "DJ-RT-20240105-52",
+  "status": "written A_DJ-RT-20240105-52.tif (437, 6617) uint16",
+  "rot90": 0,
+  "dx": 407,
+  "dy": 632,
+  "n_matched": 19,
+  "n_crop_polys": 21
+ },
+ {
+  "crop": "A_DJ-RT-20240105-53",
+  "exposure": "DJ-RT-20240105-53",
+  "status": "written A_DJ-RT-20240105-53.tif (549, 6737) uint16",
+  "rot90": 0,
+  "dx": 34,
+  "dy": 713,
+  "n_matched": 11,
+  "n_crop_polys": 12
+ },
+ {
+  "crop": "A_DJ-RT-20240105-54",
+  "exposure": "DJ-RT-20240105-54",
+  "status": "written A_DJ-RT-20240105-54.tif (397, 6521) uint16",
+  "rot90": 0,
+  "dx": 494,
+  "dy": 819,
+  "n_matched": 7,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "A_DJ-RT-20240105-56",
+  "exposure": "DJ-RT-20240105-56",
+  "status": "written A_DJ-RT-20240105-56.tif (501, 6445) uint16",
+  "rot90": 0,
+  "dx": 549,
+  "dy": 689,
+  "n_matched": 11,
+  "n_crop_polys": 13
+ },
+ {
+  "crop": "A_DJ-RT-20240105-58",
+  "exposure": "DJ-RT-20240105-58",
+  "status": "written A_DJ-RT-20240105-58.tif (625, 6413) uint16",
+  "rot90": 0,
+  "dx": 582,
+  "dy": 555,
+  "n_matched": 14,
+  "n_crop_polys": 15
+ },
+ {
+  "crop": "A_DJ-RT-20240105-59",
+  "exposure": "DJ-RT-20240105-59",
+  "status": "written A_DJ-RT-20240105-59.tif (549, 6877) uint16",
+  "rot90": 0,
+  "dx": 51,
+  "dy": 505,
+  "n_matched": 9,
+  "n_crop_polys": 10
+ },
+ {
+  "crop": "A_DJ-RT-20240105-60",
+  "exposure": "DJ-RT-20240105-60",
+  "status": "written A_DJ-RT-20240105-60.tif (521, 6317) uint16",
+  "rot90": 0,
+  "dx": 674,
+  "dy": 542,
+  "n_matched": 17,
+  "n_crop_polys": 18
+ },
+ {
+  "crop": "A_DJ-RT-20240105-62",
+  "exposure": "DJ-RT-20240105-62",
+  "status": "written A_DJ-RT-20240105-62.tif (493, 6601) uint16",
+  "rot90": 0,
+  "dx": 17,
+  "dy": 677,
+  "n_matched": 6,
+  "n_crop_polys": 7
+ },
+ {
+  "crop": "A_DJ-RT-20240105-7",
+  "exposure": "DJ-RT-20240105-7",
+  "status": "written A_DJ-RT-20240105-7.tif (641, 6489) uint16",
+  "rot90": 0,
+  "dx": 516,
+  "dy": 557,
+  "n_matched": 4,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "A_DJ-RT-20240105-79",
+  "exposure": "DJ-RT-20240105-79",
+  "status": "written A_DJ-RT-20240105-79.tif (713, 6433) uint16",
+  "rot90": 0,
+  "dx": 552,
+  "dy": 447,
+  "n_matched": 25,
+  "n_crop_polys": 27
+ },
+ {
+  "crop": "A_DJ-RT-20240105-81",
+  "exposure": "DJ-RT-20240105-81",
+  "status": "written A_DJ-RT-20240105-81.tif (527, 8017) uint16",
+  "rot90": 0,
+  "dx": 33,
+  "dy": 628,
+  "n_matched": 13,
+  "n_crop_polys": 14
+ },
+ {
+  "crop": "A_DJ-RT-20240105-82",
+  "exposure": "DJ-RT-20240105-82",
+  "status": "written A_DJ-RT-20240105-82.tif (498, 8016) uint16",
+  "rot90": 0,
+  "dx": 36,
+  "dy": 720,
+  "n_matched": 22,
+  "n_crop_polys": 23
+ },
+ {
+  "crop": "A_DJ-RT-20240105-83",
+  "exposure": "DJ-RT-20240105-83",
+  "status": "written A_DJ-RT-20240105-83.tif (471, 8317) uint16",
+  "rot90": 0,
+  "dx": 42,
+  "dy": 677,
+  "n_matched": 16,
+  "n_crop_polys": 18
+ },
+ {
+  "crop": "A_DJ-RT-20240105-84",
+  "exposure": "DJ-RT-20240105-84",
+  "status": "written A_DJ-RT-20240105-84.tif (544, 8317) uint16",
+  "rot90": 0,
+  "dx": 42,
+  "dy": 660,
+  "n_matched": 4,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "A_DJ-RT-20240105-85",
+  "exposure": "DJ-RT-20240105-85",
+  "status": "written A_DJ-RT-20240105-85.tif (409, 8073) uint16",
+  "rot90": 0,
+  "dx": 305,
+  "dy": 720,
+  "n_matched": 19,
+  "n_crop_polys": 19
+ },
+ {
+  "crop": "A_DJ-RT-20240105-87",
+  "exposure": "DJ-RT-20240105-87",
+  "status": "written A_DJ-RT-20240105-87.tif (742, 8317) uint16",
+  "rot90": 0,
+  "dx": 30,
+  "dy": 505,
+  "n_matched": 14,
+  "n_crop_polys": 16
+ },
+ {
+  "crop": "A_DJ-RT-20240105-9",
+  "exposure": "DJ-RT-20240105-9",
+  "status": "written A_DJ-RT-20240105-9.tif (821, 6445) uint16",
+  "rot90": 0,
+  "dx": 584,
+  "dy": 550,
+  "n_matched": 33,
+  "n_crop_polys": 34
+ },
+ {
+  "crop": "A_DJ-RT-20240105-92",
+  "exposure": "DJ-RT-20240105-92",
+  "status": "written A_DJ-RT-20240105-92.tif (685, 8129) uint16",
+  "rot90": 0,
+  "dx": 261,
+  "dy": 646,
+  "n_matched": 25,
+  "n_crop_polys": 26
+ },
+ {
+  "crop": "A_DJ-RT-20240105-93",
+  "exposure": "DJ-RT-20240105-93",
+  "status": "written A_DJ-RT-20240105-93.tif (448, 7841) uint16",
+  "rot90": 0,
+  "dx": 47,
+  "dy": 702,
+  "n_matched": 21,
+  "n_crop_polys": 23
+ },
+ {
+  "crop": "A_DJ-RT-20240105-94",
+  "exposure": "DJ-RT-20240105-94",
+  "status": "written A_DJ-RT-20240105-94.tif (502, 8032) uint16",
+  "rot90": 0,
+  "dx": 42,
+  "dy": 670,
+  "n_matched": 39,
+  "n_crop_polys": 40
+ },
+ {
+  "crop": "A_DJ-RT-20240105-95",
+  "exposure": "DJ-RT-20240105-95",
+  "status": "written A_DJ-RT-20240105-95.tif (483, 8139) uint16",
+  "rot90": 0,
+  "dx": 240,
+  "dy": 695,
+  "n_matched": 12,
+  "n_crop_polys": 13
+ },
+ {
+  "crop": "A_DJ-RT-20240105-96",
+  "exposure": "DJ-RT-20240105-96",
+  "status": "written A_DJ-RT-20240105-96.tif (487, 8045) uint16",
+  "rot90": 0,
+  "dx": 336,
+  "dy": 681,
+  "n_matched": 22,
+  "n_crop_polys": 23
+ },
+ {
+  "crop": "A_DJ-RT-20240105-97",
+  "exposure": "DJ-RT-20240105-97",
+  "status": "written A_DJ-RT-20240105-97.tif (402, 8051) uint16",
+  "rot90": 0,
+  "dx": 343,
+  "dy": 691,
+  "n_matched": 21,
+  "n_crop_polys": 22
+ },
+ {
+  "crop": "A_DJ-RT-20240105-98",
+  "exposure": "DJ-RT-20240105-98",
+  "status": "written A_DJ-RT-20240105-98.tif (578, 8339) uint16",
+  "rot90": 0,
+  "dx": 39,
+  "dy": 464,
+  "n_matched": 16,
+  "n_crop_polys": 18
+ },
+ {
+  "crop": "A_DJ-RT-20240105-99",
+  "exposure": "DJ-RT-20240105-99",
+  "status": "written A_DJ-RT-20240105-99.tif (510, 8305) uint16",
+  "rot90": 0,
+  "dx": 40,
+  "dy": 626,
+  "n_matched": 6,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "B_DJ-RT-20240105-100",
+  "exposure": "DJ-RT-20240105-100",
+  "status": "written B_DJ-RT-20240105-100.tif (1068, 483) uint16",
+  "rot90": 0,
+  "dx": 4072,
+  "dy": 6,
+  "n_matched": 3,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "B_DJ-RT-20240105-101",
+  "exposure": "DJ-RT-20240105-101",
+  "status": "written B_DJ-RT-20240105-101.tif (1175, 463) uint16",
+  "rot90": 0,
+  "dx": 3979,
+  "dy": 2,
+  "n_matched": 11,
+  "n_crop_polys": 13
+ },
+ {
+  "crop": "B_DJ-RT-20240105-105",
+  "exposure": "DJ-RT-20240105-105",
+  "status": "written B_DJ-RT-20240105-105.tif (1776, 528) uint16",
+  "rot90": 0,
+  "dx": 350,
+  "dy": 3,
+  "n_matched": 5,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "B_DJ-RT-20240105-106",
+  "exposure": "DJ-RT-20240105-106",
+  "status": "written B_DJ-RT-20240105-106.tif (1701, 550) uint16",
+  "rot90": 0,
+  "dx": 401,
+  "dy": 4,
+  "n_matched": 6,
+  "n_crop_polys": 7
+ },
+ {
+  "crop": "B_DJ-RT-20240105-108",
+  "exposure": "DJ-RT-20240105-108",
+  "status": "written B_DJ-RT-20240105-108.tif (1777, 529) uint16",
+  "rot90": 0,
+  "dx": 7396,
+  "dy": 3,
+  "n_matched": 7,
+  "n_crop_polys": 9
+ },
+ {
+  "crop": "B_DJ-RT-20240105-109",
+  "exposure": "DJ-RT-20240105-109",
+  "status": "written B_DJ-RT-20240105-109.tif (1197, 521) uint16",
+  "rot90": 0,
+  "dx": 4040,
+  "dy": 7,
+  "n_matched": 8,
+  "n_crop_polys": 10
+ },
+ {
+  "crop": "B_DJ-RT-20240105-11",
+  "exposure": "DJ-RT-20240105-11",
+  "status": "written B_DJ-RT-20240105-11.tif (1769, 550) uint16",
+  "rot90": 0,
+  "dx": 6184,
+  "dy": 6,
+  "n_matched": 2,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "B_DJ-RT-20240105-110",
+  "exposure": "DJ-RT-20240105-110",
+  "status": "written B_DJ-RT-20240105-110.tif (1178, 467) uint16",
+  "rot90": 0,
+  "dx": 4012,
+  "dy": 3,
+  "n_matched": 4,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "B_DJ-RT-20240105-112",
+  "exposure": "DJ-RT-20240105-112",
+  "status": "written B_DJ-RT-20240105-112.tif (1171, 519) uint16",
+  "rot90": 0,
+  "dx": 4007,
+  "dy": 4,
+  "n_matched": 11,
+  "n_crop_polys": 12
+ },
+ {
+  "crop": "B_DJ-RT-20240105-113",
+  "exposure": "DJ-RT-20240105-113",
+  "status": "written B_DJ-RT-20240105-113.tif (1783, 527) uint16",
+  "rot90": 0,
+  "dx": 448,
+  "dy": 3,
+  "n_matched": 4,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "B_DJ-RT-20240105-114",
+  "exposure": "DJ-RT-20240105-114",
+  "status": "written B_DJ-RT-20240105-114.tif (1771, 541) uint16",
+  "rot90": 0,
+  "dx": 358,
+  "dy": 4,
+  "n_matched": 4,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "B_DJ-RT-20240105-115",
+  "exposure": "DJ-RT-20240105-115",
+  "status": "written B_DJ-RT-20240105-115.tif (1700, 602) uint16",
+  "rot90": 0,
+  "dx": 7547,
+  "dy": 3,
+  "n_matched": 3,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "B_DJ-RT-20240105-116",
+  "exposure": "DJ-RT-20240105-116",
+  "status": "written B_DJ-RT-20240105-116.tif (1786, 516) uint16",
+  "rot90": 0,
+  "dx": 290,
+  "dy": 3,
+  "n_matched": 5,
+  "n_crop_polys": 7
+ },
+ {
+  "crop": "B_DJ-RT-20240105-117",
+  "exposure": "DJ-RT-20240105-117",
+  "status": "written B_DJ-RT-20240105-117.tif (1169, 495) uint16",
+  "rot90": 0,
+  "dx": 3985,
+  "dy": 4,
+  "n_matched": 6,
+  "n_crop_polys": 7
+ },
+ {
+  "crop": "B_DJ-RT-20240105-12",
+  "exposure": "DJ-RT-20240105-12",
+  "status": "written B_DJ-RT-20240105-12.tif (1697, 658) uint16",
+  "rot90": 0,
+  "dx": 5800,
+  "dy": 3,
+  "n_matched": 6,
+  "n_crop_polys": 7
+ },
+ {
+  "crop": "B_DJ-RT-20240105-120",
+  "exposure": "DJ-RT-20240105-120",
+  "status": "written B_DJ-RT-20240105-120.tif (1777, 537) uint16",
+  "rot90": 0,
+  "dx": 7569,
+  "dy": 2,
+  "n_matched": 2,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "B_DJ-RT-20240105-121",
+  "exposure": "DJ-RT-20240105-121",
+  "status": "written B_DJ-RT-20240105-121.tif (1176, 470) uint16",
+  "rot90": 0,
+  "dx": 3940,
+  "dy": 2,
+  "n_matched": 3,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "B_DJ-RT-20240105-122",
+  "exposure": "DJ-RT-20240105-122",
+  "status": "written B_DJ-RT-20240105-122.tif (1751, 491) uint16",
+  "rot90": 0,
+  "dx": 386,
+  "dy": 3,
+  "n_matched": 4,
+  "n_crop_polys": 7
+ },
+ {
+  "crop": "B_DJ-RT-20240105-123",
+  "exposure": "DJ-RT-20240105-123",
+  "status": "written B_DJ-RT-20240105-123.tif (1771, 524) uint16",
+  "rot90": 0,
+  "dx": 345,
+  "dy": 4,
+  "n_matched": 3,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "B_DJ-RT-20240105-124",
+  "exposure": "DJ-RT-20240105-124",
+  "status": "written B_DJ-RT-20240105-124.tif (1687, 544) uint16",
+  "rot90": 0,
+  "dx": 379,
+  "dy": 9,
+  "n_matched": 4,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "B_DJ-RT-20240105-126",
+  "exposure": "DJ-RT-20240105-126",
+  "status": "written B_DJ-RT-20240105-126.tif (1776, 570) uint16",
+  "rot90": 0,
+  "dx": 7574,
+  "dy": 3,
+  "n_matched": 4,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "B_DJ-RT-20240105-127",
+  "exposure": "DJ-RT-20240105-127",
+  "status": "written B_DJ-RT-20240105-127.tif (1081, 497) uint16",
+  "rot90": 0,
+  "dx": 4073,
+  "dy": 2,
+  "n_matched": 6,
+  "n_crop_polys": 7
+ },
+ {
+  "crop": "B_DJ-RT-20240105-128",
+  "exposure": "DJ-RT-20240105-128",
+  "status": "written B_DJ-RT-20240105-128.tif (1161, 419) uint16",
+  "rot90": 0,
+  "dx": 3990,
+  "dy": 1,
+  "n_matched": 7,
+  "n_crop_polys": 7
+ },
+ {
+  "crop": "B_DJ-RT-20240105-13",
+  "exposure": "DJ-RT-20240105-13",
+  "status": "written B_DJ-RT-20240105-13.tif (1777, 731) uint16",
+  "rot90": 0,
+  "dx": 680,
+  "dy": 8,
+  "n_matched": 2,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "B_DJ-RT-20240105-130",
+  "exposure": "DJ-RT-20240105-130",
+  "status": "written B_DJ-RT-20240105-130.tif (1697, 540) uint16",
+  "rot90": 0,
+  "dx": 7554,
+  "dy": 2,
+  "n_matched": 6,
+  "n_crop_polys": 9
+ },
+ {
+  "crop": "B_DJ-RT-20240105-131",
+  "exposure": "DJ-RT-20240105-131",
+  "status": "written B_DJ-RT-20240105-131.tif (1780, 490) uint16",
+  "rot90": 0,
+  "dx": 422,
+  "dy": 1,
+  "n_matched": 4,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "B_DJ-RT-20240105-132",
+  "exposure": "DJ-RT-20240105-132",
+  "status": "written B_DJ-RT-20240105-132.tif (1743, 505) uint16",
+  "rot90": 0,
+  "dx": 339,
+  "dy": 2,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20240105-133",
+  "exposure": "DJ-RT-20240105-133",
+  "status": "written B_DJ-RT-20240105-133.tif (1205, 505) uint16",
+  "rot90": 0,
+  "dx": 4160,
+  "dy": 2,
+  "n_matched": 5,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "B_DJ-RT-20240105-134",
+  "exposure": "DJ-RT-20240105-134",
+  "status": "written B_DJ-RT-20240105-134.tif (1792, 581) uint16",
+  "rot90": 0,
+  "dx": 510,
+  "dy": 1,
+  "n_matched": 3,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "B_DJ-RT-20240105-135",
+  "exposure": "DJ-RT-20240105-135",
+  "status": "written B_DJ-RT-20240105-135.tif (1766, 578) uint16",
+  "rot90": 0,
+  "dx": 572,
+  "dy": 8,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20240105-139",
+  "exposure": "DJ-RT-20240105-139",
+  "status": "written B_DJ-RT-20240105-139.tif (1056, 542) uint16",
+  "rot90": 0,
+  "dx": 3991,
+  "dy": 7,
+  "n_matched": 9,
+  "n_crop_polys": 10
+ },
+ {
+  "crop": "B_DJ-RT-20240105-14",
+  "exposure": "DJ-RT-20240105-14",
+  "status": "written B_DJ-RT-20240105-14.tif (1769, 697) uint16",
+  "rot90": 0,
+  "dx": 526,
+  "dy": 6,
+  "n_matched": 3,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "B_DJ-RT-20240105-141",
+  "exposure": "DJ-RT-20240105-141",
+  "status": "written B_DJ-RT-20240105-141.tif (1057, 463) uint16",
+  "rot90": 0,
+  "dx": 3981,
+  "dy": 3,
+  "n_matched": 8,
+  "n_crop_polys": 9
+ },
+ {
+  "crop": "B_DJ-RT-20240105-142",
+  "exposure": "DJ-RT-20240105-142",
+  "status": "written B_DJ-RT-20240105-142.tif (1169, 603) uint16",
+  "rot90": 0,
+  "dx": 3988,
+  "dy": 4,
+  "n_matched": 7,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "B_DJ-RT-20240105-143",
+  "exposure": "DJ-RT-20240105-143",
+  "status": "written B_DJ-RT-20240105-143.tif (1121, 499) uint16",
+  "rot90": 0,
+  "dx": 3940,
+  "dy": 2,
+  "n_matched": 18,
+  "n_crop_polys": 19
+ },
+ {
+  "crop": "B_DJ-RT-20240105-144",
+  "exposure": "DJ-RT-20240105-144",
+  "status": "written B_DJ-RT-20240105-144.tif (1113, 457) uint16",
+  "rot90": 0,
+  "dx": 4235,
+  "dy": 3,
+  "n_matched": 9,
+  "n_crop_polys": 10
+ },
+ {
+  "crop": "B_DJ-RT-20240105-145",
+  "exposure": "DJ-RT-20240105-145",
+  "status": "written B_DJ-RT-20240105-145.tif (1695, 533) uint16",
+  "rot90": 0,
+  "dx": 339,
+  "dy": 3,
+  "n_matched": 5,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "B_DJ-RT-20240105-146",
+  "exposure": "DJ-RT-20240105-146",
+  "status": "written B_DJ-RT-20240105-146.tif (1789, 533) uint16",
+  "rot90": 0,
+  "dx": 396,
+  "dy": 2,
+  "n_matched": 2,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "B_DJ-RT-20240105-147",
+  "exposure": "DJ-RT-20240105-147",
+  "status": "written B_DJ-RT-20240105-147.tif (1772, 541) uint16",
+  "rot90": 0,
+  "dx": 367,
+  "dy": 2,
+  "n_matched": 7,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "B_DJ-RT-20240105-148",
+  "exposure": "DJ-RT-20240105-148",
+  "status": "written B_DJ-RT-20240105-148.tif (1702, 552) uint16",
+  "rot90": 0,
+  "dx": 7492,
+  "dy": 2,
+  "n_matched": 3,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "B_DJ-RT-20240105-15",
+  "exposure": "DJ-RT-20240105-15",
+  "status": "written B_DJ-RT-20240105-15.tif (1704, 431) uint16",
+  "rot90": 0,
+  "dx": 771,
+  "dy": 3,
+  "n_matched": 7,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "B_DJ-RT-20240105-150",
+  "exposure": "DJ-RT-20240105-150",
+  "status": "written B_DJ-RT-20240105-150.tif (1134, 451) uint16",
+  "rot90": 0,
+  "dx": 4097,
+  "dy": 3,
+  "n_matched": 13,
+  "n_crop_polys": 16
+ },
+ {
+  "crop": "B_DJ-RT-20240105-16",
+  "exposure": "DJ-RT-20240105-16",
+  "status": "written B_DJ-RT-20240105-16.tif (1218, 513) uint16",
+  "rot90": 0,
+  "dx": 3519,
+  "dy": 4,
+  "n_matched": 6,
+  "n_crop_polys": 7
+ },
+ {
+  "crop": "B_DJ-RT-20240105-17",
+  "exposure": "DJ-RT-20240105-17",
+  "status": "written B_DJ-RT-20240105-17.tif (1125, 457) uint16",
+  "rot90": 0,
+  "dx": 3518,
+  "dy": 4,
+  "n_matched": 4,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "B_DJ-RT-20240105-18",
+  "exposure": "DJ-RT-20240105-18",
+  "status": "written B_DJ-RT-20240105-18.tif (1692, 502) uint16",
+  "rot90": 0,
+  "dx": 6232,
+  "dy": 9,
+  "n_matched": 1,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "B_DJ-RT-20240105-19",
+  "exposure": "DJ-RT-20240105-19",
+  "status": "written B_DJ-RT-20240105-19.tif (1774, 544) uint16",
+  "rot90": 0,
+  "dx": 690,
+  "dy": 12,
+  "n_matched": 4,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "B_DJ-RT-20240105-20",
+  "exposure": "DJ-RT-20240105-20",
+  "status": "written B_DJ-RT-20240105-20.tif (1778, 459) uint16",
+  "rot90": 0,
+  "dx": 538,
+  "dy": 2,
+  "n_matched": 9,
+  "n_crop_polys": 12
+ },
+ {
+  "crop": "B_DJ-RT-20240105-21",
+  "exposure": "DJ-RT-20240105-21",
+  "status": "written B_DJ-RT-20240105-21.tif (1698, 532) uint16",
+  "rot90": 0,
+  "dx": 490,
+  "dy": 5,
+  "n_matched": 7,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "B_DJ-RT-20240105-22",
+  "exposure": "DJ-RT-20240105-22",
+  "status": "written B_DJ-RT-20240105-22.tif (1782, 522) uint16",
+  "rot90": 0,
+  "dx": 740,
+  "dy": 3,
+  "n_matched": 7,
+  "n_crop_polys": 9
+ },
+ {
+  "crop": "B_DJ-RT-20240105-23",
+  "exposure": "DJ-RT-20240105-23",
+  "status": "written B_DJ-RT-20240105-23.tif (1774, 533) uint16",
+  "rot90": 0,
+  "dx": 625,
+  "dy": 3,
+  "n_matched": 19,
+  "n_crop_polys": 20
+ },
+ {
+  "crop": "B_DJ-RT-20240105-24",
+  "exposure": "DJ-RT-20240105-24",
+  "status": "written B_DJ-RT-20240105-24.tif (1702, 552) uint16",
+  "rot90": 0,
+  "dx": 690,
+  "dy": 2,
+  "n_matched": 6,
+  "n_crop_polys": 7
+ },
+ {
+  "crop": "B_DJ-RT-20240105-25",
+  "exposure": "DJ-RT-20240105-25",
+  "status": "written B_DJ-RT-20240105-25.tif (1069, 595) uint16",
+  "rot90": 0,
+  "dx": 1655,
+  "dy": 2,
+  "n_matched": 14,
+  "n_crop_polys": 15
+ },
+ {
+  "crop": "B_DJ-RT-20240105-26",
+  "exposure": "DJ-RT-20240105-26",
+  "status": "written B_DJ-RT-20240105-26.tif (1770, 686) uint16",
+  "rot90": 0,
+  "dx": 5820,
+  "dy": 3,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20240105-27",
+  "exposure": "DJ-RT-20240105-27",
+  "status": "written B_DJ-RT-20240105-27.tif (1702, 573) uint16",
+  "rot90": 0,
+  "dx": 577,
+  "dy": 2,
+  "n_matched": 2,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "B_DJ-RT-20240105-28",
+  "exposure": "DJ-RT-20240105-28",
+  "status": "written B_DJ-RT-20240105-28.tif (1786, 553) uint16",
+  "rot90": 0,
+  "dx": 547,
+  "dy": 4,
+  "n_matched": 7,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "B_DJ-RT-20240105-29",
+  "exposure": "DJ-RT-20240105-29",
+  "status": "written B_DJ-RT-20240105-29.tif (1778, 533) uint16",
+  "rot90": 0,
+  "dx": 590,
+  "dy": 2,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20240105-30",
+  "exposure": "DJ-RT-20240105-30",
+  "status": "written B_DJ-RT-20240105-30.tif (1693, 620) uint16",
+  "rot90": 0,
+  "dx": 5987,
+  "dy": 2,
+  "n_matched": 11,
+  "n_crop_polys": 12
+ },
+ {
+  "crop": "B_DJ-RT-20240105-32",
+  "exposure": "DJ-RT-20240105-32",
+  "status": "written B_DJ-RT-20240105-32.tif (1153, 507) uint16",
+  "rot90": 0,
+  "dx": 3435,
+  "dy": 2,
+  "n_matched": 5,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "B_DJ-RT-20240105-33",
+  "exposure": "DJ-RT-20240105-33",
+  "status": "written B_DJ-RT-20240105-33.tif (1703, 490) uint16",
+  "rot90": 0,
+  "dx": 343,
+  "dy": 2,
+  "n_matched": 5,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "B_DJ-RT-20240105-34",
+  "exposure": "DJ-RT-20240105-34",
+  "status": "written B_DJ-RT-20240105-34.tif (1097, 385) uint16",
+  "rot90": 0,
+  "dx": 3470,
+  "dy": 5,
+  "n_matched": 2,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "B_DJ-RT-20240105-36",
+  "exposure": "DJ-RT-20240105-36",
+  "status": "written B_DJ-RT-20240105-36.tif (1152, 468) uint16",
+  "rot90": 0,
+  "dx": 1645,
+  "dy": 0,
+  "n_matched": 10,
+  "n_crop_polys": 11
+ },
+ {
+  "crop": "B_DJ-RT-20240105-38",
+  "exposure": "DJ-RT-20240105-38",
+  "status": "written B_DJ-RT-20240105-38.tif (1060, 556) uint16",
+  "rot90": 0,
+  "dx": 1763,
+  "dy": 9,
+  "n_matched": 10,
+  "n_crop_polys": 12
+ },
+ {
+  "crop": "B_DJ-RT-20240105-40",
+  "exposure": "DJ-RT-20240105-40",
+  "status": "written B_DJ-RT-20240105-40.tif (1788, 527) uint16",
+  "rot90": 0,
+  "dx": 583,
+  "dy": 4,
+  "n_matched": 6,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "B_DJ-RT-20240105-41",
+  "exposure": "DJ-RT-20240105-41",
+  "status": "written B_DJ-RT-20240105-41.tif (1776, 502) uint16",
+  "rot90": 0,
+  "dx": 5995,
+  "dy": 4,
+  "n_matched": 6,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "B_DJ-RT-20240105-43",
+  "exposure": "DJ-RT-20240105-43",
+  "status": "written B_DJ-RT-20240105-43.tif (1763, 578) uint16",
+  "rot90": 0,
+  "dx": 541,
+  "dy": 5,
+  "n_matched": 5,
+  "n_crop_polys": 9
+ },
+ {
+  "crop": "B_DJ-RT-20240105-45",
+  "exposure": "DJ-RT-20240105-45",
+  "status": "written B_DJ-RT-20240105-45.tif (1702, 669) uint16",
+  "rot90": 0,
+  "dx": 419,
+  "dy": 3,
+  "n_matched": 7,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "B_DJ-RT-20240105-47",
+  "exposure": "DJ-RT-20240105-47",
+  "status": "written B_DJ-RT-20240105-47.tif (1774, 510) uint16",
+  "rot90": 0,
+  "dx": 580,
+  "dy": 4,
+  "n_matched": 12,
+  "n_crop_polys": 16
+ },
+ {
+  "crop": "B_DJ-RT-20240105-48",
+  "exposure": "DJ-RT-20240105-48",
+  "status": "written B_DJ-RT-20240105-48.tif (1703, 629) uint16",
+  "rot90": 0,
+  "dx": 510,
+  "dy": 2,
+  "n_matched": 5,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "B_DJ-RT-20240105-50",
+  "exposure": "DJ-RT-20240105-50",
+  "status": "written B_DJ-RT-20240105-50.tif (1778, 490) uint16",
+  "rot90": 0,
+  "dx": 6210,
+  "dy": 3,
+  "n_matched": 6,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "B_DJ-RT-20240105-51",
+  "exposure": "DJ-RT-20240105-51",
+  "status": "written B_DJ-RT-20240105-51.tif (1699, 623) uint16",
+  "rot90": 0,
+  "dx": 6064,
+  "dy": 6,
+  "n_matched": 8,
+  "n_crop_polys": 10
+ },
+ {
+  "crop": "B_DJ-RT-20240105-52",
+  "exposure": "DJ-RT-20240105-52",
+  "status": "written B_DJ-RT-20240105-52.tif (1772, 635) uint16",
+  "rot90": 0,
+  "dx": 381,
+  "dy": 3,
+  "n_matched": 5,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "B_DJ-RT-20240105-53",
+  "exposure": "DJ-RT-20240105-53",
+  "status": "written B_DJ-RT-20240105-53.tif (1774, 583) uint16",
+  "rot90": 0,
+  "dx": 6182,
+  "dy": 3,
+  "n_matched": 5,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "B_DJ-RT-20240105-54",
+  "exposure": "DJ-RT-20240105-54",
+  "status": "written B_DJ-RT-20240105-54.tif (1695, 652) uint16",
+  "rot90": 0,
+  "dx": 473,
+  "dy": 5,
+  "n_matched": 3,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "B_DJ-RT-20240105-56",
+  "exposure": "DJ-RT-20240105-56",
+  "status": "written B_DJ-RT-20240105-56.tif (1777, 499) uint16",
+  "rot90": 0,
+  "dx": 463,
+  "dy": 3,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20240105-58",
+  "exposure": "DJ-RT-20240105-58",
+  "status": "written B_DJ-RT-20240105-58.tif (1789, 569) uint16",
+  "rot90": 0,
+  "dx": 590,
+  "dy": 3,
+  "n_matched": 5,
+  "n_crop_polys": 6
+ },
+ {
+  "crop": "B_DJ-RT-20240105-59",
+  "exposure": "DJ-RT-20240105-59",
+  "status": "written B_DJ-RT-20240105-59.tif (1755, 486) uint16",
+  "rot90": 0,
+  "dx": 6454,
+  "dy": 2,
+  "n_matched": 2,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "B_DJ-RT-20240105-60",
+  "exposure": "DJ-RT-20240105-60",
+  "status": "written B_DJ-RT-20240105-60.tif (1700, 541) uint16",
+  "rot90": 0,
+  "dx": 662,
+  "dy": 3,
+  "n_matched": 11,
+  "n_crop_polys": 12
+ },
+ {
+  "crop": "B_DJ-RT-20240105-62",
+  "exposure": "DJ-RT-20240105-62",
+  "status": "written B_DJ-RT-20240105-62.tif (1766, 660) uint16",
+  "rot90": 0,
+  "dx": 5987,
+  "dy": 7,
+  "n_matched": 9,
+  "n_crop_polys": 12
+ },
+ {
+  "crop": "B_DJ-RT-20240105-7",
+  "exposure": "DJ-RT-20240105-7",
+  "status": "written B_DJ-RT-20240105-7.tif (1785, 586) uint16",
+  "rot90": 0,
+  "dx": 506,
+  "dy": 5,
+  "n_matched": 3,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "B_DJ-RT-20240105-79",
+  "exposure": "DJ-RT-20240105-79",
+  "status": "written B_DJ-RT-20240105-79.tif (1776, 508) uint16",
+  "rot90": 0,
+  "dx": 535,
+  "dy": 4,
+  "n_matched": 8,
+  "n_crop_polys": 10
+ },
+ {
+  "crop": "B_DJ-RT-20240105-81",
+  "exposure": "DJ-RT-20240105-81",
+  "status": "written B_DJ-RT-20240105-81.tif (1763, 437) uint16",
+  "rot90": 0,
+  "dx": 7588,
+  "dy": 3,
+  "n_matched": 3,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "B_DJ-RT-20240105-82",
+  "exposure": "DJ-RT-20240105-82",
+  "status": "written B_DJ-RT-20240105-82.tif (1701, 605) uint16",
+  "rot90": 0,
+  "dx": 7442,
+  "dy": 3,
+  "n_matched": 2,
+  "n_crop_polys": 3
+ },
+ {
+  "crop": "B_DJ-RT-20240105-83",
+  "exposure": "DJ-RT-20240105-83",
+  "status": "written B_DJ-RT-20240105-83.tif (1120, 423) uint16",
+  "rot90": 0,
+  "dx": 3943,
+  "dy": 2,
+  "n_matched": 6,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "B_DJ-RT-20240105-84",
+  "exposure": "DJ-RT-20240105-84",
+  "status": "written B_DJ-RT-20240105-84.tif (1169, 367) uint16",
+  "rot90": 0,
+  "dx": 3995,
+  "dy": 4,
+  "n_matched": 2,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "B_DJ-RT-20240105-85",
+  "exposure": "DJ-RT-20240105-85",
+  "status": "written B_DJ-RT-20240105-85.tif (1700, 476) uint16",
+  "rot90": 0,
+  "dx": 301,
+  "dy": 4,
+  "n_matched": 17,
+  "n_crop_polys": 19
+ },
+ {
+  "crop": "B_DJ-RT-20240105-87",
+  "exposure": "DJ-RT-20240105-87",
+  "status": "written B_DJ-RT-20240105-87.tif (1199, 511) uint16",
+  "rot90": 0,
+  "dx": 4020,
+  "dy": 3,
+  "n_matched": 7,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "B_DJ-RT-20240105-9",
+  "exposure": "DJ-RT-20240105-9",
+  "status": "written B_DJ-RT-20240105-9.tif (1692, 629) uint16",
+  "rot90": 0,
+  "dx": 582,
+  "dy": 12,
+  "n_matched": 4,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "B_DJ-RT-20240105-92",
+  "exposure": "DJ-RT-20240105-92",
+  "status": "written B_DJ-RT-20240105-92.tif (1790, 580) uint16",
+  "rot90": 0,
+  "dx": 215,
+  "dy": 5,
+  "n_matched": 7,
+  "n_crop_polys": 9
+ },
+ {
+  "crop": "B_DJ-RT-20240105-93",
+  "exposure": "DJ-RT-20240105-93",
+  "status": "written B_DJ-RT-20240105-93.tif (1751, 427) uint16",
+  "rot90": 0,
+  "dx": 7454,
+  "dy": 3,
+  "n_matched": 12,
+  "n_crop_polys": 12
+ },
+ {
+  "crop": "B_DJ-RT-20240105-94",
+  "exposure": "DJ-RT-20240105-94",
+  "status": "written B_DJ-RT-20240105-94.tif (1706, 631) uint16",
+  "rot90": 0,
+  "dx": 7474,
+  "dy": 3,
+  "n_matched": 1,
+  "n_crop_polys": 2
+ },
+ {
+  "crop": "B_DJ-RT-20240105-95",
+  "exposure": "DJ-RT-20240105-95",
+  "status": "written B_DJ-RT-20240105-95.tif (1793, 448) uint16",
+  "rot90": 0,
+  "dx": 238,
+  "dy": 3,
+  "n_matched": 3,
+  "n_crop_polys": 4
+ },
+ {
+  "crop": "B_DJ-RT-20240105-96",
+  "exposure": "DJ-RT-20240105-96",
+  "status": "written B_DJ-RT-20240105-96.tif (1774, 586) uint16",
+  "rot90": 0,
+  "dx": 305,
+  "dy": 3,
+  "n_matched": 13,
+  "n_crop_polys": 14
+ },
+ {
+  "crop": "B_DJ-RT-20240105-97",
+  "exposure": "DJ-RT-20240105-97",
+  "status": "written B_DJ-RT-20240105-97.tif (1706, 569) uint16",
+  "rot90": 0,
+  "dx": 349,
+  "dy": 2,
+  "n_matched": 7,
+  "n_crop_polys": 8
+ },
+ {
+  "crop": "B_DJ-RT-20240105-98",
+  "exposure": "DJ-RT-20240105-98",
+  "status": "written B_DJ-RT-20240105-98.tif (1009, 451) uint16",
+  "rot90": 0,
+  "dx": 2966,
+  "dy": 4,
+  "n_matched": 3,
+  "n_crop_polys": 5
+ },
+ {
+  "crop": "B_DJ-RT-20240105-99",
+  "exposure": "DJ-RT-20240105-99",
+  "status": "written B_DJ-RT-20240105-99.tif (1093, 473) uint16",
+  "rot90": 0,
+  "dx": 3943,
+  "dy": 5,
+  "n_matched": 12,
+  "n_crop_polys": 13
+ }
+]
