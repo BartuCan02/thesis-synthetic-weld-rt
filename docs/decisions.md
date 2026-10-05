@@ -46,3 +46,24 @@ Thesis work moves out of the deeplify monorepo into this repo. Reason: SWRD-only
 Deeplify, and the proposal build scripts were lost with a session scratchpad. Only the PDFs survive; v0.3
 must be rebuilt as source under `docs/proposal/` (not done yet). Deeplify's segmentation framework stays a
 pinned dependency, not a copy.
+
+## 2026-10-02 — Bartu — WP1 starts by reproducing the SWRD paper's baseline, not Deeplify's
+The first WP1 deliverable is a reproduction of the YOLOv8 detection baseline published with SWRD (Zhao et al. 2025,
+Table 5: YOLOv8m mAP50 0.66265 / mAP50-95 0.44827), rebuilt from the raw release files (cropped 16-bit TIFF + LabelMe
+JSON) in a self-contained folder `swrd_paper_baseline/` with its own `uv` project (Ultralytics). Nothing is reused from
+Deeplify's derived datasets (SWRD v7) or its January SWRD scripts. The March-2026 Deeplify SegFormer run is kept as a
+reference number only (facts verified today in `experiments/wp1_benchmark/deeplify_march_baseline_facts.md`); the
+plan to re-train it was dropped. Paper protocol and its gaps: `docs/literature/zhao2025_swrd.md`. Step plan and the
+open parameter decisions D1–D9: `swrd_paper_baseline/README.md` (awaiting approval).
+
+## 2026-10-02 — Bartu — the 190 unpublished SWRD crops are reconstructed from the originals
+The SWRD release (`SWXD_Data.zip`, 124,398,609,179 bytes; Deeplify's `s3://swdr/cropped/` is a faithful copy)
+ships 4,740 weld-crop images but 4,930 label files: all 190 crops of `crop_weld_jsons/T/2/` (films
+`DJ-RT-20240105-*`) have no image. The paper's 4,930 was the authors' local set. Decision: rebuild them from the
+uncropped originals (`Raw_data/images`, present in the mirror) by recovering each crop's offset from the polygon
+translation between the cropped and the original label file, then cutting the original TIFF. Validated on 80
+released T-joint crops (40 A_, 40 B_): all 80 pixel-identical, no rotation. All 190 rebuilt (`rot90=0`, every
+crop matched ≥ 1 polygon). Script `swrd_paper_baseline/scripts/reconstruct_missing_crops.py`; logs in
+`swrd_paper_baseline/results/`. The 3,679 original-film label files were fetched from the archive by HTTP range
+(`fetch_from_official_zip.py`), 10 MB. The authors are being asked to publish the images and the unstated
+preprocessing parameters (drafts in `swrd_paper_baseline/results/`).

@@ -1,0 +1,12 @@
+# Ultralytics data file for the 6-class SWRD detection task. Paths are filled in by scripts/03_split.py.
+# Class order follows the paper (Fig. 4 / Table 2). Mask-free: YOLO detect needs boxes only.
+path: /home/ec2-user/swrd_paper_baseline/data/yolo   # set on the box
+train: images/train
+val: images/val
+names:
+  0: porosity
+  1: inclusion
+  2: crack
+  3: undercut
+  4: lack_of_fusion
+  5: lack_of_penetration

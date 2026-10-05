@@ -1,0 +1,37 @@
+{
+  "params": {
+    "side_fraction": 0.5,
+    "overlap": 0.5,
+    "edge": "drop",
+    "min_side_px": 4,
+    "min_visible_frac": 0.1,
+    "min_tile_frac": 0.005,
+    "exclude_from_negatives": [
+      "焊瘤",
+      "内凹"
+    ],
+    "skip_duplicates": true
+  },
+  "n_images": 4894,
+  "n_tiles": 441304,
+  "n_tiles_with_box": 84874,
+  "n_tiles_touching_defect": 89445,
+  "n_clean_tiles": 351859,
+  "paper_positive_tiles": 80648,
+  "instances_per_class": {
+    "porosity": 109491,
+    "inclusion": 9941,
+    "crack": 14082,
+    "undercut": 1067,
+    "lack_of_fusion": 6897,
+    "lack_of_penetration": 18843
+  },
+  "table2_paper": {
+    "porosity": 102927,
+    "inclusion": 9141,
+    "crack": 13515,
+    "undercut": 1015,
+    "lack_of_fusion": 6862,
+    "lack_of_penetration": 20422
+  }
+}

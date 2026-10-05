@@ -1,0 +1,31 @@
+[project]
+name = "swrd-paper-baseline"
+version = "0.0.1"
+description = "Reproduction of the SWRD paper's YOLOv8 detection baseline (Zhao et al. 2025) from the raw release files"
+requires-python = "==3.12.*"
+dependencies = [
+    "ultralytics==8.4.171",
+    "torch==2.14.1",
+    "torchvision==0.29.1",
+    "tifffile==2026.9.20",
+    "imagecodecs==2026.8.16",  # LZW-compressed originals in Raw_data
+    "opencv-python-headless==5.0.0.93",
+    "numpy==2.5.3",
+    "pyyaml==6.0.3",
+    "boto3==1.43.107",
+    "clearml==2.1.12",
+    "tqdm==4.70.1",
+    "requests==2.34.2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.1.1", "ruff==0.16.10"]
+
+# ultralytics declares opencv-python (GUI build); we only want the headless build on the box.
+# Verify at the first `uv sync` that this override takes and that torch 2.14 CUDA wheels support the T4 (sm_75).
+[tool.uv]
+override-dependencies = ["opencv-python; sys_platform == 'never'"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
