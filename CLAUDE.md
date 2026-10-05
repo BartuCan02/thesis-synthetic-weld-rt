@@ -109,8 +109,11 @@ before taking logs; replicate that.
 - Training uses Deeplify's segmentation framework at `deeplify/ml/training/segmentation` (SegFormer/UNet,
   Lightning, ClearML). Pin the deeplify commit used in `experiments/README.md`; do not copy the framework here.
 - SWRD preprocessing scripts already exist at `deeplify/ml/training/weld_defect_detection/data_processing_swrd/`.
-- Runs go to the ClearML server via the data-management EC2 box (see memory: data-mgmt-ec2-access). Clone this
-  repo on the box next to `~/deeplify`.
+- Runs go to the ClearML server via the data-management EC2 box (see memory: data-mgmt-ec2-access). The repo is
+  checked out on the box at `~/thesis` (branch of the day), tracking the bare repo `~/thesis.git` there. There is no
+  GitHub remote yet. Sync: on the laptop `git push box <branch>`, on the box `git -C ~/thesis pull --ff-only`.
+  Code for ClearML agents is sent as standalone scripts (`Task.init` + `execute_remotely`), so the agents never
+  need to clone this repo.
 - **Bartu launches long runs himself.** Hand over the exact command; do not auto-launch training.
 - Python via `uv`, exact version pins (`==`), Python 3.12. Ruff for lint/format.
 - Manuscript is LaTeX in `thesis/`.
