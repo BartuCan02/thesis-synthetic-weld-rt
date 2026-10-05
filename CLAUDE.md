@@ -5,7 +5,7 @@ Deeplify product monorepo at `~/Desktop/Deeplify/deeplify`. Open thesis sessions
 
 **Title:** Realistic Synthetic Data Generation for Defective Radiographic Testing Scans of Welds
 **Where:** Deeplify GmbH (industrial) + TUM (academic)
-**Dates:** start Mon 28 Sep 2026, submission Fri 26 Mar 2027 (26 weeks). Fortnightly supervisor meetings.
+**Dates:** start Mon 28 Sep 2026, submission Fri 30 Mar 2027 (26 weeks). Fortnightly supervisor meetings.
 
 ## Read first, every session
 
