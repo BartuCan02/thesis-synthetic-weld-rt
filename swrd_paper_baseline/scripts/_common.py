@@ -42,7 +42,18 @@ LABEL_TO_CLASS: dict[str, int] = {
     "咬边": 3,  # undercut
     "未熔合": 4,  # lack of fusion
     "未焊透": 5,  # lack of penetration
+    # English canonical names, written by export_customer_films.py for Deeplify's customer films.
+    "porosity": 0,
+    "inclusion": 1,
+    "crack": 2,
+    "undercut": 3,
+    "lack_of_fusion": 4,
+    "lack_of_penetration": 5,
 }
+#: Label written by export_customer_films.py for weld-defect classes outside the six (burn-through,
+#: spatter, excess material, ...). Never a training label; tiles it touches are excluded from the
+#: negatives with ``01_tile.py --exclude-from-negatives other_defect``.
+OTHER_DEFECT_LABEL = "other_defect"
 
 # Paper's numbers we test ourselves against.
 FIG4_INSTANCES_ORIGINAL: dict[str, int] = {  # Fig. 4, on the original films

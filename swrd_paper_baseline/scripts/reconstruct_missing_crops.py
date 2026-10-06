@@ -158,7 +158,9 @@ def main() -> None:
         help="crop json folder (relative to raw-dir) whose images are missing; write them",
     )
     ap.add_argument("--out-dir", type=Path, help="destination for --rebuild")
-    ap.add_argument("--glob", default="*.json", help="which label files in the folder, e.g. 'B_*.json'")
+    ap.add_argument(
+        "--glob", default="*.json", help="which label files in the folder, e.g. 'B_*.json'"
+    )
     ap.add_argument("--limit", type=int, default=None)
     args = ap.parse_args()
     if args.rebuild and not args.out_dir:

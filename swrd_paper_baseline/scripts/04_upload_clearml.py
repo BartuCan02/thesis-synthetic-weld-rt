@@ -34,9 +34,7 @@ def main() -> None:
         required=True,
         help="holds inventory_report.md, tiles_summary.json, split_*.json",
     )
-    ap.add_argument(
-        "--project", default="thesis_benchmark", help="ClearML project (the 'folder')"
-    )
+    ap.add_argument("--project", default="thesis_benchmark", help="ClearML project (the 'folder')")
     ap.add_argument("--name", default="swrd-paper-tiles")
     ap.add_argument("--version", default="1.0.0")
     ap.add_argument("--output-uri", default=DEFAULT_OUTPUT_URI)
