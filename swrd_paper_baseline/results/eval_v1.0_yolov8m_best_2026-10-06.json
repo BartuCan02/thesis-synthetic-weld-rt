@@ -1,0 +1,27 @@
+{
+  "weights": "/home/ec2-user/.clearml/cache/storage_manager/global/fdf5d484a5a800eab28cba275a1aaf91.best.pt",
+  "model_id": "83f25a1579b14da793e453ef6f99736b",
+  "dataset": "/home/ec2-user/swrd_paper_baseline/data/yolo_v1.0_papergrid",
+  "split_file": "tile-level (dataset val folder)",
+  "n_val_images": 9136,
+  "mAP50": 0.7299258042423934,
+  "mAP50-95": 0.46221996326093695,
+  "precision": 0.7654605629214597,
+  "recall": 0.6552852714482384,
+  "per_class_AP50": {
+    "porosity": 0.8654292636911979,
+    "inclusion": 0.6205993913242057,
+    "crack": 0.7044608239934499,
+    "undercut": 0.6352044931998543,
+    "lack_of_fusion": 0.694545300625063,
+    "lack_of_penetration": 0.8593155526205899
+  },
+  "per_class_AP50-95": {
+    "porosity": 0.5466816734239626,
+    "inclusion": 0.37881828882468727,
+    "crack": 0.4322213618838527,
+    "undercut": 0.3756648427127073,
+    "lack_of_fusion": 0.44554528559325507,
+    "lack_of_penetration": 0.5943883271271564
+  }
+}

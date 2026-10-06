@@ -220,11 +220,23 @@ def main() -> None:
     )
 
     # ---- summary: best epoch metrics, per-class AP, where the weights are -----------------------------
-    run_dir = (
-        Path(results.save_dir)
-        if results is not None and hasattr(results, "save_dir")
-        else args.runs_dir / args.name
-    )
+    # Under DDP, Ultralytics returns a save_dir relative to the agent's cwd (runs/detect/<runs_dir>/<name>);
+    # resolve it from the trainer, fall back to a search, and never let the summary step fail the task.
+    run_dir = None
+    for cand in (
+        getattr(getattr(model, "trainer", None), "save_dir", None),
+        getattr(results, "save_dir", None) if results is not None else None,
+        args.runs_dir / args.name,
+        Path("runs") / "detect" / args.runs_dir / args.name,
+    ):
+        if cand and (Path(cand) / "weights").is_dir():
+            run_dir = Path(cand)
+            break
+    if run_dir is None:
+        hits = sorted(Path(".").glob(f"**/{args.name}/weights/best.pt"))
+        run_dir = hits[0].parents[1] if hits else args.runs_dir / args.name
+    run_dir.mkdir(parents=True, exist_ok=True)
+    print(f"[train] run_dir resolved to {run_dir}")
     summary = {
         "run_dir": str(run_dir),
         "args": {k: (str(v) if isinstance(v, Path) else v) for k, v in vars(args).items()},

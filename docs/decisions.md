@@ -67,3 +67,12 @@ crop matched ≥ 1 polygon). Script `swrd_paper_baseline/scripts/reconstruct_mis
 `swrd_paper_baseline/results/`. The 3,679 original-film label files were fetched from the archive by HTTP range
 (`fetch_from_official_zip.py`), 10 MB. The authors are being asked to publish the images and the unstated
 preprocessing parameters (drafts in `swrd_paper_baseline/results/`).
+
+## 2026-10-06 — Bartu — SWRD paper baseline reproduced; numbers land above the paper
+YOLOv8n and YOLOv8m trained on `swrd-paper-tiles 1.0.0` with the paper's effective batch (480 via Ultralytics `nbs`,
+weight decay 0.00375): n 0.576 / 0.335, m 0.730 / 0.462 (mAP50 / mAP50-95, best epoch) vs the paper's 0.482 / 0.287
+and 0.663 / 0.448. Ranking and peak epochs match; absolute numbers are higher. Accepted as the WP1 reference for
+"what the paper's recipe gives on this data". Unexplained part of the gap (label-border rule, CLAHE/stretch
+parameters, Ultralytics version) stays documented, not chased, unless the authors reply. Compute lesson: use all
+4 GPUs of the multi-gpu agent (DDP finished cleanly; the old teardown hang did not occur). Next: film-level split
+retrain of n (thesis protocol, step 5) and the full-coverage grid v1.1.

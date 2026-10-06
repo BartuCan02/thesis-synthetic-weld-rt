@@ -4,7 +4,7 @@ Self-contained folder (own `uv` project) for WP1's first deliverable: re-run the
 with the dataset — Zhao et al., J. Nondestructive Evaluation 44:50 (2025), `docs/literature/zhao2025_swrd.md` —
 starting from the raw release files, with nothing reused from Deeplify's derived datasets or scripts.
 
-Status 2026-10-02: **steps 1–2 done on the full 4,930-image set** (190 unpublished T/2 crops reconstructed from the originals, see `results/step1_step2_findings_2026-10-02.md`). Step 3 done: v1.0 rendered (159,914 tiles) and uploaded as ClearML dataset `de772ad9363c4067bed5835e13a9be81`; integrity check clean (`results/check_report_v1.0_2026-10-03.md`). YOLOv8n smoke runs passed on the box and on the multi-gpu agent. Step 4: YOLOv8n 100 epochs, launch command handed to Bartu 2026-10-03. Batch size to be tuned at training time. Every step ends with a gate that Bartu ticks
+Status 2026-10-02: **steps 1–2 done on the full 4,930-image set** (190 unpublished T/2 crops reconstructed from the originals, see `results/step1_step2_findings_2026-10-02.md`). Step 3 done: v1.0 rendered (159,914 tiles) and uploaded as ClearML dataset `de772ad9363c4067bed5835e13a9be81`; integrity check clean (`results/check_report_v1.0_2026-10-03.md`). YOLOv8n smoke runs passed on the box and on the multi-gpu agent. Step 4 done 2026-10-06: YOLOv8n 0.576/0.335 and YOLOv8m 0.730/0.462 (paper 0.482/0.287 and 0.663/0.448); see `experiments/wp1_benchmark/README.md`. Next: step 5 (film-level split retrain) and v1.1 (flush grid). Batch size to be tuned at training time. Every step ends with a gate that Bartu ticks
 before the next one starts. Code is written one script at a time and reviewed before it runs.
 
 ## Target numbers (paper, Table 5, on their random 10 % tile split)
