@@ -4,6 +4,8 @@ Self-contained folder (own `uv` project) for WP1's first deliverable: re-run the
 with the dataset — Zhao et al., J. Nondestructive Evaluation 44:50 (2025), `docs/literature/zhao2025_swrd.md` —
 starting from the raw release files, with nothing reused from Deeplify's derived datasets or scripts.
 
+Status 2026-10-05 (box session): side run for Felix prepared, see *SWRD + customer films* below. Note: customer data is outside the thesis scope (decisions 2026-09-15); the side run is Deeplify-internal.
+
 Status 2026-10-02: **steps 1–2 done on the full 4,930-image set** (190 unpublished T/2 crops reconstructed from the originals, see `results/step1_step2_findings_2026-10-02.md`). Step 3 done: v1.0 rendered (159,914 tiles) and uploaded as ClearML dataset `de772ad9363c4067bed5835e13a9be81`; integrity check clean (`results/check_report_v1.0_2026-10-03.md`). YOLOv8n smoke runs passed on the box and on the multi-gpu agent. Step 4 done 2026-10-06: YOLOv8n 0.576/0.335 and YOLOv8m 0.730/0.462 (paper 0.482/0.287 and 0.663/0.448); see `experiments/wp1_benchmark/README.md`. Next: step 5 (film-level split retrain) and v1.1 (flush grid). Batch size to be tuned at training time. Every step ends with a gate that Bartu ticks
 before the next one starts. Code is written one script at a time and reviewed before it runs.
 
@@ -88,6 +90,40 @@ Best-epoch mAP50 / mAP50-95, plus per-class AP (the paper has none). Then the fi
 re-score the same model on a **film-level** split to measure how much the tile-level split inflates the result.
 Results → `results/`, `experiments/wp1_benchmark/README.md`, `experiments/README.md`.
 
+## Side run: SWRD + customer films, scored on the SWRD val tiles (Felix, 2026-10-05)
+
+Felix's question: keep the paper's configuration, add Deeplify's customer films to the training set, evaluate on
+the same SWRD val tiles — does our data help or hurt? (He expects worse: SWRD looks lab-clean next to customer scans.)
+
+Customer films are made to look like SWRD release pairs, then the pipeline above runs on them unchanged:
+
+| step | script | runs where | what it fixes |
+|---|---|---|---|
+| 0 | `scripts/export_customer_films.py` | deeplify mlops env (Mongo + S3) — **Bartu runs it** | raw_extraction_16bit variant only; polarity canonicalised to SWRD's (metal bright); six-class mask from the dataset_builder readers; other weld-defect classes → `other_defect` polygons; crop = seam bbox + 0.1 × seam short side, grown to contain every label; films without a seam mask or without a six-class pixel are skipped and counted |
+| 1–4 | `scripts/run_customer_pipeline.sh` | this venv, the box | inventory → tile (edge drop, D7, `--exclude-from-negatives other_defect`) → select with `--val-ratio 0` (all tiles to train) → render (D5/D6) |
+| 5 | `scripts/07_merge_upload.py` | this venv, `AWS_PROFILE=data-rw` | ClearML child dataset of v1.0 `de772ad9…`: parent files untouched (val identical), customer tiles added to `images/train` only; refuses val tiles and id clashes |
+| 6 | `scripts/05_train.py` | box → `multi-gpu` queue | identical args to `4bca601e…` with the child dataset id |
+
+```
+cd ~/deeplify-wt-weldsuite/ml/scripts/mlops && AWS_PROFILE=data-rw uv run python ~/thesis/swrd_paper_baseline/scripts/export_customer_films.py \
+    --mlops-dir . --env-file ~/deeplify/ml/data_management/.env --sources oge aramco maroca \
+    --seam-mask-dir ~/seam_masks_defect_v2 --fallback-seam-mask-dir ~/seam_masks_defect --out ~/swrd_paper_baseline/data/raw_customer
+cd ~/thesis/swrd_paper_baseline && bash scripts/run_customer_pipeline.sh ~/swrd_paper_baseline/data/raw_customer customer_v1
+AWS_PROFILE=data-rw uv run python scripts/07_merge_upload.py --parent-id de772ad9363c4067bed5835e13a9be81 \
+    --customer-yolo-dir ~/swrd_paper_baseline/data/yolo_customer_v1 --customer-work-dir ~/swrd_paper_baseline/data/work_customer_v1 \
+    --raw-customer-dir ~/swrd_paper_baseline/data/raw_customer
+uv run python scripts/05_train.py --dataset-id <child id> --model yolov8m --epochs 100 --emulate-paper-batch --batch 96 \
+    --devices 0,1,2,3 --workers 10 --seed 0 --queue multi-gpu --name v1.0+customer-yolov8m-100ep-paperbatch-4gpu
+```
+
+Steps 1–5 were smoke-tested on 2026-10-05 with three SWRD films relabelled in English (144 tiles; merge dry run against
+the real parent passed). Step 0 could not be run by Claude: reads of the Mongo catalogue are blocked for it, so the
+export, its report (`<out>/export_report.json`) and the queueing are Bartu's. Unit tests: `tests/test_customer.py`.
+
+Readout: best.pt mAP50 / mAP50-95 and per-class AP50 of the +customer run against `4bca601e…` on the identical val set.
+Caveats to state with the number: the val split is tile-level; customer labels are still under audit at Deeplify;
+customer crops come from predicted seams, SWRD crops from the authors.
+
 ## Layout
 ```
 swrd_paper_baseline/
@@ -102,7 +138,9 @@ swrd_paper_baseline/
   scripts/04_upload_clearml.py step 3c  ClearML Dataset with metadata
   scripts/fetch_from_official_zip.py   HTTP-range reader for the official SWXD_Data.zip (list / fetch selected members)
   scripts/reconstruct_missing_crops.py rebuild unpublished crops from Raw_data originals (validated pixel-exact)
-  scripts/05_train.py, 06_eval.py   written when step 4 starts
+  scripts/05_train.py      step 4   Ultralytics training, ClearML task, remote queue
+  scripts/06_eval.py       step 5   score saved weights on the tile- or film-level val split
+  scripts/_customer.py, export_customer_films.py, run_customer_pipeline.sh, 07_merge_upload.py   side run (customer films)
   tests/test_common.py   unit tests for the window rule, the D7 box rule, the stretch
   results/               numbers, curves, tables (small files only; no images, no weights)
 ```
