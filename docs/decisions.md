@@ -76,3 +76,15 @@ and 0.663 / 0.448. Ranking and peak epochs match; absolute numbers are higher. A
 parameters, Ultralytics version) stays documented, not chased, unless the authors reply. Compute lesson: use all
 4 GPUs of the multi-gpu agent (DDP finished cleanly; the old teardown hang did not occur). Next: film-level split
 retrain of n (thesis protocol, step 5) and the full-coverage grid v1.1.
+
+## 2026-10-07 — Felix (suggestion, not yet decided) — remove defects from SWRD films to make paired data
+Felix removed a crack from an SWRD film with an image-editing tool and proposed: SWRD labels are accurate
+enough to remove the defect first, then use the original defective film as the target for the generation
+process, i.e. (defect-free, defective) pairs. Assessment so far: a masked-inpainting model does not need the
+removal step for training (the mask hides the defect anyway), but the pairs serve three other purposes:
+(1) clean host films at realistic positions for the physical-vs-naive A/B (only 353 films are natively
+defect-free), (2) a supervised target for the defect-perturbation residual in log space, which is the
+"learned generator + attenuation constraint" coupling of the novelty claim, (3) a paired held-out set to
+score generators against a real defective reference. Risk: removal artefacts become a shortcut the model
+learns. Check: run the March baseline / WP1 detector on removed films; residual detections = failed
+removals. Removal must run on raw16, not on 8-bit exports. Reading plan: `docs/literature/wp2_physics_reading_plan.md`.
