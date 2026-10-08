@@ -1,0 +1,25 @@
+{
+  "films": 600,
+  "pores": 13271,
+  "beta_background": 0.22812862873128875,
+  "beta_background_ci95": [
+    0.09343083162186036,
+    0.37999668072160037
+  ],
+  "beta_area": 0.24521890252704234,
+  "median_background": 29812.0,
+  "implied_offset_B": -100868.66101916286,
+  "reading": "beta~0: linear space; beta~1: log space with B~0; else log(I - B)",
+  "params": {
+    "raw": "/home/ec2-user/swrd_paper_baseline/data/raw",
+    "common_dir": "/home/ec2-user/thesis/swrd_paper_baseline/scripts",
+    "out": "pore_dip",
+    "max_films": "600",
+    "min_pores": "10",
+    "min_area": "30.0",
+    "ring_inner": "3",
+    "ring_outer": "9",
+    "bootstrap": "500",
+    "seed": "0"
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "space": "linear (Z = I)",
+  "params": {
+    "films": "/Users/bartu/Desktop/Deeplify/thesis/experiments/wp2_physics/trial_log_compositing/data/films",
+    "space": "linear",
+    "offset": "0.0",
+    "dilate": "6",
+    "denoise_sigma": "1.0",
+    "context": "90",
+    "no_contrast_scale": "False",
+    "seed": "0"
+  },
+  "items": [
+    {
+      "class": "porosity",
+      "source": "A_DJ-RT-20230721-149",
+      "host": "A_DJ-RT-20230106-86",
+      "polygon_area_px": 1754,
+      "patch_hw": [
+        95,
+        99
+      ],
+      "host_top_left": [
+        1382,
+        404
+      ],
+      "profile_match": 0.997,
+      "source_grain": 508.4,
+      "contrast_scale": 0.897,
+      "mean_dip_in_polygon": 1050.5
+    },
+    {
+      "class": "inclusion",
+      "source": "A_DJ-RT-20230718-13",
+      "host": "A_DJ-RT-T-20230803-35",
+      "polygon_area_px": 5379,
+      "patch_hw": [
+        150,
+        166
+      ],
+      "host_top_left": [
+        5577,
+        277
+      ],
+      "profile_match": 0.996,
+      "source_grain": 428.2,
+      "contrast_scale": 1.211,
+      "mean_dip_in_polygon": 1683.9
+    },
+    {
+      "class": "crack",
+      "source": "A_DJ-RT-20230711-1",
+      "host": "A_DJ-RT-T-20230803-46",
+      "polygon_area_px": 5672,
+      "patch_hw": [
+        85,
+        501
+      ],
+      "host_top_left": [
+        4463,
+        663
+      ],
+      "profile_match": 0.997,
+      "source_grain": 444.8,
+      "contrast_scale": 1.146,
+      "mean_dip_in_polygon": 804.4
+    },
+    {
+      "class": "undercut",
+      "source": "A_DJ-RT-20221215-33",
+      "host": "A_DJ-RT-T-20231007-21",
+      "polygon_area_px": 15592,
+      "patch_hw": [
+        105,
+        452
+      ],
+      "host_top_left": [
+        1570,
+        100
+      ],
+      "profile_match": 0.969,
+      "source_grain": 371.1,
+      "contrast_scale": 1.513,
+      "mean_dip_in_polygon": 1874.2
+    },
+    {
+      "class": "lack_of_fusion",
+      "source": "A_DJ-RT-20230321-44",
+      "host": "A_DJ-RT-20221228-12",
+      "polygon_area_px": 17834,
+      "patch_hw": [
+        105,
+        705
+      ],
+      "host_top_left": [
+        2985,
+        390
+      ],
+      "profile_match": 0.998,
+      "source_grain": 541.3,
+      "contrast_scale": 1.008,
+      "mean_dip_in_polygon": 1104.6
+    },
+    {
+      "class": "lack_of_penetration",
+      "source": "A_DJ-RT-20230328-40",
+      "host": "A_DJ-RT-20230110-58",
+      "polygon_area_px": 42474,
+      "patch_hw": [
+        205,
+        623
+      ],
+      "host_top_left": [
+        4797,
+        411
+      ],
+      "profile_match": 0.96,
+      "source_grain": 477.6,
+      "contrast_scale": 1.239,
+      "mean_dip_in_polygon": 1428.9
+    }
+  ]
+}
