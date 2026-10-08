@@ -289,6 +289,13 @@ def main() -> None:
         save("naive", naive[hy0:hy1, hx0:hx1], lo, hi)
         save("source", s_win, slo, shi)
         save("removed", cleaned_full[sy0:sy1, sx0:sx1], slo, shi)
+        # the defect alone, drawn as a shadow on white: 0 change = white, strongest darkening = black
+        d_src = np.zeros(s_win.shape)
+        d_src[sy - sy0 : sy - sy0 + ph, sx - sx0 : sx - sx0 + pw] = patch.residual
+        d_host = phys[hy0:hy1, hx0:hx1].astype(np.float64) - h_win.astype(np.float64)
+        vmin = float(min(d_src.min(), d_host.min(), -1.0))
+        save("defect_src", d_src, vmin, 0.0)
+        save("defect_host", d_host, vmin, 0.0)
         panels_meta[cls] = {
             **item,
             "title": title,
