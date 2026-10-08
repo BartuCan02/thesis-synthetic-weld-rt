@@ -114,7 +114,9 @@ def main() -> None:
     hosts = manifest["hosts"]
     fig_dir, res_dir = HERE / "figures", HERE / "results"
     out_dir = HERE / "data" / "outputs"
-    for d in (fig_dir, res_dir, out_dir):
+    panel_dir = fig_dir / "panels"
+    panels_meta = {}
+    for d in (fig_dir, res_dir, out_dir, panel_dir):
         d.mkdir(parents=True, exist_ok=True)
 
     run = {"space": space.name, "params": {k: str(v) for k, v in vars(args).items()}, "items": []}
@@ -275,6 +277,27 @@ def main() -> None:
 
         overview.append((title, h_win, phys[hy0:hy1, hx0:hx1], naive[hy0:hy1, hx0:hx1], lo, hi))
 
+        # ---- individual 8-bit panels for the review page (same stretch within each row) ----------
+        def save(name: str, img: np.ndarray, a: float, b: float, cls: str = cls) -> None:
+            cv2.imwrite(
+                str(panel_dir / f"{cls}_{name}.png"),
+                np.rint(stretch(img, a, b) * 255).astype(np.uint8),
+            )
+
+        save("host", h_win, lo, hi)
+        save("physical", phys[hy0:hy1, hx0:hx1], lo, hi)
+        save("naive", naive[hy0:hy1, hx0:hx1], lo, hi)
+        save("source", s_win, slo, shi)
+        save("removed", cleaned_full[sy0:sy1, sx0:sx1], slo, shi)
+        panels_meta[cls] = {
+            **item,
+            "title": title,
+            "host_size": [hx1 - hx0, hy1 - hy0],
+            "source_size": [sx1 - sx0, sy1 - sy0],
+            "host_polygon": (new_pts - [hx0, hy0]).round(1).tolist(),
+            "source_polygon": (pts - [sx0, sy0]).round(1).tolist(),
+        }
+
     # ---- overview sheet ---------------------------------------------------------------------------
     rows = len(overview)
     fig, axes = plt.subplots(rows, 3, figsize=(13, 2.6 * rows), dpi=120)
@@ -287,6 +310,7 @@ def main() -> None:
     fig.savefig(fig_dir / "overview.png")
     plt.close(fig)
     (res_dir / "trial_run.json").write_text(json.dumps(run, indent=2, ensure_ascii=False))
+    (panel_dir / "panels.json").write_text(json.dumps(panels_meta, ensure_ascii=False))
 
 
 if __name__ == "__main__":
