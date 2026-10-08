@@ -1,6 +1,7 @@
 """Unit tests for the split and oversampling options of 05_train.py. Run: uv run pytest tests/test_train_sampling.py"""
 
 import importlib.util
+import sys
 from argparse import Namespace
 from pathlib import Path
 
@@ -12,6 +13,14 @@ _spec = importlib.util.spec_from_file_location(
 )
 train05 = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(train05)
+
+
+def test_split_defaults_to_film_and_tile_refuses_a_split_file(monkeypatch):
+    monkeypatch.setattr(sys, "argv", ["05_train.py", "--data-dir", "d", "--name", "t"])
+    assert train05.parse_args().split == "film"
+    monkeypatch.setattr(sys, "argv", sys.argv + ["--split", "tile", "--split-file", "s.json"])
+    with pytest.raises(SystemExit):
+        train05.parse_args()
 
 
 def test_exposure_of_merges_tjoint_halves_and_drops_the_window():
@@ -70,7 +79,7 @@ def _args(root: Path, runs: Path, **kw) -> Namespace:
     return Namespace(**(base | kw), runs_dir=runs, name="t")
 
 
-def test_default_trains_from_the_dataset_folder_untouched(tmp_path):
+def test_tile_split_without_rfs_trains_from_the_dataset_folder_untouched(tmp_path):
     root = tmp_path / "ds"
     _fake_dataset(root)
     out, info = train05.resolve_data_yaml(_args(root, tmp_path / "runs"))

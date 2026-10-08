@@ -12,27 +12,30 @@ What batch size really does:   Ultralytics steps the optimizer once per ``nbs`` 
 What we add:                   ClearML task (scalars, per-class AP, best.pt as output model), a results JSON.
 
 Split and sampling (WP1 oversampling experiment, experiments/wp1_benchmark/oversampling_rfs.md):
-  --split tile         the dataset's own train/val folders = the paper's random 9:1 over tiles (default).
-  --split film         the same tiles re-split by original exposure: val = every tile of the exposures in
-                       split_films.json (02_select_split.py), train = all other tiles. The launching machine reads
-                       the file; the list of val exposures travels to the agent in the task's configuration.
+  --split film         (default, the thesis protocol) the tiles split by original exposure: val = every tile of
+                       the exposures in split_films.json (02_select_split.py), train = all other tiles. Needs
+                       --split-file. The launching machine reads the file; the list of val exposures travels to
+                       the agent in the task's configuration.
+  --split tile         the dataset's own train/val folders = the paper's random 9:1 over tiles. Use it to repeat
+                       the paper runs.
   --rfs-threshold t    repeat factor sampling (Gupta, Dollar, Girshick, LVIS, CVPR 2019): a class found in fewer
                        than a fraction t of the train tiles gets its tiles listed r = sqrt(t / share) times per
                        epoch. 0 = off (default).
-Any non-default choice trains from a folder of symlinks next to the run (<runs-dir>/<name>_view), so the
-downloaded dataset is never written to and the paper runs' label cache is left alone.
+Only --split tile without oversampling trains from the dataset folder as it is. Every other choice trains from a
+folder of symlinks next to the run (<runs-dir>/<name>_view), so the downloaded dataset is never written to and
+the paper runs' label cache is left alone.
 
 Data: a ClearML Dataset id (downloaded on whichever machine runs this; the data yaml path is rewritten to the
 local copy) or a local folder with ``swrd6.yaml``. Remote execution: ``--queue multi-gpu`` enqueues the task
 and exits; the agent runs the same script. The multi-gpu agent has 4x T4 and 48 vCPU; the 4 vCPUs of the data
 box are too few for Ultralytics' CPU-side augmentation at 144k images/epoch.
 
-Run (examples):
-  uv run python scripts/05_train.py --data-dir ~/swrd_paper_baseline/data/yolo_v1.0_papergrid --model yolov8n --epochs 1 --fraction 0.02 --name smoke
-  uv run python scripts/05_train.py --dataset-id <clearml id> --model yolov8n --queue multi-gpu --devices 0 --name v1.0-yolov8n
-  uv run python scripts/05_train.py --dataset-id <clearml id> --model yolov8m --queue multi-gpu --devices 0,1,2,3 --name v1.0-yolov8m
+Run (examples; the first three are the paper protocol, so they pass --split tile):
+  uv run python scripts/05_train.py --data-dir ~/swrd_paper_baseline/data/yolo_v1.0_papergrid --split tile --model yolov8n --epochs 1 --fraction 0.02 --name smoke
+  uv run python scripts/05_train.py --dataset-id <clearml id> --split tile --model yolov8n --queue multi-gpu --devices 0 --name v1.0-yolov8n
+  uv run python scripts/05_train.py --dataset-id <clearml id> --split tile --model yolov8m --queue multi-gpu --devices 0,1,2,3 --name v1.0-yolov8m
   uv run python scripts/05_train.py --dataset-id <clearml id> --split film --split-file ~/swrd_paper_baseline/data/work/split_films.json \
-      --rfs-threshold 0.1 --model yolov8n --queue multi-gpu --devices 0,1,2,3 --name v1.0-film-rfs0.1-yolov8n
+      --rfs-threshold 0.1 --model yolov8m --queue multi-gpu --devices 0,1,2,3 --name v1.0-film-rfs0.1-yolov8m
 """
 
 from __future__ import annotations
@@ -114,13 +117,15 @@ def parse_args() -> argparse.Namespace:
         "--split",
         default="film",
         choices=["tile", "film"],
-        help="tile = the dataset's own folders (paper); film = by exposure, from --split-file",
+        help="film (default, thesis protocol) = by exposure, from --split-file; "
+        "tile = the dataset's own folders (paper protocol)",
     )
     ap.add_argument(
         "--split-file",
         type=Path,
         default=None,
-        help="split_films.json from 02_select_split.py; read where it exists (the box), not on the agent",
+        help="split_films.json from 02_select_split.py, needed with --split film; read where it exists "
+        "(the box), not on the agent",
     )
     ap.add_argument(
         "--rfs-threshold",
@@ -249,7 +254,7 @@ def resolve_data_yaml(
 ) -> tuple[Path, dict]:
     """Return a data yaml whose paths point at a local copy of the tiles, and what went into train/val.
 
-    Default (tile split, no oversampling): the dataset folder as it is, as in the paper runs.
+    Tile split without oversampling (the paper runs): the dataset folder as it is.
     Otherwise: a symlink view of the dataset with the chosen split; with RFS, train is a list file in
     which each tile appears once per copy (Ultralytics keeps repeated lines).
     """

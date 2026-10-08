@@ -142,8 +142,9 @@ of the sampling, a different technique and a possible later arm.
 ## Code
 
 - `swrd_paper_baseline/scripts/05_train.py`: new flags `--split {tile,film}`, `--split-file`, `--rfs-threshold`.
-  With none of them set, training is exactly as in the paper runs. Any non-default choice builds a symlink copy of
-  the dataset layout next to the run (`runs/<name>_view`). The downloaded dataset is never written to.
+  `--split` defaults to `film` (Bartu, 2026-10-08), so a launch without `--split tile` needs `--split-file`.
+  `--split tile` without oversampling trains exactly as in the paper runs. Every other choice builds a symlink copy
+  of the dataset layout next to the run (`runs/<name>_view`). The downloaded dataset is never written to.
   Also new: `Task.force_store_standalone_script()`, because the box checkout is now a git clone whose origin is a
   path the agent cannot reach.
 - `swrd_paper_baseline/tests/test_train_sampling.py`: the RFS formula, the rounding, the film split and the view.

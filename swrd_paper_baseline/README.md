@@ -112,7 +112,7 @@ cd ~/thesis/swrd_paper_baseline && bash scripts/run_customer_pipeline.sh ~/swrd_
 AWS_PROFILE=data-rw uv run python scripts/07_merge_upload.py --parent-id de772ad9363c4067bed5835e13a9be81 \
     --customer-yolo-dir ~/swrd_paper_baseline/data/yolo_customer_v1 --customer-work-dir ~/swrd_paper_baseline/data/work_customer_v1 \
     --raw-customer-dir ~/swrd_paper_baseline/data/raw_customer
-uv run python scripts/05_train.py --dataset-id <child id> --model yolov8m --epochs 100 --emulate-paper-batch --batch 96 \
+uv run python scripts/05_train.py --dataset-id <child id> --split tile --model yolov8m --epochs 100 --emulate-paper-batch --batch 96 \
     --devices 0,1,2,3 --workers 10 --seed 0 --queue multi-gpu --name v1.0+customer-yolov8m-100ep-paperbatch-4gpu
 ```
 
