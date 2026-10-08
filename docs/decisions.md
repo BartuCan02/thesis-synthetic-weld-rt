@@ -95,7 +95,9 @@ synthetic rebalancing must beat (M1, classical baselines). Design: repeat factor
 LVIS, CVPR 2019) with threshold t = 0.1, i.e. undercut ×4.4, lack of fusion ×1.7, inclusion ×1.5, crack ×1.2,
 +7.7 % tiles per epoch. Film-level split (`split_films.json`); two YOLOv8m runs, identical except the sampling
 (Bartu chose m only; an n pair was dropped). The run without oversampling is also the planned step-5 film-split
-retrain. Film split, not tile split, because oversampling repeats train tiles whose
+retrain and becomes the film-split YOLOv8m baseline that later detection results are compared against. Open for M1:
+whether the thesis benchmark is detection (mAP) or segmentation (per-class IoU, as RQ4 in proposal v0.2 says); any
+later baseline reuses the same `split_films.json`. Film split, not tile split, because oversampling repeats train tiles whose
 half-overlapping neighbours sit in the tile-split val set. Plan and commands:
 `experiments/wp1_benchmark/oversampling_rfs.md`; code on branch `wp1-oversampling-rfs`.
 Found on the way: since the box checkout became a git clone, a launch from `~/thesis` records the repo
