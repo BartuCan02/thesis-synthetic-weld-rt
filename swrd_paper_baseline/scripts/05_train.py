@@ -11,6 +11,17 @@ What batch size really does:   Ultralytics steps the optimizer once per ``nbs`` 
                                = paper_batch / batch). Only BatchNorm statistics still see the smaller batch.
 What we add:                   ClearML task (scalars, per-class AP, best.pt as output model), a results JSON.
 
+Split and sampling (WP1 oversampling experiment, experiments/wp1_benchmark/oversampling_rfs.md):
+  --split tile         the dataset's own train/val folders = the paper's random 9:1 over tiles (default).
+  --split film         the same tiles re-split by original exposure: val = every tile of the exposures in
+                       split_films.json (02_select_split.py), train = all other tiles. The launching machine reads
+                       the file; the list of val exposures travels to the agent in the task's configuration.
+  --rfs-threshold t    repeat factor sampling (Gupta, Dollar, Girshick, LVIS, CVPR 2019): a class found in fewer
+                       than a fraction t of the train tiles gets its tiles listed r = sqrt(t / share) times per
+                       epoch. 0 = off (default).
+Any non-default choice trains from a folder of symlinks next to the run (<runs-dir>/<name>_view), so the
+downloaded dataset is never written to and the paper runs' label cache is left alone.
+
 Data: a ClearML Dataset id (downloaded on whichever machine runs this; the data yaml path is rewritten to the
 local copy) or a local folder with ``swrd6.yaml``. Remote execution: ``--queue multi-gpu`` enqueues the task
 and exits; the agent runs the same script. The multi-gpu agent has 4x T4 and 48 vCPU; the 4 vCPUs of the data
@@ -20,13 +31,19 @@ Run (examples):
   uv run python scripts/05_train.py --data-dir ~/swrd_paper_baseline/data/yolo_v1.0_papergrid --model yolov8n --epochs 1 --fraction 0.02 --name smoke
   uv run python scripts/05_train.py --dataset-id <clearml id> --model yolov8n --queue multi-gpu --devices 0 --name v1.0-yolov8n
   uv run python scripts/05_train.py --dataset-id <clearml id> --model yolov8m --queue multi-gpu --devices 0,1,2,3 --name v1.0-yolov8m
+  uv run python scripts/05_train.py --dataset-id <clearml id> --split film --split-file ~/swrd_paper_baseline/data/work/split_films.json \
+      --rfs-threshold 0.1 --model yolov8n --queue multi-gpu --devices 0,1,2,3 --name v1.0-film-rfs0.1-yolov8n
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
+import random
+import shutil
+from collections import Counter
 from pathlib import Path
 
 import yaml
@@ -94,35 +111,237 @@ def parse_args() -> argparse.Namespace:
         help="override weight decay (Ultralytics default 0.0005)",
     )
     ap.add_argument(
+        "--split",
+        default="tile",
+        choices=["tile", "film"],
+        help="tile = the dataset's own folders (paper); film = by exposure, from --split-file",
+    )
+    ap.add_argument(
+        "--split-file",
+        type=Path,
+        default=None,
+        help="split_films.json from 02_select_split.py; read where it exists (the box), not on the agent",
+    )
+    ap.add_argument(
+        "--rfs-threshold",
+        type=float,
+        default=0.0,
+        help="repeat factor sampling threshold t (LVIS); classes in fewer than t of the train tiles "
+        "are oversampled; 0 = off",
+    )
+    ap.add_argument(
         "--name", required=True, help="run name (ClearML task name and local run folder)"
     )
     ap.add_argument(
         "--queue", default="", help="ClearML queue for remote execution; empty = run here"
     )
     ap.add_argument("--runs-dir", type=Path, default=Path("runs"))
-    return ap.parse_args()
+    args = ap.parse_args()
+    if args.split_file and args.split != "film":
+        ap.error("--split-file only applies to --split film")
+    if not 0.0 <= args.rfs_threshold < 1.0:
+        ap.error("--rfs-threshold is a fraction of tiles: 0 <= t < 1")
+    return args
 
 
-def resolve_data_yaml(args: argparse.Namespace) -> Path:
-    """Return a data yaml whose paths point at a local copy of the tiles."""
+def exposure_of(tile_id: str) -> str:
+    """Original exposure of a tile: the image stem before '__', T-joint halves A_/B_ merged.
+
+    Same rule as ``_common.exposure_id``, repeated here because the agent receives this file alone.
+    """
+    stem = tile_id.split("__")[0]
+    return stem[2:] if stem[:2] in ("A_", "B_") else stem
+
+
+def connect_film_split(task, split_file: Path | None) -> dict:
+    """Store the film split in the task, so the agent can rebuild it without the split file.
+
+    Where ``split_file`` exists (the box, at launch) its val exposures go into the task's configuration
+    "film_split". On the agent the file does not exist, and ClearML returns the stored copy instead.
+    """
+    local = {"val_exposures": [], "expected_val_tiles": 0, "source": ""}
+    if split_file and Path(split_file).is_file():
+        split = json.loads(Path(split_file).read_text())
+        local = {
+            "val_exposures": sorted({exposure_of(t) for t in split["val"]}),
+            "expected_val_tiles": len(split["val"]),
+            "source": str(split_file),
+        }
+    cfg = task.connect_configuration(local, name="film_split")
+    if not cfg.get("val_exposures"):
+        raise SystemExit("--split film needs --split-file pointing at an existing split_films.json")
+    return {k: cfg[k] for k in ("val_exposures", "expected_val_tiles", "source")}
+
+
+def assign_parts(root: Path, val_exposures: set[str] | None) -> dict[str, list[Path]]:
+    """Every tile image of the dataset, grouped into train and val.
+
+    ``None`` keeps the dataset's own folders. A set of exposures puts every tile of those exposures into
+    val, whichever folder it sits in, and every other tile into train.
+    """
+    images = sorted(p for part in ("train", "val") for p in (root / "images" / part).glob("*.png"))
+    if val_exposures is None:
+        return {part: [p for p in images if p.parent.name == part] for part in ("train", "val")}
+    return {
+        "train": [p for p in images if exposure_of(p.stem) not in val_exposures],
+        "val": [p for p in images if exposure_of(p.stem) in val_exposures],
+    }
+
+
+def label_of(root: Path, image: Path) -> Path:
+    return root / "labels" / image.parent.name / f"{image.stem}.txt"
+
+
+def tile_classes(label_file: Path) -> set[int]:
+    """Class ids present in one YOLO label file (an empty file = a defect-free tile)."""
+    return {int(line.split()[0]) for line in label_file.read_text().splitlines() if line.strip()}
+
+
+def repeat_factors(
+    classes_per_tile: list[set[int]], threshold: float
+) -> tuple[list[float], dict[int, float]]:
+    """Repeat factor sampling (LVIS, Gupta et al. 2019).
+
+    share_c  = fraction of train tiles that contain class c
+    r_c      = max(1, sqrt(threshold / share_c))      a class above the threshold keeps r_c = 1
+    r_tile   = max of r_c over the classes in the tile (1 for a defect-free tile)
+    """
+    n = len(classes_per_tile)
+    tiles_with = Counter(c for cs in classes_per_tile for c in cs)
+    r_class = {c: max(1.0, math.sqrt(threshold / (k / n))) for c, k in sorted(tiles_with.items())}
+    r_tile = [max((r_class[c] for c in cs), default=1.0) for cs in classes_per_tile]
+    return r_tile, r_class
+
+
+def round_repeats(r_tile: list[float], seed: int) -> list[int]:
+    """Whole copies per tile: floor(r), plus one more with probability r - floor(r).
+
+    LVIS redraws this every epoch. A file list is fixed, so it is drawn once, with a fixed seed.
+    """
+    rng = random.Random(seed)
+    return [int(r) + int(rng.random() < r - int(r)) for r in r_tile]
+
+
+def class_table(
+    classes_per_tile: list[set[int]], copies: list[int], r_class: dict[int, float], names: dict
+) -> list[dict]:
+    """Per class: train tiles, their share, the repeat factor, and how often the class is seen per epoch."""
+    n = len(classes_per_tile)
+    rows = []
+    for c, name in names.items():
+        tiles = sum(1 for cs in classes_per_tile if c in cs)
+        per_epoch = sum(k for cs, k in zip(classes_per_tile, copies) if c in cs)
+        rows.append(
+            {
+                "class": name,
+                "train_tiles": tiles,
+                "share_of_tiles": round(tiles / n, 4),
+                "r_class": round(r_class.get(c, 1.0), 3),
+                "tiles_per_epoch": per_epoch,
+                "x_vs_no_oversampling": round(per_epoch / tiles, 3) if tiles else None,
+            }
+        )
+    return rows
+
+
+def resolve_data_yaml(
+    args: argparse.Namespace, film_split: dict | None = None
+) -> tuple[Path, dict]:
+    """Return a data yaml whose paths point at a local copy of the tiles, and what went into train/val.
+
+    Default (tile split, no oversampling): the dataset folder as it is, as in the paper runs.
+    Otherwise: a symlink view of the dataset with the chosen split; with RFS, train is a list file in
+    which each tile appears once per copy (Ultralytics keeps repeated lines).
+    """
     if args.data_dir:
-        root = args.data_dir.resolve()
+        root = Path(args.data_dir).resolve()
     else:
         from clearml import Dataset
 
         root = Path(Dataset.get(dataset_id=args.dataset_id).get_local_copy())
     src = root / "swrd6.yaml"
     data = yaml.safe_load(src.read_text())
-    data["path"] = str(root)
-    out = args.runs_dir / f"{args.name}_data.yaml"
+    out = Path(args.runs_dir) / f"{args.name}_data.yaml"
     out.parent.mkdir(parents=True, exist_ok=True)
+
+    if args.split == "tile" and not args.rfs_threshold:
+        data["path"] = str(root)
+        out.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True))
+        n_train = sum(1 for _ in (root / "images" / "train").glob("*.png"))
+        return out, {"split": "tile", "train_tiles": n_train, "train_entries": n_train}
+
+    val_exposures = set(film_split["val_exposures"]) if args.split == "film" else None
+    parts = assign_parts(root, val_exposures)
+    if film_split and len(parts["val"]) != film_split["expected_val_tiles"]:
+        raise RuntimeError(
+            f"film split: {len(parts['val'])} val tiles here, "
+            f"{film_split['expected_val_tiles']} in {film_split['source']}"
+        )
+
+    view = (Path(args.runs_dir) / f"{args.name}_view").resolve()
+    shutil.rmtree(view, ignore_errors=True)  # holds only symlinks and Ultralytics label caches
+    for part, images in parts.items():
+        for sub in ("images", "labels"):
+            (view / sub / part).mkdir(parents=True)
+        for img in images:
+            label = label_of(root, img)
+            # a missing label would silently turn a defect tile into a negative
+            if not label.is_file():
+                raise FileNotFoundError(label)
+            (view / "images" / part / img.name).symlink_to(img)
+            (view / "labels" / part / label.name).symlink_to(label)
+
+    classes = [tile_classes(label_of(root, img)) for img in parts["train"]]
+    copies = [1] * len(classes)
+    r_class: dict[int, float] = {}
+    if args.rfs_threshold:
+        r_tile, r_class = repeat_factors(classes, args.rfs_threshold)
+        copies = round_repeats(r_tile, args.seed)
+        train_list = view / "train_rfs.txt"
+        train_list.write_text(
+            "".join(
+                f"{view / 'images' / 'train' / img.name}\n" * k
+                for img, k in zip(parts["train"], copies)
+            )
+        )
+        data["train"] = train_list.name
+    data["path"] = str(view)
     out.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True))
-    return out
+    info = {
+        "split": args.split,
+        "split_source": film_split["source"] if film_split else "dataset folders",
+        "rfs_threshold": args.rfs_threshold,
+        "rfs_seed": args.seed if args.rfs_threshold else None,
+        "train_tiles": len(parts["train"]),
+        "val_tiles": len(parts["val"]),
+        "train_entries": sum(copies),
+        "per_class": class_table(classes, copies, r_class, data["names"]),
+    }
+    return out, info
+
+
+def print_data_info(info: dict) -> None:
+    print(
+        f"[data] split {info['split']}: train {info['train_tiles']:,} tiles, "
+        f"val {info.get('val_tiles', '(dataset folder)')} tiles; "
+        f"train entries per epoch {info['train_entries']:,}"
+    )
+    if "per_class" in info:
+        print("| class | train tiles | share | r_class | tiles per epoch | x |")
+        print("|---|---:|---:|---:|---:|---:|")
+        for r in info["per_class"]:
+            print(
+                f"| {r['class']} | {r['train_tiles']:,} | {r['share_of_tiles']:.4f} | {r['r_class']:.2f} "
+                f"| {r['tiles_per_epoch']:,} | {r['x_vs_no_oversampling']} |"
+            )
 
 
 def main() -> None:
     from clearml import Task
 
+    # Since 2026-10-05 ~/thesis on the box is a git clone whose origin is the bare repo ~/thesis.git, a path
+    # the agent cannot clone. This file imports nothing from the repo, so ship it alone, as the paper runs were.
+    Task.force_store_standalone_script()
     # Task.init BEFORE parse_args: ClearML patches argparse so that, on the agent, the arguments stored
     # in the task's "Args" section are injected (the agent passes no command line of its own).
     task = Task.init(
@@ -142,6 +361,7 @@ def main() -> None:
     task.set_user_properties(
         paper_batch=PAPER_BATCH[args.model], paper_epochs=100, paper="Zhao 2025 Table 4"
     )
+    film_split = connect_film_split(task, args.split_file) if args.split == "film" else None
     if args.queue:
         task.execute_remotely(queue_name=args.queue)  # everything below runs on the agent
 
@@ -160,7 +380,9 @@ def main() -> None:
         "hub": False,
     }
     settings.update({k: v for k, v in wanted.items() if k in settings})
-    data_yaml = resolve_data_yaml(args)
+    data_yaml, data_info = resolve_data_yaml(args, film_split)
+    print_data_info(data_info)
+    task.upload_artifact("data_view", artifact_object=data_info)
     devices = [int(d) for d in str(args.devices).split(",")]
 
     nbs = args.nbs or ULTRALYTICS_NBS
@@ -177,13 +399,12 @@ def main() -> None:
         if batch == -1:
             batch = EMULATE_BATCH[args.model]
     accumulate = max(round(nbs / batch), 1) if batch > 0 else None
-    n_train = sum(
-        1
-        for _ in (Path(yaml.safe_load(data_yaml.read_text())["path"]) / "images" / "train").glob(
-            "*.png"
-        )
-    )
+    n_train = data_info["train_entries"]  # with RFS, repeated tiles count once per copy
     task.set_user_properties(
+        split=args.split,
+        rfs_threshold=args.rfs_threshold,
+        train_tiles=data_info["train_tiles"],
+        train_entries=n_train,
         nbs=nbs,
         batch=batch,
         accumulate=accumulate,
@@ -240,6 +461,7 @@ def main() -> None:
     summary = {
         "run_dir": str(run_dir),
         "args": {k: (str(v) if isinstance(v, Path) else v) for k, v in vars(args).items()},
+        "data": data_info,
     }
     csv_path = run_dir / "results.csv"
     if csv_path.is_file():

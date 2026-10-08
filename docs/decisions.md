@@ -88,3 +88,15 @@ defect-free), (2) a supervised target for the defect-perturbation residual in lo
 score generators against a real defective reference. Risk: removal artefacts become a shortcut the model
 learns. Check: run the March baseline / WP1 detector on removed films; residual detections = failed
 removals. Removal must run on raw16, not on 8-bit exports. Reading plan: `docs/literature/wp2_physics_reading_plan.md`.
+
+## 2026-10-08 — Bartu — WP1 tests oversampling of the rare classes, for YOLOv8n and YOLOv8m
+Question: does showing the rare-class tiles more often raise their AP? It is the free rebalancing baseline that
+synthetic rebalancing must beat (M1, classical baselines). Design: repeat factor sampling (Gupta et al.,
+LVIS, CVPR 2019) with threshold t = 0.1, i.e. undercut ×4.4, lack of fusion ×1.7, inclusion ×1.5, crack ×1.2,
++7.7 % tiles per epoch. Film-level split (`split_films.json`); one pair of runs per model (YOLOv8n and, added by
+Bartu, YOLOv8m), each pair identical except the sampling. The two runs without oversampling are also the planned
+step-5 film-split retrain. Film split, not tile split, because oversampling repeats train tiles whose
+half-overlapping neighbours sit in the tile-split val set. Plan and commands:
+`experiments/wp1_benchmark/oversampling_rfs.md`; code on branch `wp1-oversampling-rfs`.
+Found on the way: since the box checkout became a git clone, a launch from `~/thesis` records the repo
+`/home/ec2-user/thesis.git`, which the agent cannot clone. `05_train.py` now calls `Task.force_store_standalone_script()`.

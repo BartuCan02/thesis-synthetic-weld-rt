@@ -138,10 +138,11 @@ swrd_paper_baseline/
   scripts/04_upload_clearml.py step 3c  ClearML Dataset with metadata
   scripts/fetch_from_official_zip.py   HTTP-range reader for the official SWXD_Data.zip (list / fetch selected members)
   scripts/reconstruct_missing_crops.py rebuild unpublished crops from Raw_data originals (validated pixel-exact)
-  scripts/05_train.py      step 4   Ultralytics training, ClearML task, remote queue
+  scripts/05_train.py      step 4   Ultralytics training, ClearML task, remote queue; --split film, --rfs-threshold
   scripts/06_eval.py       step 5   score saved weights on the tile- or film-level val split
   scripts/_customer.py, export_customer_films.py, run_customer_pipeline.sh, 07_merge_upload.py   side run (customer films)
   tests/test_common.py   unit tests for the window rule, the D7 box rule, the stretch
+  tests/test_train_sampling.py  unit tests for the film split and repeat factor sampling in 05_train.py
   results/               numbers, curves, tables (small files only; no images, no weights)
 ```
 Data and runs live on the box and are never committed:

@@ -21,6 +21,11 @@ unpublished details filled with D5–D7/D10 (see `../../swrd_paper_baseline/READ
 absolute numbers are higher, most plausibly from label-border handling, CLAHE/stretch parameters and the 2026 Ultralytics defaults
 (`../../swrd_paper_baseline/results/step1_step2_findings_2026-10-02.md`, section on the gap). Eval JSONs in `../../swrd_paper_baseline/results/`.
 
+## Planned
+- Oversampling of the rare classes (repeat factor sampling, t = 0.1) vs none, on the film split, for YOLOv8n and
+  YOLOv8m: four runs; the two without oversampling are also step 5. Plan, numbers and commands:
+  `oversampling_rfs.md` (not launched yet).
+
 ## Runs
 | date | ClearML task | config | result | conclusion |
 |---|---|---|---|---|
