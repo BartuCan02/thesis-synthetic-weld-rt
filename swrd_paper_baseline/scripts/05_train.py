@@ -112,7 +112,7 @@ def parse_args() -> argparse.Namespace:
     )
     ap.add_argument(
         "--split",
-        default="tile",
+        default="film",
         choices=["tile", "film"],
         help="tile = the dataset's own folders (paper); film = by exposure, from --split-file",
     )
