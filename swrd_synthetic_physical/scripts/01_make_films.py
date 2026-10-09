@@ -119,9 +119,9 @@ def find_sources(rec: dict, raw: Path, targets: set[str], a: argparse.Namespace)
         return []
     main = max(seams, key=area)
     side_seams = [p for p in seams if p is not main]
-    others = [(i, p) for i, (lab, p) in enumerate(shapes) if lab != SEAM]
+    others = [(i, lab, p) for i, (lab, p) in enumerate(shapes) if lab != SEAM]
     out = []
-    for i, (lab, p) in others:
+    for i, lab, p in others:
         cid = LABEL_TO_CLASS.get(lab)
         if cid is None or lab == TUNGSTEN or CLASS_NAMES[cid] not in targets:
             continue
@@ -146,7 +146,7 @@ def find_sources(rec: dict, raw: Path, targets: set[str], a: argparse.Namespace)
         # no other labelled polygon may touch the removal area
         g = a.dilate + 2
         clash = False
-        for j, q in others:
+        for j, _, q in others:
             if j == i:
                 continue
             qx0, qy0 = q.min(0)
