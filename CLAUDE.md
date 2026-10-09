@@ -89,6 +89,8 @@ thesis should report the post-hoc number.
   Windows default). Switching to customer DICONDE does not fix this: those header fields exist but are empty.
 - Uncropped originals carry wire IQIs and lead markers (route to physical scale). The cropped release removes them.
 - Polarity: more metal → higher pixel value, pores are dark. Single raw16 variant, never inverted.
+- 158 of the 4,650 uint16 crops are 8-bit data scaled by 257 (grey values on a 257 grid; measured 2026-10-09,
+  `swrd_synthetic_physical/results/grey_steps.json`). Raw-value analyses must exclude or flag them.
 - Data: `s3://swdr/` (bucket name has the typo). Paper: Zhao, Wu et al., J. Nondestructive Evaluation 2025,
   doi:10.1007/s10921-025-01186-w.
 

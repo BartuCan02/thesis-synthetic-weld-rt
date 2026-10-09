@@ -103,3 +103,15 @@ half-overlapping neighbours sit in the tile-split val set. Plan and commands:
 `experiments/wp1_benchmark/oversampling_rfs.md`; code on branch `wp1-oversampling-rfs`.
 Found on the way: since the box checkout became a git clone, a launch from `~/thesis` records the repo
 `/home/ec2-user/thesis.git`, which the agent cannot clone. `05_train.py` now calls `Task.force_store_standalone_script()`.
+
+## 2026-10-09 — Bartu — synthetic run C: physical insertion of real rare-class defects, matched to RFS
+Third arm next to run A (film split, `29f71fe4…`) and run B (RFS t = 0.1): add, per rare class, as many extra
+training tiles as RFS adds per epoch, but each one a new image, a real SWRD defect moved into another SWRD
+training film with the WP2 trial's physical insertion (removal + subtraction + grain-scaled addition, placement by
+the profile across the weld). Budget from the film-split training set: inclusion 774, crack 299, undercut 606,
+lack of fusion 475 defects, about 11,300 tiles (+7.8 %), about 540 synthetic films. Only tiles that hold an inserted
+defect are added; val stays byte-identical (child dataset of v1.0). Training identical to run A except the dataset.
+Sources and hosts from training exposures only; the 3 training exposures that are byte copies of a val film and the
+158 films that are 8-bit data stored as 16-bit are excluded. Code and plan: `swrd_synthetic_physical/` on branch
+`wp2-synthetic-physical-v1`. Open with Felix: moving real defects is close to the cut-and-paste dropped on
+2026-09-15; framed here as the physics step and the defect source for the physical-vs-naive A/B.
