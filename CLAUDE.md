@@ -118,6 +118,14 @@ before taking logs; replicate that.
   on the box `git -C ~/thesis pull --ff-only`.
   Code for ClearML agents is sent as standalone scripts (`Task.init` + `execute_remotely`), so the agents never
   need to clone this repo.
+- **Branches (cleaned up 2026-10-09; keep it this way).** `main` is the only long-lived branch. One short branch per
+  piece of work, cut from an up-to-date `main`; never start a branch from another unmerged branch. Merge back as soon
+  as the piece works (`git switch main && git merge --ff-only <branch>`, or `git rebase main` first if `main` moved),
+  then push `main` to both remotes and delete the branch everywhere: `git branch -d <b>`,
+  `git push origin --delete <b>`, `git push box --delete <b>`. Never leave edits uncommitted in a worktree: commit
+  them or delete them before the session ends, and remove the worktree once its branch is merged. On the box, run
+  a branch from a separate worktree (`git -C ~/thesis worktree add ~/thesis-<name> <branch>`) and remove it after the
+  run; `~/thesis` itself stays on `main`.
 - **Bartu launches long runs himself.** Hand over the exact command; do not auto-launch training.
 - Python via `uv`, exact version pins (`==`), Python 3.12. Ruff for lint/format.
 - Manuscript is LaTeX in `thesis/`.
