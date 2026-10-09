@@ -1,6 +1,6 @@
 # Does oversampling help the under-represented classes? (WP1, planned 2026-10-08)
 
-Status: **code on branch `wp1-oversampling-rfs`; Bartu chose YOLOv8m only (2026-10-08). Not launched yet.**
+Status: **run A `29f71fe4…` completed 2026-10-09 (best.pt val mAP50 0.452 / mAP50-95 0.240). Run B `4784c43bfd9f449f832a1d90287bd4a8` queued on multi-gpu 2026-10-09, then run C (synthetic, `67ab6191…`, `swrd_synthetic_physical/`). Code is on `main`; launch from `~/thesis` on `main`.**
 
 ## The question
 

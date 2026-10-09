@@ -134,4 +134,4 @@ Same sources, flips, hosts and positions, alpha-blended instead of added:
 | date | ClearML | what | result |
 |---|---|---|---|
 | 2026-10-09 | `dc3907f320474cd1ab034ea7689b89b1` | dataset `swrd-paper-tiles-plus-synthetic-physical` 2.0.0 | 155,179 train + 15,991 val files; 11,256 synthetic train tiles |
-| | | run C | not launched |
+| 2026-10-09 | `67ab619187874451b5b11369e48779d0` | run C, queued on multi-gpu behind run B | pending |
