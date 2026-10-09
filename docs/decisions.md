@@ -164,3 +164,7 @@ Sources and hosts from training exposures only; the 3 training exposures that ar
 158 films that are 8-bit data stored as 16-bit are excluded. Code and plan: `swrd_synthetic_physical/` on branch
 `wp2-synthetic-physical-v1`. Open with Felix: moving real defects is close to the cut-and-paste dropped on
 2026-09-15; framed here as the physics step and the defect source for the physical-vs-naive A/B.
+Update 2026-10-09 (Bartu): version 2 rule, no inserted defect on a spot the baseline already trains on. Built and
+uploaded: ClearML dataset `dc3907f320474cd1ab034ea7689b89b1` (`swrd-paper-tiles-plus-synthetic-physical` 2.0.0,
+child of v1.0): 2,525 defects on 1,193 films, 11,256 synthetic train tiles (inclusion 3,270, crack 1,912, undercut
+2,603, lack of fusion 3,471; 97–102 % of the RFS-matched targets). Run C command in `swrd_synthetic_physical/README.md`.

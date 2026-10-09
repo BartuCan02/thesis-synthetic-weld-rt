@@ -1,0 +1,66 @@
+{
+  "n_train_tiles": 143918,
+  "n_val_exposures": 369,
+  "train_exposures_identical_to_val": [
+    "DJ-RT-20230909-22",
+    "DJ-RT-20230909-77",
+    "DJ-RT-20230909-8"
+  ],
+  "rfs_threshold": 0.1,
+  "classes": [
+    {
+      "class": "inclusion",
+      "train_films": 926,
+      "train_instances": 2030,
+      "eligible_source_instances": 1763,
+      "train_tiles_with_class": 6422,
+      "rfs_repeat_factor": 1.497,
+      "rfs_tiles_per_epoch": 9680,
+      "extra_tiles_to_match_rfs": 3258,
+      "tiles_per_instance": 4.21,
+      "synthetic_instances": 774,
+      "uses_per_source": 0.44
+    },
+    {
+      "class": "crack",
+      "train_films": 1105,
+      "train_instances": 1821,
+      "eligible_source_instances": 1665,
+      "train_tiles_with_class": 10259,
+      "rfs_repeat_factor": 1.184,
+      "rfs_tiles_per_epoch": 12226,
+      "extra_tiles_to_match_rfs": 1967,
+      "tiles_per_instance": 6.59,
+      "synthetic_instances": 299,
+      "uses_per_source": 0.18
+    },
+    {
+      "class": "undercut",
+      "train_films": 112,
+      "train_instances": 199,
+      "eligible_source_instances": 185,
+      "train_tiles_with_class": 766,
+      "rfs_repeat_factor": 4.335,
+      "rfs_tiles_per_epoch": 3320,
+      "extra_tiles_to_match_rfs": 2554,
+      "tiles_per_instance": 4.22,
+      "synthetic_instances": 606,
+      "uses_per_source": 3.28
+    },
+    {
+      "class": "lack_of_fusion",
+      "train_films": 361,
+      "train_instances": 757,
+      "eligible_source_instances": 669,
+      "train_tiles_with_class": 5172,
+      "rfs_repeat_factor": 1.668,
+      "rfs_tiles_per_epoch": 8686,
+      "extra_tiles_to_match_rfs": 3514,
+      "tiles_per_instance": 7.4,
+      "synthetic_instances": 475,
+      "uses_per_source": 0.71
+    }
+  ],
+  "total_extra_tiles": 11293,
+  "total_synthetic_instances": 2154
+}

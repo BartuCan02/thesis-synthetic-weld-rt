@@ -1,0 +1,39 @@
+{
+  "synthetic_films": 1193,
+  "tiles_on_synthetic_films": 124931,
+  "tiles_kept": 11256,
+  "target_total_extra_tiles": 11293,
+  "per_class": {
+    "inclusion": {
+      "tiles_with_inserted": 3270,
+      "inserted_boxes": 3270,
+      "target_extra_tiles": 3258
+    },
+    "crack": {
+      "tiles_with_inserted": 1912,
+      "inserted_boxes": 1912,
+      "target_extra_tiles": 1967
+    },
+    "undercut": {
+      "tiles_with_inserted": 2603,
+      "inserted_boxes": 2603,
+      "target_extra_tiles": 2554
+    },
+    "lack_of_fusion": {
+      "tiles_with_inserted": 3471,
+      "inserted_boxes": 3471,
+      "target_extra_tiles": 3514
+    }
+  },
+  "real_host_boxes_in_kept_tiles": 0,
+  "inserted_defects_touching_a_baseline_tile": 0,
+  "params": {
+    "raw": "/home/ec2-user/swrd_synthetic_physical/data/raw_physical_v2",
+    "work_dir": "/home/ec2-user/swrd_synthetic_physical/data/work_physical_v2",
+    "budget": "/home/ec2-user/thesis-synth-v2/swrd_synthetic_physical/results/budget.json",
+    "min_side_px": "4",
+    "min_visible_frac": "0.1",
+    "min_tile_frac": "0.005",
+    "split_file": "/home/ec2-user/swrd_paper_baseline/data/work/split_films.json"
+  }
+}

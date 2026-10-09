@@ -1,6 +1,6 @@
 # Synthetic run C: real rare-class defects inserted physically into other SWRD films
 
-Branch `wp2-synthetic-physical-v1`, started 2026-10-09. Thesis WP2 (physics-based insertion), first training
+Built 2026-10-09 (branches `wp2-synthetic-physical-v1`, then `wp2-synthetic-v2`, both merged into `main`). Thesis WP2 (physics-based insertion), first training
 test. Method from the WP2 trial (`experiments/wp2_physics/trial_log_compositing/`, review page shared with Felix).
 
 ## The question
@@ -12,8 +12,8 @@ SWRD training film by physical insertion. Everything else is identical to run A.
 
 | | run A | run B | run C (this folder) |
 |---|---|---|---|
-| training tiles | 143,918 real | 143,918 real, rare ones repeated | 143,918 real + about 11,300 synthetic |
-| extra rare-class tiles per epoch | none | about 11,300 repeats | about 11,300 new images |
+| training tiles | 143,918 real | 143,918 real, rare ones repeated | 143,918 real + 11,256 synthetic |
+| extra rare-class tiles per epoch | none | about 11,300 repeats | 11,256 new images |
 | everything else | YOLOv8m, film split, 100 epochs, paper batch, seed 0 | same | same |
 | validation | 15,996 real tiles of 369 val exposures | same | same, byte-identical |
 
@@ -34,10 +34,24 @@ epoch (`results/budget.json`, from `01_budget.py`, training films only):
 | lack of fusion | 757 | 5,172 | 1.67 | 3,514 | 7.40 | 475 | 495 | 1.0 |
 | **total** | | | | **11,293 (+7.8 %)** | | **2,154** | | |
 
-"Tiles per instance" is measured on the real training tiles (boxes of the class / instances of the class), so
-the synthetic defect count lands near the tile target. Each synthetic film carries up to 4 defects, so about
-540 synthetic films. Undercut is the hard case: 158 usable real undercuts are each reused about 4 times, on
-different films and positions, mirrored with probability 0.5. B shows each real undercut tile 4.3 times too.
+"Tiles per instance" is measured on the real training tiles (boxes of the class / instances of the class). The
+synthetic defects landed in fewer tiles than that (and 4 % found no valid spot), so a second pass topped every class
+up to its tile target on hosts not used before (`02_make_films.py --topup-from`, least-used sources first).
+
+**What was built (dataset `dc3907f320474cd1ab034ea7689b89b1`, 2026-10-09):**
+
+| class | synthetic defects | distinct real sources | synthetic tiles | target tiles | reached |
+|---|---:|---:|---:|---:|---:|
+| inclusion | 859 | 859 | 3,270 | 3,258 | 100 % |
+| crack | 317 | 317 | 1,912 | 1,967 | 97 % |
+| undercut | 738 | 157 | 2,603 | 2,554 | 102 % |
+| lack of fusion | 611 | 476 | 3,471 | 3,514 | 99 % |
+| **total** | **2,525** | | **11,256** | **11,293** | **100 %** |
+
+2,525 defects on 1,193 synthetic films, every film on a different host. Each kept tile holds exactly one inserted
+class. Undercut is the hard case: 157 real undercuts reused about 4.7 times each, on different films and positions,
+mirrored with probability 0.5 (B shows each real undercut tile 4.3 times). Contrast scale p5/p50/p95 = 0.60 / 1.03 /
+1.67; placement profile match median 0.97. Reports and QC sheets: `results/`.
 
 ## What a synthetic film is
 
@@ -50,6 +64,11 @@ A real SWRD training film (the host) with up to 4 real defects from other traini
 4. **Add** it, scaled by host grain / source grain. A host whose grain differs from the source's by more than
    2x is rejected for that defect, which tries another host.
 5. The host's own labels are kept; the inserted polygons are added with `flags.synthetic = true`.
+
+**Version 2 rule (Bartu, 2026-10-09):** no inserted pixel may lie inside any tile the baseline already trains on
+(its positives and its randomly sampled clean tiles). So the model never sees an inserted defect's spot clean, and
+every synthetic tile shows background that is new to it. Checked after the build: 0 inserted defects touch a baseline
+tile, and 0 kept tiles contain a real host defect. Version 1 (any clean spot) was stopped before upload.
 
 Only tiles that contain an inserted defect (under the v1.0 box rule) enter the dataset. Other tiles of a
 synthetic film would only repeat the host. This matches B, which repeats positive tiles only.
@@ -74,31 +93,32 @@ parameters recorded for the v1.0 dataset, so tiles are built exactly like the re
 |---|---|---|
 | 0 | `00_grey_steps.py` | `results/grey_steps.json` |
 | 1 | `01_budget.py` | `results/budget.json` |
-| 2 | `02_make_films.py` | `raw_physical_v1/` films, labels, `inserted.jsonl`, `make_films_report.json`, `qc_sheet.png` |
-| 3 | baseline `00_inventory.py`, `01_tile.py` | `work_physical_v1/tiles.jsonl` |
-| 4 | `03_select_tiles.py` | `work_physical_v1/split_tiles.json`, `selection_report.json` |
-| 5 | baseline `03_render.py` | `yolo_physical_v1/` 8-bit tiles + labels |
+| 2 | `02_make_films.py` | `raw_physical_v2/` films, labels, `inserted.jsonl`, `make_films_report.json`, `qc_sheet.png` |
+| 3 | baseline `00_inventory.py`, `01_tile.py` | `work_physical_v2/tiles.jsonl` |
+| 4 | `03_select_tiles.py` | `work_physical_v2/split_tiles.json`, `selection_report.json` |
+| 5 | baseline `03_render.py` | `yolo_physical_v2/` 8-bit tiles + labels |
 | 6 | `04_merge_upload.py` | ClearML child dataset of v1.0 (`de772ad9…`), val unchanged |
 
-All of steps 0 to 5 plus a dry run of step 6: `scripts/run_pipeline.sh physical v1`, on the box, from the
-worktree `~/thesis-synth` (branch `wp2-synthetic-physical-v1`; `~/thesis` stays on `wp1-oversampling-rfs`).
+Steps 0 to 5 plus a dry run of step 6: `scripts/run_pipeline.sh physical v2`, then the top-up
+`TOPUP=1 scripts/run_pipeline.sh physical v2`, on the box. Upload:
+`04_merge_upload.py ... --arm physical --version 2.0.0`. About 3.5 h of CPU on the box in total.
 
 ## Training (Bartu launches)
 
-Identical to run A (`29f71fe4…`) except `--dataset-id` and `--name`. Launch from `~/thesis/swrd_paper_baseline`,
-the same checkout and `05_train.py` as run A. The multi-gpu agent runs one task at a time, so queue it after B.
+Identical to run A (`29f71fe4…`) except `--dataset-id` and `--name`. Launch from `~/thesis/swrd_paper_baseline`;
+`05_train.py` is the same on `main` and on `wp1-oversampling-rfs` (commit 40f53fb), so either checkout gives run A's code. The multi-gpu agent runs one task at a time, so queue it after B.
 
 ```bash
-cd ~/thesis/swrd_paper_baseline && AWS_PROFILE=data-rw uv run python scripts/05_train.py --dataset-id <SYNTH_DATASET_ID> --split film --split-file ~/swrd_paper_baseline/data/work/split_films.json --model yolov8m --epochs 100 --emulate-paper-batch --batch 96 --devices 0,1,2,3 --workers 10 --seed 0 --queue multi-gpu --name v1.0-film-synth-physical-v1-yolov8m-100ep-paperbatch-4gpu
+cd ~/thesis/swrd_paper_baseline && AWS_PROFILE=data-rw uv run python scripts/05_train.py --dataset-id dc3907f320474cd1ab034ea7689b89b1 --split film --split-file ~/swrd_paper_baseline/data/work/split_films.json --model yolov8m --epochs 100 --emulate-paper-batch --batch 96 --devices 0,1,2,3 --workers 10 --seed 0 --queue multi-gpu --name v1.0-film-synth-physical-v2-yolov8m-100ep-paperbatch-4gpu
 ```
 
 Check in the task: Configuration → film_split shows 369 val exposures and `expected_val_tiles` 15996; the console
-shows train = 143,918 + the synthetic tile count, val 15,996.
+shows `split film: train 155,174 tiles, val 15996 tiles` (143,918 real + 11,256 synthetic).
 
 ## The naive arm (later, for the WP4 A/B)
 
 Same sources, flips, hosts and positions, alpha-blended instead of added:
-`scripts/run_pipeline.sh naive v1`, then `04_merge_upload.py --arm naive`.
+`scripts/run_pipeline.sh naive v2` (+ the same top-up), then `04_merge_upload.py --arm naive --version 2.0.0`.
 
 ## Caveats to state with the result
 
@@ -113,5 +133,5 @@ Same sources, flips, hosts and positions, alpha-blended instead of added:
 
 | date | ClearML | what | result |
 |---|---|---|---|
-| | | dataset | |
-| | | run C | |
+| 2026-10-09 | `dc3907f320474cd1ab034ea7689b89b1` | dataset `swrd-paper-tiles-plus-synthetic-physical` 2.0.0 | 155,179 train + 15,991 val files; 11,256 synthetic train tiles |
+| | | run C | not launched |

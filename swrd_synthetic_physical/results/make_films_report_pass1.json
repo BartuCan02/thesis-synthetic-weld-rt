@@ -1,0 +1,65 @@
+{
+  "arm": "physical",
+  "films": 955,
+  "hosts_used": 955,
+  "per_class": {
+    "inclusion": {
+      "target": 774,
+      "placed": 762,
+      "failed": 12,
+      "distinct_sources": 762
+    },
+    "crack": {
+      "target": 299,
+      "placed": 274,
+      "failed": 25,
+      "distinct_sources": 274
+    },
+    "undercut": {
+      "target": 606,
+      "placed": 585,
+      "failed": 21,
+      "distinct_sources": 157
+    },
+    "lack_of_fusion": {
+      "target": 475,
+      "placed": 443,
+      "failed": 32,
+      "distinct_sources": 443
+    }
+  },
+  "contrast_scale_p5_p50_p95": [
+    0.599,
+    1.028,
+    1.666
+  ],
+  "attempts_rejected": {
+    "no_spot": 2026,
+    "grain_mismatch": 924
+  },
+  "profile_match_p5_p50_p95": [
+    0.716,
+    0.975,
+    0.997
+  ],
+  "params": {
+    "raw": "/home/ec2-user/swrd_paper_baseline/data/raw",
+    "work_dir": "/home/ec2-user/swrd_paper_baseline/data/work",
+    "budget": "/home/ec2-user/thesis-synth-v2/swrd_synthetic_physical/results/budget.json",
+    "out": "/home/ec2-user/swrd_synthetic_physical/data/raw_physical_v2",
+    "arm": "physical",
+    "per_film": "4",
+    "dilate": "6",
+    "denoise_sigma": "1.0",
+    "min_area": "20.0",
+    "max_side": "1500",
+    "min_host_width": "2000",
+    "scale_range": "[0.5, 2.0]",
+    "grey_steps": "/home/ec2-user/thesis-synth-v2/swrd_synthetic_physical/results/grey_steps.json",
+    "rounds": "10",
+    "allow_baseline_tiles": "False",
+    "limit": "0",
+    "workers": "4",
+    "seed": "0"
+  }
+}
