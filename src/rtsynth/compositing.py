@@ -200,42 +200,66 @@ def _zscore(v: np.ndarray) -> np.ndarray:
     return (v - v.mean()) / s if s > 0 else v * 0
 
 
-def place_by_profile(
-    host: np.ndarray,
-    keepout: np.ndarray,
-    cleaned_source: np.ndarray,
-    patch: DefectPatch,
-    rng: np.random.Generator,
-    n_columns: int = 400,
-    half_window: int = 150,
-    end_margin: float = 0.05,
-    n_slices: int = 3,
-) -> tuple[tuple[int, int], float]:
-    """Choose where the patch goes on the host.
+@dataclass(frozen=True)
+class SourceProfile:
+    """Brightness profile across the weld around a defect, on the source film with the defect removed."""
 
-    The defect keeps its position relative to the weld bead: the host row is the one where the host's
-    brightness profile across the weld best matches the source's profile around the defect
-    (normalised cross-correlation of z-scored column-median profiles; the source profile is taken on
-    the film with the defect already removed). The patch width is cut into n_slices vertical slices and
-    the score is the worst slice, so a spot straddling a brightness step along the weld scores low.
-    Columns are sampled at random along the weld; positions touching a keep-out zone are rejected.
-    Returns ((x, y) top-left of the patch on the host, score).
-    """
-    from numpy.lib.stride_tricks import sliding_window_view
+    values: np.ndarray  # z-scored column-median profile, length <= 2 * half_window
+    off: int  # row of the defect centre inside ``values``
+    cy_crop: int  # row of the defect centre inside the patch
 
-    ph, pw = patch.residual.shape
+
+def source_profile(
+    cleaned_source: np.ndarray, patch: DefectPatch, half_window: int = 150
+) -> SourceProfile:
+    pw = patch.residual.shape[1]
     sx0, sy0 = patch.origin
     sh = cleaned_source.shape[0]
     cy_crop = round(float(patch.points[:, 1].mean()))
     cy_src = sy0 + cy_crop
     a, b = max(0, cy_src - half_window), min(sh, cy_src + half_window)
-    prof_s = np.median(cleaned_source[:, sx0 : sx0 + pw].astype(np.float64), axis=1)[a:b]
-    prof_s = _zscore(prof_s)
-    n = len(prof_s)
-    off_a = cy_src - a  # defect centre row inside the source window
+    prof = np.median(cleaned_source[:, sx0 : sx0 + pw].astype(np.float64), axis=1)[a:b]
+    return SourceProfile(_zscore(prof), cy_src - a, cy_crop)
 
+
+def flip_patch(patch: DefectPatch) -> DefectPatch:
+    """Mirror a patch left-right (along the weld). The profile across the weld is unchanged."""
+    pw = patch.residual.shape[1]
+    pts = patch.points.copy()
+    pts[:, 0] = pw - 1 - pts[:, 0]
+    return DefectPatch(
+        patch.residual[:, ::-1].copy(),
+        patch.weight[:, ::-1].copy(),
+        patch.label_mask[:, ::-1].copy(),
+        patch.source_crop[:, ::-1].copy(),
+        patch.cleaned_crop[:, ::-1].copy(),
+        patch.origin,
+        pts,
+        patch.grain,
+    )
+
+
+def place_with_profile(
+    host: np.ndarray,
+    keepout: np.ndarray,
+    prof: SourceProfile,
+    patch: DefectPatch,
+    rng: np.random.Generator,
+    n_columns: int = 400,
+    end_margin: float = 0.05,
+    n_slices: int = 3,
+) -> tuple[tuple[int, int], float]:
+    """Choose where the patch goes on the host (see ``place_by_profile``)."""
+    from numpy.lib.stride_tricks import sliding_window_view
+
+    ph, pw = patch.residual.shape
+    prof_s, off_a, cy_crop = prof.values, prof.off, prof.cy_crop
+    n = len(prof_s)
     hh, hw = host.shape
-    xs = rng.integers(int(end_margin * hw), int((1 - end_margin) * hw) - pw, size=n_columns)
+    lo, hi = int(end_margin * hw), int((1 - end_margin) * hw) - pw
+    if hi <= lo or hh < n or hh < ph:
+        raise RuntimeError("host too small for this patch")
+    xs = rng.integers(lo, hi, size=n_columns)
     support = patch.weight > 0
     edges = np.linspace(0, pw, n_slices + 1).astype(int)
     best = (-np.inf, None)
@@ -260,3 +284,28 @@ def place_by_profile(
     if best[1] is None:
         raise RuntimeError("no valid placement found")
     return best[1], best[0]
+
+
+def place_by_profile(
+    host: np.ndarray,
+    keepout: np.ndarray,
+    cleaned_source: np.ndarray,
+    patch: DefectPatch,
+    rng: np.random.Generator,
+    n_columns: int = 400,
+    half_window: int = 150,
+    end_margin: float = 0.05,
+    n_slices: int = 3,
+) -> tuple[tuple[int, int], float]:
+    """Choose where the patch goes on the host.
+
+    The defect keeps its position relative to the weld bead: the host row is the one where the host's
+    brightness profile across the weld best matches the source's profile around the defect
+    (normalised cross-correlation of z-scored column-median profiles; the source profile is taken on
+    the film with the defect already removed). The patch width is cut into n_slices vertical slices and
+    the score is the worst slice, so a spot straddling a brightness step along the weld scores low.
+    Columns are sampled at random along the weld; positions touching a keep-out zone are rejected.
+    Returns ((x, y) top-left of the patch on the host, score).
+    """
+    prof = source_profile(cleaned_source, patch, half_window)
+    return place_with_profile(host, keepout, prof, patch, rng, n_columns, end_margin, n_slices)
