@@ -47,6 +47,29 @@ Deeplify, and the proposal build scripts were lost with a session scratchpad. On
 must be rebuilt as source under `docs/proposal/` (not done yet). Deeplify's segmentation framework stays a
 pinned dependency, not a copy.
 
+## 2026-10-01 — Bartu — what the SWRD release actually contains; split-by-exposure rule for M1
+*Rescued 2026-10-09 from an uncommitted worktree. Written by an earlier Claude session; not yet reviewed by Bartu.*
+Checked the official download (`http://www.tz-ndt.com/#/download`): one archive `SWXD_Data.zip`,
+115.86 GB, on Google Drive (folder `1LNUt101wufTBJpRAgrZAU1h-Tfx629wO`) and a Baidu mirror; the
+"instruction" link is dead. Contents, reconstructed from Deeplify's processing scripts
+(`deeplify/ml/training/weld_defect_detection/data_processing_swrd/`) and the S3 mirror:
+- `Raw_data/images/*.tif` + `Raw_data/json/*.json`: the **uncropped originals**, 16-bit, with their own
+  LabelMe polygons (e.g. `DJ-RT-20220623-22`). Mirrored at `s3://swdr/raw_tif_16_bit/`. These carry the
+  IQIs and lead markers, so the physical-scale route is open. Earlier notes implying the originals were not
+  released were wrong.
+- `crop_weld_data/crop_weld_images/*.tif` + `crop_weld_jsons/*.json`: the 4,930 weld-cropped strips
+  (median 6,943 x 717 px), 16-bit. Mirrored at `s3://swdr/cropped/`. This is what every dataset build uses.
+- Not shipped: the 380k/161k sliding-window tiles, the 8-bit CLAHE images, the YOLO boxes. Tiling,
+  negative ratio and preprocessing are ours to define and must be written into the M1 protocol.
+- Unclear: a `download/` folder of `.DCM` files that one script inverts and rotates. Check whether it is
+  SWRD or unrelated before touching polarity assumptions.
+
+Consequence for M1: `weld_defect_segmentation/data_processing/create_dataset.py` splits with
+`train_test_split` over the cropped image list (val_ratio 0.2, seed 42). T-joint crops `A_x`/`B_x` come
+from the same exposure, so the March baseline's split leaks between train and val. The frozen benchmark
+must group by original exposure (and keep all tiles of one exposure in one split). Re-score the baseline
+on the leak-free split before using it as the reference number.
+
 ## 2026-10-02 — Bartu — WP1 starts by reproducing the SWRD paper's baseline, not Deeplify's
 The first WP1 deliverable is a reproduction of the YOLOv8 detection baseline published with SWRD (Zhao et al. 2025,
 Table 5: YOLOv8m mAP50 0.66265 / mAP50-95 0.44827), rebuilt from the raw release files (cropped 16-bit TIFF + LabelMe
@@ -67,6 +90,19 @@ crop matched ≥ 1 polygon). Script `swrd_paper_baseline/scripts/reconstruct_mis
 `swrd_paper_baseline/results/`. The 3,679 original-film label files were fetched from the archive by HTTP range
 (`fetch_from_official_zip.py`), 10 MB. The authors are being asked to publish the images and the unstated
 preprocessing parameters (drafts in `swrd_paper_baseline/results/`).
+
+## 2026-10-05 — Felix (fortnightly meeting, relayed by Bartu) — paper preprocessing is the WP1 configuration; customer-data side run
+*Rescued 2026-10-09 from an uncommitted worktree. Written by an earlier Claude session; not yet reviewed by Bartu.*
+- The SWRD paper's own preprocessing (half-short-side tiles, 50 % overlap, per-tile contrast stretch → 8-bit → CLAHE,
+  YOLOv8 detect, mAP50 on the paper's tile split) is the benchmark configuration. Thesis methods are compared against
+  the paper's baseline in this configuration first; Deeplify's own configuration is an optional second arm.
+- Side run, a diagnostic and not a scope change: same configuration, train on SWRD v1.0 tiles plus Deeplify's customer
+  films tiled identically, evaluate on the unchanged SWRD val tiles. Question: does adding our data help or hurt?
+  Felix expects worse (SWRD looks lab-clean). "SWRD only" for the thesis methods stands.
+- Order of work after the baseline: physics route first, starting with porosity (segment the weld, insert simulated
+  pores, metadata-free), compared against randomly inpainted defects; GAN and diffusion after. Class balance: no
+  equalising, a minimum count per class; synthetic examples for every class over time. CAD-based RT simulation stays
+  parked (needs the acquisition metadata SWRD lacks).
 
 ## 2026-10-06 — Bartu — SWRD paper baseline reproduced; numbers land above the paper
 YOLOv8n and YOLOv8m trained on `swrd-paper-tiles 1.0.0` with the paper's effective batch (480 via Ultralytics `nbs`,
@@ -103,6 +139,19 @@ half-overlapping neighbours sit in the tile-split val set. Plan and commands:
 `experiments/wp1_benchmark/oversampling_rfs.md`; code on branch `wp1-oversampling-rfs`.
 Found on the way: since the box checkout became a git clone, a launch from `~/thesis` records the repo
 `/home/ec2-user/thesis.git`, which the agent cannot clone. `05_train.py` now calls `Task.force_store_standalone_script()`.
+
+## 2026-10-08 — Bartu — the side run uses exactly the customer films of the latest Deeplify multiclass run
+*Rescued 2026-10-09 from an uncommitted worktree. Written by an earlier Claude session; not yet reviewed by Bartu.*
+The customer arm is pinned to the film set of `weld_defect_all_v2.12` (dataset `f40220b1…`, 2026-09-22): 1,183 OGE,
+133 Aramco, 559 Maroca films, 1,076 of them label-free negatives, so that "adding our data" varies only the data and
+not its labels or selection. A first build on the v3.0 film set (602 films, dataset `9b43a1ec…`) is superseded.
+Per film: raw 16-bit variant, polarity canonicalised to SWRD's (verified on rendered panels for all three sources),
+crop = seam bbox + 10 % of the seam width grown to hold every label; seam = human label when present, else the v1.3
+seam prediction (cache or predicted at export time). Other weld-defect classes become `other_defect` polygons: never
+a box, never a negative tile, unlabelled background inside positive tiles, exactly like SWRD's own extra labels.
+Caveat recorded for the write-up: the Maroca defect labels in the catalogue on 22 Sept are the HQ project's model
+prelabels before review; the v2.12 run trained on the same ones. Code: `swrd_paper_baseline/scripts/export_customer_films.py`,
+`run_customer_pipeline.sh`, `07_merge_upload.py`.
 
 ## 2026-10-09 — Bartu — synthetic run C: physical insertion of real rare-class defects, matched to RFS
 Third arm next to run A (film split, `29f71fe4…`) and run B (RFS t = 0.1): add, per rare class, as many extra
