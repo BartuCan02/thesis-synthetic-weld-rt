@@ -1,4 +1,4 @@
-"""Step 1: make the synthetic films (physical insertion of real SWRD defects into SWRD training films).
+"""Step 2: make the synthetic films (physical insertion of real SWRD defects into SWRD training films).
 
 For every class in budget.json, real instances on *training* films (film split) are cut out by removal
 (inpainting) and inserted into other training films, with the method of the WP2 trial
@@ -6,12 +6,15 @@ For every class in budget.json, real instances on *training* films (film split) 
 profile across the weld, darkening only. Each use of a source is mirrored left-right with probability 0.5.
 
 Sources: a polygon of the class (tungsten inclusions excluded: denser than steel, the sign is flipped),
-on a 16-bit training film that is not a byte copy of a val film, inside the main seam polygon and not on a
+on a true 16-bit training film (not 8-bit data stored as 16-bit, see 00_grey_steps.py) that is not a byte
+copy of a val film, inside the main seam polygon and not on a
 T-joint's crossing weld, not cut by the film border, running along the weld if the class is elongated, and
 not touched by any other labelled polygon within the removal area. Portrait films are turned 90 degrees so
 the weld runs left-right (the profile placement assumes it); hosts are landscape films only.
 
-Hosts: 16-bit landscape training films (not copies of val films), at least 2000 px wide. Everything already
+Hosts: true 16-bit landscape training films (not copies of val films), at least 2000 px wide. A host whose
+grain differs from the source's by more than --scale-range is rejected for that defect, which then tries
+another host: the contrast scale (host grain / source grain) assumes similar film, and is not forced. Everything already
 labelled on a host (defects, pseudo-defects, a second seam polygon) is a keep-out zone grown by one tile side,
 so tiles that hold a synthetic defect rarely hold a real one too. Inserted defects keep one tile side apart.
 
@@ -25,7 +28,7 @@ Writes, under --out:
 --arm naive writes the A/B control with the identical sources, flips, hosts and positions.
 
 Run on the box (any python with numpy, opencv, tifffile; e.g. the swrd_paper_baseline venv):
-    python 01_make_films.py --raw ~/swrd_paper_baseline/data/raw --work-dir ~/swrd_paper_baseline/data/work \
+    python 02_make_films.py --raw ~/swrd_paper_baseline/data/raw --work-dir ~/swrd_paper_baseline/data/work \
         --budget ../results/budget.json --out ~/swrd_synthetic_physical/data/raw_physical_v1 --arm physical
 """
 
@@ -205,7 +208,7 @@ def extract_film(job: tuple) -> list[tuple]:
 
 
 def make_film(job: tuple) -> dict:
-    (film_idx, rnd, seed, host, raw, out_dir, arm, uses, scale_clamp, qc) = job
+    (film_idx, rnd, seed, host, raw, out_dir, arm, uses, scale_range, qc) = job
     rng = np.random.default_rng([seed, rnd, film_idx])
     img = read_tif(Path(raw) / host["image"])
     d, shapes = load_shapes(Path(raw) / host["json"])
@@ -230,10 +233,13 @@ def make_film(job: tuple) -> dict:
         try:
             (x, y), score = place_with_profile(cur, keep, prof, patch, rng)
         except RuntimeError:
-            failed.append(use["uid"])
+            failed.append((use["uid"], "no_spot"))
             continue
         ph, pw = patch.residual.shape
-        scale = float(np.clip(contrast_scale(cur, patch, (x, y)), *scale_clamp))
+        scale = float(contrast_scale(cur, patch, (x, y)))
+        if not scale_range[0] <= scale <= scale_range[1]:
+            failed.append((use["uid"], "grain_mismatch"))
+            continue
         before = cur
         if arm == "physical":
             cur = composite_physical(cur, patch, (x, y), SPACE, scale)
@@ -257,7 +263,7 @@ def make_film(job: tuple) -> dict:
                 "points": np.round(pts, 2).tolist(),
             }
         )
-        if qc and len(qc_crops) < 1:
+        if qc and len(qc_crops) < 2:
             cx0, cy0 = max(0, x - 60), max(0, y - 60)
             cx1, cy1 = min(hw, x + pw + 60), min(hh, y + ph + 60)
             qc_crops.append((use["class"], before[cy0:cy1, cx0:cx1], cur[cy0:cy1, cx0:cx1]))
@@ -332,8 +338,15 @@ def main() -> None:
     ap.add_argument("--min-area", type=float, default=20.0)
     ap.add_argument("--max-side", type=int, default=1500)
     ap.add_argument("--min-host-width", type=int, default=2000)
-    ap.add_argument("--scale-clamp", type=float, nargs=2, default=[1 / 3, 3.0])
-    ap.add_argument("--rounds", type=int, default=3, help="re-try failed placements on new hosts")
+    ap.add_argument(
+        "--scale-range",
+        type=float,
+        nargs=2,
+        default=[0.5, 2.0],
+        help="accepted host/source grain ratio",
+    )
+    ap.add_argument("--grey-steps", type=Path, default=HERE.parent / "results" / "grey_steps.json")
+    ap.add_argument("--rounds", type=int, default=6, help="re-try failed placements on new hosts")
     ap.add_argument("--limit", type=int, default=0, help="only this many uses (smoke test)")
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--seed", type=int, default=0)
@@ -344,6 +357,7 @@ def main() -> None:
     split = json.loads((a.work_dir / "split_films.json").read_text())
     val_exp = {exposure_of(t.split("__")[0]) for t in split["val"]}
     tainted = set(budget.get("train_exposures_identical_to_val", []))
+    steps = json.loads(a.grey_steps.read_text())
     inv = json.loads((a.work_dir / "inventory.json").read_text())
     films = [
         r
@@ -351,6 +365,7 @@ def main() -> None:
         if r["dtype"] == "uint16"
         and r["exposure"] not in val_exp
         and r["exposure"] not in tainted
+        and steps.get(r["stem"], 0) == 1
         and r.get("json")
         and (a.raw / r["image"]).is_file()
     ]
@@ -416,6 +431,7 @@ def main() -> None:
     print(f"[hosts] {len(hosts):,} landscape training films")
     a.out.mkdir(parents=True, exist_ok=True)
     manifest, failures, qc_crops, film_stems = [], Counter(), [], []
+    reasons = Counter()
     pending, host_i, film_idx = uses, 0, 0
     for rnd in range(a.rounds):
         if not pending:
@@ -433,8 +449,8 @@ def main() -> None:
                     str(a.out),
                     a.arm,
                     group,
-                    tuple(a.scale_clamp),
-                    film_idx % 20 == 0,
+                    tuple(a.scale_range),
+                    film_idx % 6 == 0,
                 )
             )
             host_i += 1
@@ -447,7 +463,9 @@ def main() -> None:
                 qc_crops += res["qc"]
                 if res["stem"]:
                     film_stems.append(res["stem"])
-                retry += [by_uid[uid] for uid in res["failed"]]
+                for uid, why in res["failed"]:
+                    reasons[why] += 1
+                    retry.append(by_uid[uid])
         print(
             f"[round {rnd}] films {len(jobs):,}, placed {len(pending) - len(retry):,}, to retry {len(retry):,}"
         )
@@ -475,9 +493,7 @@ def main() -> None:
             for c in target
         },
         "contrast_scale_p5_p50_p95": [round(float(v), 3) for v in np.percentile(sc, [5, 50, 95])],
-        "contrast_scale_clamped": int(
-            np.sum((sc <= a.scale_clamp[0] + 1e-6) | (sc >= a.scale_clamp[1] - 1e-6))
-        ),
+        "attempts_rejected": dict(reasons),
         "profile_match_p5_p50_p95": [round(float(v), 3) for v in np.percentile(pm, [5, 50, 95])],
         "params": {k: str(v) for k, v in vars(a).items()},
     }

@@ -1,4 +1,4 @@
-"""Step 3: keep only the synthetic tiles that hold an inserted defect.
+"""Step 4: keep only the synthetic tiles that hold an inserted defect.
 
 Run after the baseline's 00_inventory.py and 01_tile.py on the synthetic films. 01_tile.py labels every box in
 every tile, real or inserted, with the v1.0 rule. This script keeps a tile when at least one *inserted*
@@ -8,7 +8,7 @@ are dropped: they only repeat the host film. This matches what oversampling adds
 Writes <work-dir>/split_tiles.json ({"train": [...], "val": [], ...}) for the baseline's 03_render.py, and
 <work-dir>/selection_report.json.
 
-    python 02_select_tiles.py --raw ~/swrd_synthetic_physical/data/raw_physical_v1 \
+    python 03_select_tiles.py --raw ~/swrd_synthetic_physical/data/raw_physical_v1 \
         --work-dir ~/swrd_synthetic_physical/data/work_physical_v1 --budget ../results/budget.json
 """
 
@@ -36,7 +36,7 @@ from _common import (
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
     ap.add_argument(
-        "--raw", type=Path, required=True, help="synthetic films (01_make_films.py --out)"
+        "--raw", type=Path, required=True, help="synthetic films (02_make_films.py --out)"
     )
     ap.add_argument(
         "--work-dir", type=Path, required=True, help="where 01_tile.py wrote tiles.jsonl"

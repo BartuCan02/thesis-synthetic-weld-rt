@@ -1,4 +1,4 @@
-"""Step 0: how many synthetic defects per class, matched to the oversampling run.
+"""Step 1: how many synthetic defects per class, matched to the oversampling run.
 
 The synthetic run is compared with run A (film split, no oversampling) and run B (film split, repeat factor
 sampling t = 0.1). To make "new synthetic defects" and "repeated real tiles" comparable, the synthetic run
@@ -6,12 +6,13 @@ adds, per class, as many extra training tiles as RFS adds per epoch. Then B and 
 extra tiles show: repeats of the same real tiles (B) or real defects moved to new films and positions (C).
 
 Everything is counted on the training films of the film split only (exposures not in split_films.json's val).
-Films that are byte-identical copies of a val film are excluded as sources and hosts (leakage).
+Films that are byte-identical copies of a val film are excluded as sources and hosts (leakage), and so are
+8-bit films stored as 16-bit (grey_steps.json from 00_grey_steps.py).
 
 Writes <out>/budget.json and prints the table.
 
 Run on the box:
-    python 00_budget.py --work-dir ~/swrd_paper_baseline/data/work --out ../results
+    python 01_budget.py --work-dir ~/swrd_paper_baseline/data/work --out ../results
 """
 
 from __future__ import annotations
@@ -47,7 +48,9 @@ def main() -> None:
         help="classes to synthesise (default: the four that RFS t=0.1 boosts)",
     )
     ap.add_argument("--out", type=Path, default=HERE.parent / "results")
+    ap.add_argument("--grey-steps", type=Path, default=HERE.parent / "results" / "grey_steps.json")
     args = ap.parse_args()
+    steps = json.loads(args.grey_steps.read_text())
 
     split = json.loads((args.split_file or args.work_dir / "split_films.json").read_text())
     val_exp = {exposure_of(t) for t in split["val"]}
@@ -73,7 +76,11 @@ def main() -> None:
             if n:
                 inst[c] += n
                 films[c] += 1
-                if r["dtype"] == "uint16" and r["exposure"] not in tainted:
+                if (
+                    r["dtype"] == "uint16"
+                    and r["exposure"] not in tainted
+                    and steps.get(r["stem"], 0) == 1
+                ):
                     eligible[c] += n
 
     # ---- tiles per class in the training list, and what RFS does to them --------------------------

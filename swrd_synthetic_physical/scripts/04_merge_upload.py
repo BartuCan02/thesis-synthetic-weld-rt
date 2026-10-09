@@ -1,4 +1,4 @@
-"""Step 5: register "SWRD v1.0 tiles + synthetic train tiles" as a ClearML child dataset of v1.0.
+"""Step 6: register "SWRD v1.0 tiles + synthetic train tiles" as a ClearML child dataset of v1.0.
 
 Same construction as swrd_paper_baseline/scripts/07_merge_upload.py (the customer side run): every file of
 the parent is kept, the synthetic tiles are added to images/train and labels/train only, and the val folder
@@ -7,7 +7,7 @@ because no synthetic exposure (SYN-...) is in split_films.json's val list.
 
 Refuses to run if the synthetic folder has val tiles or a tile id that already exists in the parent.
 
-    AWS_PROFILE=data-rw python 03_merge_upload.py --parent-id de772ad9363c4067bed5835e13a9be81 \
+    AWS_PROFILE=data-rw python 04_merge_upload.py --parent-id de772ad9363c4067bed5835e13a9be81 \
         --yolo-dir ~/swrd_synthetic_physical/data/yolo_physical_v1 \
         --work-dir ~/swrd_synthetic_physical/data/work_physical_v1 \
         --raw-dir ~/swrd_synthetic_physical/data/raw_physical_v1 --arm physical
@@ -32,7 +32,7 @@ def main() -> None:
     ap.add_argument("--parent-id", required=True, help="the SWRD v1.0 tile dataset")
     ap.add_argument("--yolo-dir", type=Path, required=True, help="output of 03_render.py")
     ap.add_argument("--work-dir", type=Path, required=True)
-    ap.add_argument("--raw-dir", type=Path, required=True, help="output of 01_make_films.py")
+    ap.add_argument("--raw-dir", type=Path, required=True, help="output of 02_make_films.py")
     ap.add_argument("--budget", type=Path, default=HERE.parent / "results" / "budget.json")
     ap.add_argument("--arm", choices=["physical", "naive"], required=True)
     ap.add_argument("--project", default=PROJECT)
