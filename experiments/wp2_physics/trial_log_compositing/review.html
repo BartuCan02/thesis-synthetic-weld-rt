@@ -1,0 +1,334 @@
+<title>SWRD Defect Insertion Trial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: a single reading column; each defect class gets a light-box stage you can flip. */
+  :root {
+    --bg: #f2f3f1;
+    --surface: #ffffff;
+    --fg: #1c2023;
+    --muted: #5a6369;
+    --line: #d8dcd8;
+    --accent: #a85f00;
+    --accent-soft: #f6e6cf;
+    --stage: #0e1011;
+    --stage-fg: #e7e9ea;
+    --label: #ffb000;
+    --font-display: "Archivo Narrow", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --font-body: "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #131618; --surface: #1b1f22; --fg: #e5e8e9; --muted: #9aa3a8; --line: #2b3135;
+      --accent: #f0a640; --accent-soft: #3a2a12; --stage: #08090a; --stage-fg: #e7e9ea; --label: #ffb000;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #131618; --surface: #1b1f22; --fg: #e5e8e9; --muted: #9aa3a8; --line: #2b3135;
+    --accent: #f0a640; --accent-soft: #3a2a12; --stage: #08090a; --stage-fg: #e7e9ea; --label: #ffb000;
+    color-scheme: dark;
+  }
+  body { background: var(--bg); color: var(--fg); font: 15px/1.55 var(--font-body); }
+  .wrap { max-width: 980px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 64px; display: grid; gap: 40px; }
+  h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; letter-spacing: 0.005em; }
+  h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 700; line-height: 1.05; }
+  h2 { font-size: 26px; font-weight: 600; }
+  h3 { font-size: 18px; font-weight: 600; }
+  p { margin: 0; max-width: 68ch; }
+  .eyebrow { font: 500 12px/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.09em; color: var(--accent); }
+  header { display: grid; gap: 14px; }
+  .lede { font-size: 17px; color: var(--fg); }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .fact { background: var(--surface); padding: 14px 16px; display: grid; gap: 4px; min-width: 0; }
+  .fact b { font: 500 22px/1.1 var(--font-mono); font-variant-numeric: tabular-nums; }
+  .fact span { color: var(--muted); font-size: 13px; }
+  .judge { display: grid; gap: 8px; }
+  .judge ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+  nav.classes { display: flex; flex-wrap: wrap; gap: 8px; }
+  nav.classes a { font: 500 13px/1 var(--font-mono); color: var(--fg); text-decoration: none; border: 1px solid var(--line); background: var(--surface); padding: 8px 10px; border-radius: 999px; }
+  nav.classes a:hover, nav.classes a:focus-visible { border-color: var(--accent); outline: none; }
+  section.defect { display: grid; gap: 14px; scroll-margin-top: 16px; }
+  .defect-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
+  .meta { font: 400 12.5px/1.5 var(--font-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+  .meta strong { color: var(--fg); font-weight: 500; }
+  .stage { background: var(--stage); color: var(--stage-fg); border-radius: 6px; padding: 12px; display: grid; gap: 10px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+  .seg { display: inline-flex; border: 1px solid #3a4146; border-radius: 6px; overflow: hidden; }
+  .seg button, .tool { font: 500 13px/1 var(--font-body); color: var(--stage-fg); background: transparent; border: 0; padding: 9px 12px; cursor: pointer; }
+  .seg button + button { border-left: 1px solid #3a4146; }
+  .seg button[aria-pressed="true"] { background: var(--stage-fg); color: var(--stage); }
+  .tools { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+  .tool { border: 1px solid #3a4146; border-radius: 6px; }
+  .tool[aria-pressed="true"] { border-color: var(--label); color: var(--label); }
+  .seg button:focus-visible, .tool:focus-visible { outline: 2px solid var(--label); outline-offset: -2px; }
+  .frame { position: relative; overflow-x: auto; }
+  .film { position: relative; display: block; margin: 0 auto; width: 100%; background: var(--stage); }
+  .film img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+  .film svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .film svg polygon { fill: none; stroke: var(--label); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+  .caption { font: 400 12.5px/1.45 var(--font-body); color: #aab2b7; min-height: 2.9em; }
+  details { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+  details summary { cursor: pointer; padding: 10px 14px; font-weight: 500; }
+  details > div { padding: 0 14px 14px; display: grid; gap: 10px; }
+  details img { display: block; width: 100%; height: auto; border-radius: 4px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .pair figure { margin: 0; display: grid; gap: 4px; min-width: 0; }
+  .pair img { image-rendering: pixelated; }
+  .pair figcaption { font-size: 12.5px; color: var(--muted); }
+  .notes { display: grid; gap: 22px; }
+  .notes ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; max-width: 72ch; }
+  .verdict { font: 500 12px/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; background: var(--accent-soft); color: var(--accent); padding: 5px 8px; border-radius: 4px; }
+  .explain { display: grid; gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 20px; }
+  .eq { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 10px; }
+  .eq figure { margin: 0; display: grid; gap: 6px; min-width: 0; }
+  .eq img { display: block; width: 100%; height: auto; border-radius: 4px; image-rendering: pixelated; border: 1px solid var(--line); }
+  .eq figcaption { font-size: 12.5px; color: var(--muted); line-height: 1.35; }
+  .eq figcaption b { color: var(--fg); font-weight: 600; display: block; }
+  .op { font: 600 28px/1 var(--font-display); color: var(--accent); text-align: center; padding-bottom: 28px; }
+  .steps { margin: 0; padding-left: 22px; display: grid; gap: 10px; max-width: 72ch; }
+  .steps li::marker { font-family: var(--font-mono); color: var(--accent); }
+  .why { border-left: 3px solid var(--accent); padding: 4px 0 4px 14px; max-width: 72ch; }
+  @media (max-width: 640px) { .eq { grid-template-columns: 1fr; } .op { padding-bottom: 0; } }
+  footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 4px; }
+  code { font-family: var(--font-mono); font-size: 0.92em; }
+  @media (max-width: 560px) { .pair { grid-template-columns: 1fr; } .wrap { padding-inline: 16px; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Thesis WP2 · trial · 8 Oct 2026</div>
+    <h1>SWRD Defect Insertion Trial</h1>
+    <p class="lede">Six real SWRD defects, one per class. Each is cut out of its own film by removing it, then inserted into a defect-free SWRD film. Flip between the original film, the physical insertion and the naive insertion at the same spot.</p>
+
+    <section class="explain" aria-labelledby="move">
+      <h2 id="move">How a defect is moved</h2>
+      <p class="meta">Example: the slag inclusion further down. Every picture is the same small window of a real film.</p>
+      <div class="eq" aria-label="Source film minus defect removed equals the defect alone">
+        <figure><img src="panels/inclusion_source.png" alt="Real slag inclusion on its source film" width="360" height="330"><figcaption><b>1. Source film</b>real defect</figcaption></figure>
+        <span class="op" aria-hidden="true">−</span>
+        <figure><img src="panels/inclusion_removed.png" alt="Same window with the inclusion removed by inpainting" width="360" height="330"><figcaption><b>2. Defect removed</b>by inpainting</figcaption></figure>
+        <span class="op" aria-hidden="true">=</span>
+        <figure><img src="panels/inclusion_defect_src.png" alt="The difference: only the inclusion remains, drawn dark on white" width="360" height="330"><figcaption><b>3. Defect alone</b>grey levels it removed</figcaption></figure>
+      </div>
+      <div class="eq" aria-label="Host film plus the defect alone equals the synthetic film">
+        <figure><img src="panels/inclusion_host.png" alt="A defect-free SWRD film at the chosen spot" width="360" height="330"><figcaption><b>4. Host film</b>defect-free</figcaption></figure>
+        <span class="op" aria-hidden="true">+</span>
+        <figure><img src="panels/inclusion_defect_host.png" alt="The extracted inclusion, scaled to the host's grain" width="360" height="330"><figcaption><b>5. Defect alone</b>scaled to the host's grain</figcaption></figure>
+        <span class="op" aria-hidden="true">=</span>
+        <figure><img src="panels/inclusion_physical.png" alt="The host film with the inclusion added" width="360" height="330"><figcaption><b>6. Synthetic film</b>physical insertion</figcaption></figure>
+      </div>
+      <ol class="steps">
+        <li><strong>Remove.</strong> Inpainting fills a hidden part of an image using the pixels around it. The labelled defect is hidden and OpenCV's Telea method fills it from the border inward, each new pixel a weighted average of the known pixels next to it. Real film grain copied from just beside the defect is then added, so the filled area is not suspiciously smooth.</li>
+        <li><strong>Subtract.</strong> Original minus removed leaves only what the defect did to the film: how many grey levels darker each pixel became. Everywhere else the difference is zero, so what remains is the defect on its own, like a shadow.</li>
+        <li><strong>Add.</strong> On a defect-free film, find a spot at the same position across the weld bead and add the shadow there. It is first scaled by how grainy the host is compared with the source, so it stands out from the grain as much as it did originally. The label polygon moves by the same offset, so the mask is exact.</li>
+      </ol>
+      <p class="why"><strong>Why adding is the right operation.</strong> A defect is missing steel. On SWRD, missing steel lowers the grey value by the same amount whether the film around it is bright or dark; the pore-dip test measured this. That is Mery and Katsaggelos's additive model. Their log step is not needed here, because film already responds to the log of the X-ray dose.</p>
+      <p class="why"><strong>The naive arm</strong> skips steps 2 and 3. It pastes the source pixels themselves, including the brightness of the source film around the defect, which is why it shows up as a blob.</p>
+    </section>
+    <div class="facts" role="list">
+      <div class="fact" role="listitem"><b>0.23</b><span>Pore-dip elasticity, 95% CI 0.09 to 0.38. Raw 16-bit SWRD is already near-additive, so no log step.</span></div>
+      <div class="fact" role="listitem"><b>13,271</b><span>pores on 600 films behind that number</span></div>
+      <div class="fact" role="listitem"><b>6 / 6</b><span>physical insertions look plausible by eye; all 6 naive blends look wrong</span></div>
+    </div>
+    <div class="judge">
+      <h3>What to judge on each defect</h3>
+      <ol>
+        <li>Would you flag the physical insertion as fake?</li>
+        <li>Is the position on the weld plausible for this class?</li>
+        <li>Does its darkness sit right against the host film's grain?</li>
+      </ol>
+    </div>
+    <nav class="classes" aria-label="Defect classes" id="nav"></nav>
+  </header>
+
+  <main id="defects" class="notes"></main>
+
+  <section class="notes" aria-labelledby="how">
+    <h2 id="how">Technical details</h2>
+    <ul>
+      <li><strong>Removal</strong> is Felix's idea from 7 Oct: the inpainted area covers the label grown by 6 px, and the grain refill is the fine texture of the same-size window next to it.</li>
+      <li><strong>Defect alone</strong> is smoothed by 1 px and kept to darkening only, because missing steel can only darken. This is the sign constraint of RQ3.</li>
+      <li><strong>Placement</strong> compares brightness profiles across the weld, column medians over ±150 rows. The score is the worst of three slices along the defect, so spots next to a brightness step lose.</li>
+      <li><strong>Contrast scale</strong> is host grain divided by source grain, each measured as the robust spread of the fine texture within 150 px.</li>
+      <li><strong>Naive arm</strong> is the raw source crop alpha-blended with the same soft mask: full weight on the label, fading to zero over 6 px.</li>
+    </ul>
+    <details>
+      <summary>Pore-dip test plot</summary>
+      <div><img src="figures/pore_dip_test.png" alt="Scatter of within-film log pore dip against log background brightness for 13,271 pores. Binned means lie on the flat line for linear space, far from the slope-one line for log space." loading="lazy" width="780" height="585"></div>
+    </details>
+  </section>
+
+  <section class="notes" aria-labelledby="limits">
+    <h2 id="limits">Limits of this trial</h2>
+    <ul>
+      <li>Six examples judged by eye. No detector was trained and no realism study was run.</li>
+      <li>Sources were picked for visibility, at or above the median contrast of their class. That filter must not be reused to build training data.</li>
+      <li>Removal leaves a visible ghost on the inclusion and a smooth band on the large lack of penetration. Good enough to extract a defect, not yet good enough to make clean hosts.</li>
+      <li>The extracted defect still carries some source grain. A proper noise model belongs to RQ3.</li>
+      <li>Grain-ratio scaling assumes both films share film type and gradient.</li>
+      <li>The naive arm is a pure alpha blend. A brightness-matched or Poisson paste is a stronger control to decide on before the WP4 A/B.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>Code and figures: branch <code>wp2-log-compositing-trial</code>, folder <code>experiments/wp2_physics/trial_log_compositing</code>.</span>
+    <span>Data: SWRD (Zhao, Wu et al., J. Nondestructive Evaluation 2025). Model: Mery &amp; Katsaggelos, CVPRW 2017.</span>
+  </footer>
+</div>
+
+<script>
+const ORDER = ["porosity", "inclusion", "crack", "undercut", "lack_of_fusion", "lack_of_penetration"];
+const VIEWS = [
+  ["host", "Original", "The defect-free host film as it is."],
+  ["physical", "Physical", "Host plus the extracted defect, added in grey values and scaled to the host's grain."],
+  ["naive", "Naive", "The raw source crop alpha-blended onto the host. It brings the source film's background along."],
+];
+const NOTES = {
+  porosity: "Slightly soft, because the extracted defect is smoothed by 1 px.",
+  inclusion: "Removal on the source leaves a faint ghost. The insertion itself looks clean.",
+  crack: "Thin structure survives because the soft mask ramps by distance, not by blur.",
+  undercut: "Kept at the bead edge by the profile match.",
+  lack_of_fusion: "Same contrast scale as the source film, 1.01.",
+  lack_of_penetration: "Large defect. It carries some of the source film's texture, and removal leaves a smooth band.",
+};
+
+const nav = document.getElementById("nav");
+const root = document.getElementById("defects");
+const fmt = (n, d = 0) => Number(n).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+const timers = {};
+
+async function build() {
+  let PANELS;
+  try {
+    PANELS = await (await fetch("panels/panels.json")).json();
+  } catch (e) {
+    root.innerHTML = '<p class="meta">The panel data did not load. Reload the page to try again.</p>';
+    return;
+  }
+
+function polygonSvg(size, pts) {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", `0 0 ${size[0]} ${size[1]}`);
+  svg.setAttribute("preserveAspectRatio", "none");
+  const poly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+  poly.setAttribute("points", pts.map(p => p.join(",")).join(" "));
+  svg.appendChild(poly);
+  svg.hidden = true;
+  return svg;
+}
+
+for (const key of ORDER) {
+  const d = PANELS[key];
+  if (!d) continue;
+  const a = document.createElement("a");
+  a.href = `#${key}`;
+  a.textContent = d.title;
+  nav.appendChild(a);
+
+  const sec = document.createElement("section");
+  sec.className = "defect";
+  sec.id = key;
+  sec.innerHTML = `
+    <div class="defect-head">
+      <h2>${d.title}</h2>
+      <span class="verdict">first read: plausible</span>
+    </div>
+    <div class="meta">
+      source <strong>${d.source}</strong> → host <strong>${d.host}</strong><br>
+      polygon <strong>${fmt(d.polygon_area_px)} px</strong> · placement match <strong>${fmt(d.profile_match, 3)}</strong> · contrast scale <strong>${fmt(d.contrast_scale, 2)}</strong>
+    </div>
+    <div class="stage">
+      <div class="controls">
+        <div class="seg" role="group" aria-label="View"></div>
+        <div class="tools">
+          <button type="button" class="tool" data-act="label" aria-pressed="false">Label</button>
+          <button type="button" class="tool" data-act="flicker" aria-pressed="false">Flicker original / physical</button>
+        </div>
+      </div>
+      <div class="frame"><div class="film" style="max-width:${d.host_size[0] * 2}px; aspect-ratio:${d.host_size[0]} / ${d.host_size[1]}"></div></div>
+      <div class="caption"></div>
+    </div>
+    <p class="meta">${NOTES[key] || ""}</p>
+    <details>
+      <summary>Source film: the real defect and its removal</summary>
+      <div>
+        <div class="pair">
+          <figure><img src="panels/${key}_source.png" alt="Real ${d.title.toLowerCase()} on source film ${d.source}" loading="lazy" width="${d.source_size[0]}" height="${d.source_size[1]}"><figcaption>Real defect, label in amber</figcaption></figure>
+          <figure><img src="panels/${key}_removed.png" alt="Same area with the defect removed by inpainting" loading="lazy" width="${d.source_size[0]}" height="${d.source_size[1]}"><figcaption>Defect removed, real grain refilled</figcaption></figure>
+        </div>
+      </div>
+    </details>
+    <details>
+      <summary>Full detail figure</summary>
+      <div><img src="figures/${key}.png" alt="Detail figure for ${d.title.toLowerCase()}: source, removal, extracted defect, host, physical, naive, label and whole host film" loading="lazy"></div>
+    </details>`;
+  root.appendChild(sec);
+
+  const film = sec.querySelector(".film");
+  const imgs = {};
+  VIEWS.forEach(([v], i) => {
+    const img = document.createElement("img");
+    img.src = `panels/${key}_${v}.png`;
+    img.width = d.host_size[0];
+    img.height = d.host_size[1];
+    img.alt = `${d.title}: ${v} view`;
+    img.hidden = i !== 0;
+    film.appendChild(img);
+    imgs[v] = img;
+  });
+  const svg = polygonSvg(d.host_size, d.host_polygon);
+  film.appendChild(svg);
+
+  const srcFig = sec.querySelector(".pair figure");
+  const srcWrap = document.createElement("div");
+  srcWrap.className = "film";
+  srcWrap.style.aspectRatio = `${d.source_size[0]} / ${d.source_size[1]}`;
+  const srcImg = srcFig.querySelector("img");
+  srcFig.insertBefore(srcWrap, srcImg);
+  srcWrap.appendChild(srcImg);
+  const srcSvg = polygonSvg(d.source_size, d.source_polygon);
+  srcSvg.hidden = false;
+  srcWrap.appendChild(srcSvg);
+
+  const seg = sec.querySelector(".seg");
+  const caption = sec.querySelector(".caption");
+  const buttons = {};
+  function show(v) {
+    for (const [k] of VIEWS) {
+      imgs[k].hidden = k !== v;
+      buttons[k].setAttribute("aria-pressed", String(k === v));
+    }
+    caption.textContent = VIEWS.find(x => x[0] === v)[2];
+  }
+  for (const [v, label] of VIEWS) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = label;
+    b.addEventListener("click", () => { stopFlicker(); show(v); });
+    seg.appendChild(b);
+    buttons[v] = b;
+  }
+  const flickBtn = sec.querySelector('[data-act="flicker"]');
+  function stopFlicker() {
+    if (timers[key]) { clearInterval(timers[key]); timers[key] = null; }
+    flickBtn.setAttribute("aria-pressed", "false");
+  }
+  flickBtn.addEventListener("click", () => {
+    if (timers[key]) { stopFlicker(); return; }
+    let on = false;
+    flickBtn.setAttribute("aria-pressed", "true");
+    timers[key] = setInterval(() => { on = !on; show(on ? "physical" : "host"); }, 600);
+  });
+  const labelBtn = sec.querySelector('[data-act="label"]');
+  labelBtn.addEventListener("click", () => {
+    svg.hidden = !svg.hidden;
+    labelBtn.setAttribute("aria-pressed", String(!svg.hidden));
+  });
+  show("physical");
+}
+}
+build();
+</script>
