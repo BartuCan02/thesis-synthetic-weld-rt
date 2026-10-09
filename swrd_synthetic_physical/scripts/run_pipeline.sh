@@ -5,6 +5,7 @@
 # CLAHE 2.0 / 8x8, single channel.
 #
 #   bash swrd_synthetic_physical/scripts/run_pipeline.sh physical v2
+#   TOPUP=1 bash swrd_synthetic_physical/scripts/run_pipeline.sh physical v2   # fill tile shortfall
 #   LIMIT=40 bash swrd_synthetic_physical/scripts/run_pipeline.sh physical smoke   # quick check
 set -euo pipefail
 ARM=${1:-physical}
@@ -26,10 +27,17 @@ echo "== 0/5 grey steps (find 8-bit films stored as 16-bit) + budget (matched to
 "$PY" "$HERE/00_grey_steps.py" --raw "$SWRD_RAW" --work-dir "$SWRD_WORK" --out "$(dirname "$BUDGET")"
 "$PY" "$HERE/01_budget.py" --work-dir "$SWRD_WORK" --out "$(dirname "$BUDGET")"
 
-echo "== 1/5 synthetic films ($ARM) -> $RAW"
-rm -rf "$RAW" "$WORK" "$YOLO"
-"$PY" "$HERE/02_make_films.py" --raw "$SWRD_RAW" --work-dir "$SWRD_WORK" --budget "$BUDGET" \
-  --out "$RAW" --arm "$ARM" --limit "$LIMIT" --workers 4
+if [ "${TOPUP:-0}" = 1 ]; then
+  echo "== 1/5 top-up: more synthetic films ($ARM) until every class reaches its tile target"
+  "$PY" "$HERE/02_make_films.py" --raw "$SWRD_RAW" --work-dir "$SWRD_WORK" --budget "$BUDGET" \
+    --out "$RAW" --arm "$ARM" --workers 4 --seed 1 --topup-from "$WORK/selection_report.json"
+  rm -rf "$WORK" "$YOLO"
+else
+  echo "== 1/5 synthetic films ($ARM) -> $RAW"
+  rm -rf "$RAW" "$WORK" "$YOLO"
+  "$PY" "$HERE/02_make_films.py" --raw "$SWRD_RAW" --work-dir "$SWRD_WORK" --budget "$BUDGET" \
+    --out "$RAW" --arm "$ARM" --limit "$LIMIT" --workers 4
+fi
 
 echo "== 2/5 inventory + tiles (baseline scripts, v1.0 parameters)"
 (cd "$BASE" && "$PY" 00_inventory.py --raw-dir "$RAW" --work-dir "$WORK" --workers 4)

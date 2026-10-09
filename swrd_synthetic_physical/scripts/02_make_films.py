@@ -39,6 +39,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import random
 import sys
 from collections import Counter, defaultdict
@@ -360,12 +361,37 @@ def main() -> None:
         help="version 1: allow defects on spots whose clean tile is in the baseline training set",
     )
     ap.add_argument("--limit", type=int, default=0, help="only this many uses (smoke test)")
+    ap.add_argument(
+        "--topup-from",
+        type=Path,
+        default=None,
+        help="selection_report.json of an earlier pass on --out: add films until each class reaches its\n"
+        "tile target, on hosts not used yet, preferring sources used least so far",
+    )
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--seed", type=int, default=0)
     a = ap.parse_args()
 
     budget = json.loads(a.budget.read_text())
     target = {r["class"]: r["synthetic_instances"] for r in budget["classes"]}
+    prev, prev_uses = [], Counter()
+    if a.topup_from:
+        # measured on the earlier pass: tiles per inserted defect; missing tiles -> extra defects
+        sel = json.loads(a.topup_from.read_text())["per_class"]
+        prev = [json.loads(x) for x in (a.out / "inserted.jsonl").read_text("utf-8").splitlines()]
+        placed_prev = Counter(r["class"] for r in prev)
+        prev_uses = Counter(r["source"] for r in prev)
+        target = {}
+        for r in budget["classes"]:
+            c = r["class"]
+            got = sel.get(c, {}).get("tiles_with_inserted", 0)
+            tpd = got / max(placed_prev[c], 1)
+            missing = r["extra_tiles_to_match_rfs"] - got
+            target[c] = math.ceil(1.1 * missing / tpd) if missing > 0 and tpd > 0 else 0
+            print(
+                f"[topup] {c}: {got:,} tiles from {placed_prev[c]:,} defects ({tpd:.2f}/defect), "
+                f"missing {max(missing, 0):,} -> {target[c]:,} more defects"
+            )
     split = json.loads((a.work_dir / "split_films.json").read_text())
     val_exp = {exposure_of(t.split("__")[0]) for t in split["val"]}
     # every tile the baseline uses (train and val, positives and the sampled clean ones), per film
@@ -402,6 +428,7 @@ def main() -> None:
     for c, n in target.items():
         pool = sorted(sources[c], key=lambda s: s["key"])
         rng.shuffle(pool)
+        pool.sort(key=lambda s: prev_uses[s["key"]])  # stable: least-used sources first
         print(f"[sources] {c}: {len(pool):,} usable instances for {n:,} insertions")
         if not pool:
             continue
@@ -409,7 +436,7 @@ def main() -> None:
             s = pool[k % len(pool)]
             uses.append(
                 {
-                    "uid": f"{c}-{k:05d}",
+                    "uid": f"{c}-{'t' if a.topup_from else ''}{k:05d}",
                     "class": c,
                     "label": s["label"],
                     "key": s["key"],
@@ -443,14 +470,21 @@ def main() -> None:
         del u["src"]
 
     # ---- hosts and films ----------------------------------------------------------------------------
-    hosts = [r for r in films if r["width"] > r["height"] and r["width"] >= a.min_host_width]
+    used_hosts = {r["host"] for r in prev}
+    hosts = [
+        r
+        for r in films
+        if r["width"] > r["height"]
+        and r["width"] >= a.min_host_width
+        and r["stem"] not in used_hosts
+    ]
     hosts.sort(key=lambda r: r["stem"])
     rng.shuffle(hosts)
     print(f"[hosts] {len(hosts):,} landscape training films")
     a.out.mkdir(parents=True, exist_ok=True)
     manifest, failures, qc_crops, film_stems = [], Counter(), [], []
     reasons = Counter()
-    pending, host_i, film_idx = uses, 0, 0
+    pending, host_i, film_idx = uses, 0, (50000 if a.topup_from else 0)
     for rnd in range(a.rounds):
         if not pending:
             break
@@ -492,7 +526,7 @@ def main() -> None:
     for u in pending:
         failures[u["class"]] += 1
 
-    with open(a.out / "inserted.jsonl", "w", encoding="utf-8") as f:
+    with open(a.out / "inserted.jsonl", "a" if a.topup_from else "w", encoding="utf-8") as f:
         for r in manifest:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
     placed = Counter(r["class"] for r in manifest)
@@ -516,8 +550,26 @@ def main() -> None:
         "profile_match_p5_p50_p95": [round(float(v), 3) for v in np.percentile(pm, [5, 50, 95])],
         "params": {k: str(v) for k, v in vars(a).items()},
     }
+    if a.topup_from:
+        old = json.loads((a.out / "make_films_report.json").read_text())
+        (a.out / "make_films_report_pass1.json").write_text(json.dumps(old, indent=2))
+        all_rows = prev + manifest
+        merged = dict(old)
+        merged["films"] = old["films"] + report["films"]
+        merged["hosts_used"] = len({r["host"] for r in all_rows})
+        for c in old["per_class"]:
+            merged["per_class"][c] = {
+                "target": old["per_class"][c]["target"]
+                + report["per_class"].get(c, {}).get("target", 0),
+                "placed": sum(1 for r in all_rows if r["class"] == c),
+                "failed": old["per_class"][c]["failed"]
+                + report["per_class"].get(c, {}).get("failed", 0),
+                "distinct_sources": len({r["source"] for r in all_rows if r["class"] == c}),
+            }
+        merged["topup"] = report
+        report = merged
     (a.out / "make_films_report.json").write_text(json.dumps(report, indent=2))
-    qc_sheet(qc_crops, a.out / "qc_sheet.png")
+    qc_sheet(qc_crops, a.out / ("qc_sheet_topup.png" if a.topup_from else "qc_sheet.png"))
     print(
         json.dumps(
             {
