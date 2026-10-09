@@ -4,11 +4,11 @@
 # recorded for the v1.0 dataset (de772ad9...): edge drop, D7 = 4 px / 10 % / 0.5 %, P0.5-P99.5 stretch,
 # CLAHE 2.0 / 8x8, single channel.
 #
-#   bash swrd_synthetic_physical/scripts/run_pipeline.sh physical v1
+#   bash swrd_synthetic_physical/scripts/run_pipeline.sh physical v2
 #   LIMIT=40 bash swrd_synthetic_physical/scripts/run_pipeline.sh physical smoke   # quick check
 set -euo pipefail
 ARM=${1:-physical}
-TAG=${2:-v1}
+TAG=${2:-v2}
 HERE=$(cd "$(dirname "$0")" && pwd)
 REPO=$(cd "$HERE/../.." && pwd)
 BASE=$REPO/swrd_paper_baseline/scripts
@@ -38,7 +38,8 @@ echo "== 2/5 inventory + tiles (baseline scripts, v1.0 parameters)"
   --exclude-from-negatives 焊瘤 内凹 --workers 4)
 
 echo "== 3/5 keep the tiles that hold an inserted defect"
-"$PY" "$HERE/03_select_tiles.py" --raw "$RAW" --work-dir "$WORK" --budget "$BUDGET"
+"$PY" "$HERE/03_select_tiles.py" --raw "$RAW" --work-dir "$WORK" --budget "$BUDGET" \
+  --split-file "$SWRD_WORK/split_films.json"
 
 echo "== 4/5 render (baseline script, v1.0 parameters)"
 (cd "$BASE" && "$PY" 03_render.py --raw-dir "$RAW" --work-dir "$WORK" --split split_tiles.json \

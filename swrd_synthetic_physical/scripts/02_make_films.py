@@ -17,6 +17,9 @@ grain differs from the source's by more than --scale-range is rejected for that 
 another host: the contrast scale (host grain / source grain) assumes similar film, and is not forced. Everything already
 labelled on a host (defects, pseudo-defects, a second seam polygon) is a keep-out zone grown by one tile side,
 so tiles that hold a synthetic defect rarely hold a real one too. Inserted defects keep one tile side apart.
+Version 2 (default): no inserted pixel may lie inside any tile the baseline dataset already uses (the
+positives and the randomly sampled clean tiles of split_films.json), so the model never sees an inserted
+defect's spot without the defect. --allow-baseline-tiles gives version 1.
 
 Writes, under --out:
   crop_weld_images/S/1/<stem>.tif   16-bit film (the release layout, so 00_inventory/01_tile read it as is)
@@ -208,7 +211,7 @@ def extract_film(job: tuple) -> list[tuple]:
 
 
 def make_film(job: tuple) -> dict:
-    (film_idx, rnd, seed, host, raw, out_dir, arm, uses, scale_range, qc) = job
+    (film_idx, rnd, seed, host, raw, out_dir, arm, uses, scale_range, qc, windows) = job
     rng = np.random.default_rng([seed, rnd, film_idx])
     img = read_tif(Path(raw) / host["image"])
     d, shapes = load_shapes(Path(raw) / host["json"])
@@ -223,6 +226,10 @@ def make_film(job: tuple) -> dict:
         keep |= fill(img.shape, p)
     grow = np.ones((2 * side + 1, 2 * side + 1), np.uint8)
     keep = cv2.dilate(keep, grow) > 0
+    # version 2: no inserted pixel may fall inside a tile the baseline already trains on, so the model
+    # never sees the defect's spot clean
+    for wx, wy, ws in windows:
+        keep[wy : wy + ws, wx : wx + ws] = True
 
     cur = img.copy()
     placed, failed, qc_crops = [], [], []
@@ -346,7 +353,12 @@ def main() -> None:
         help="accepted host/source grain ratio",
     )
     ap.add_argument("--grey-steps", type=Path, default=HERE.parent / "results" / "grey_steps.json")
-    ap.add_argument("--rounds", type=int, default=6, help="re-try failed placements on new hosts")
+    ap.add_argument("--rounds", type=int, default=10, help="re-try failed placements on new hosts")
+    ap.add_argument(
+        "--allow-baseline-tiles",
+        action="store_true",
+        help="version 1: allow defects on spots whose clean tile is in the baseline training set",
+    )
     ap.add_argument("--limit", type=int, default=0, help="only this many uses (smoke test)")
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--seed", type=int, default=0)
@@ -356,6 +368,12 @@ def main() -> None:
     target = {r["class"]: r["synthetic_instances"] for r in budget["classes"]}
     split = json.loads((a.work_dir / "split_films.json").read_text())
     val_exp = {exposure_of(t.split("__")[0]) for t in split["val"]}
+    # every tile the baseline uses (train and val, positives and the sampled clean ones), per film
+    windows = defaultdict(list)
+    if not a.allow_baseline_tiles:
+        for tid in split["train"] + split["val"]:
+            stem, xs, ys, ss = tid.split("__")
+            windows[stem].append((int(xs[1:]), int(ys[1:]), int(ss[1:])))
     tainted = set(budget.get("train_exposures_identical_to_val", []))
     steps = json.loads(a.grey_steps.read_text())
     inv = json.loads((a.work_dir / "inventory.json").read_text())
@@ -451,6 +469,7 @@ def main() -> None:
                     group,
                     tuple(a.scale_range),
                     film_idx % 6 == 0,
+                    windows.get(hosts[host_i % len(hosts)]["stem"], []),
                 )
             )
             host_i += 1

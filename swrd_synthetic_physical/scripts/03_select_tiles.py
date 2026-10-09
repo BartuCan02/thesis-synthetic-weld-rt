@@ -45,6 +45,12 @@ def main() -> None:
     ap.add_argument("--min-side-px", type=int, default=4)
     ap.add_argument("--min-visible-frac", type=float, default=0.10)
     ap.add_argument("--min-tile-frac", type=float, default=0.005)
+    ap.add_argument(
+        "--split-file",
+        type=Path,
+        default=None,
+        help="baseline split_films.json; if given, count inserted defects that touch a baseline tile",
+    )
     a = ap.parse_args()
 
     inserted: dict[str, list[Polygon]] = defaultdict(list)
@@ -97,6 +103,23 @@ def main() -> None:
         }
         for c in sorted(tiles_ins)
     }
+    # version-2 check: no inserted defect may touch a tile the baseline already uses
+    touching = None
+    if a.split_file:
+        split_b = json.loads(a.split_file.read_text())
+        win = defaultdict(list)
+        for tid in split_b["train"] + split_b["val"]:
+            st, xs, ys, ss = tid.split("__")
+            win[st].append((int(xs[1:]), int(ys[1:]), int(ss[1:])))
+        touching = 0
+        for stem, polys in inserted.items():
+            host = stem.split("-", 2)[2]
+            for p in polys:
+                if any(
+                    (m := polygon_visible_mask(p, wx, wy, ws)) is not None and m.any()
+                    for wx, wy, ws in win.get(host, [])
+                ):
+                    touching += 1
     report = {
         "synthetic_films": len(inserted),
         "tiles_on_synthetic_films": n_tiles,
@@ -104,6 +127,7 @@ def main() -> None:
         "target_total_extra_tiles": budget["total_extra_tiles"],
         "per_class": per_class,
         "real_host_boxes_in_kept_tiles": boxes_real["any"],
+        "inserted_defects_touching_a_baseline_tile": touching,
         "params": {k: str(v) for k, v in vars(a).items()},
     }
     split = {
