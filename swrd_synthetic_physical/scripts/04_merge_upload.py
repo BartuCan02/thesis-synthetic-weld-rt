@@ -7,6 +7,12 @@ because no synthetic exposure (SYN-...) is in split_films.json's val list.
 
 Refuses to run if the synthetic folder has val tiles or a tile id that already exists in the parent.
 
+ClearML 2.1.12 de-duplicates by content: a new file whose SHA-256 equals a file of the parent is stored as a
+reference to the parent's copy but under the new name, and get_local_copy() then fails ("Extracted file missing",
+run C 67ab6191, 2026-10-11). Two synthetic crack labels were byte-identical to real ones by chance (full-width box,
+same rows). So every synthetic file is hashed first: an image that matches a parent file stops the upload; a label
+that matches gets a trailing zero on each number (same values for YOLO, different bytes). --dry-run only reports.
+
     AWS_PROFILE=data-rw python 04_merge_upload.py --parent-id de772ad9363c4067bed5835e13a9be81 \
         --yolo-dir ~/swrd_synthetic_physical/data/yolo_physical_v1 \
         --work-dir ~/swrd_synthetic_physical/data/work_physical_v1 \
@@ -16,6 +22,7 @@ Refuses to run if the synthetic folder has val tiles or a tile id that already e
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from collections import Counter
 from pathlib import Path
@@ -25,6 +32,24 @@ from clearml import Dataset
 HERE = Path(__file__).resolve().parent
 PROJECT = "thesis_wp1_benchmark"
 DEFAULT_OUTPUT_URI = "s3://clearml-data-deeplify/clearml-datasets"
+
+
+def sha256(path: Path) -> str:
+    """The hash ClearML compares files by (clearml.storage.hashing.sha256sum, whole file)."""
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def make_label_unique(path: Path, taken: set[str]) -> int:
+    """Append a zero to every number of a YOLO label until its hash is not taken. Returns zeros added."""
+    added = 0
+    while sha256(path) in taken:
+        lines = [ln.split() for ln in path.read_text().splitlines() if ln.strip()]
+        path.write_text(
+            "\n".join(" ".join([f[0]] + [v + "0" for v in f[1:]]) for f in lines) + "\n"
+        )
+        added += 1
+        assert added < 5, f"could not make {path.name} unique"
+    return added
 
 
 def main() -> None:
@@ -64,6 +89,22 @@ def main() -> None:
     n_pos = sum(1 for x in labs if (lab_dir / x).stat().st_size > 0)
     assert n_pos == len(labs), "every synthetic tile must hold at least one box"
 
+    # ClearML content de-duplication guard (see the docstring)
+    parent_hashes = {
+        fe.hash for fe in parent.file_entries_dict.values() if getattr(fe, "hash", None)
+    }
+    img_dups = [i for i in imgs if sha256(img_dir / i) in parent_hashes]
+    assert not img_dups, (
+        f"{len(img_dups)} synthetic images identical to a parent file: {img_dups[:3]}"
+    )
+    lab_dups = [x for x in labs if sha256(lab_dir / x) in parent_hashes]
+    print(f"[merge] content check: 0 images and {len(lab_dups)} labels identical to a parent file")
+    if lab_dups and not a.dry_run:
+        for x in lab_dups:
+            make_label_unique(lab_dir / x, parent_hashes)
+        assert not [x for x in labs if sha256(lab_dir / x) in parent_hashes]
+        print(f"[merge] rewrote {len(lab_dups)} labels with a trailing zero per number: {lab_dups}")
+
     budget = json.loads(a.budget.read_text())
     selection = json.loads((a.work_dir / "selection_report.json").read_text())
     make = json.loads((a.raw_dir / "make_films_report.json").read_text())
@@ -74,7 +115,7 @@ def main() -> None:
         f"adding {len(imgs):,} synthetic train tiles ({a.arm})"
     )
     if a.dry_run:
-        print("[merge] dry run OK: no clash with the parent; nothing created")
+        print("[merge] dry run OK: no clash with the parent; nothing created or rewritten")
         return
 
     ds = Dataset.create(
@@ -114,6 +155,7 @@ def main() -> None:
                 k: render[k] for k in ("p_lo", "p_hi", "clahe_clip", "clahe_grid", "three_channel")
             },
             "val": "identical to parent; film split puts every synthetic tile in train",
+            "labels_made_unique_vs_parent": lab_dups,
         },
         metadata_name="pipeline",
     )
