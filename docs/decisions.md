@@ -168,3 +168,6 @@ Update 2026-10-09 (Bartu): version 2 rule, no inserted defect on a spot the base
 uploaded: ClearML dataset `dc3907f320474cd1ab034ea7689b89b1` (`swrd-paper-tiles-plus-synthetic-physical` 2.0.0,
 child of v1.0): 2,525 defects on 1,193 films, 11,256 synthetic train tiles (inclusion 3,270, crack 1,912, undercut
 2,603, lack of fusion 3,471; 97–102 % of the RFS-matched targets). Run C command in `swrd_synthetic_physical/README.md`.
+Update 2026-10-12 (Bartu): run C `67ab6191…` failed before training because ClearML 2.1.12 content de-duplication
+mis-filed 2 synthetic labels that were byte-identical to parent labels. Dataset re-uploaded as 2.0.1
+`646e699eaa3246468b7f345c271c94c8` (same tiles, 2 labels made unique, upload script now checks); `dc3907f3…` must not be used.

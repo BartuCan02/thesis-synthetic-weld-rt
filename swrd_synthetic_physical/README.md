@@ -38,7 +38,7 @@ epoch (`results/budget.json`, from `01_budget.py`, training films only):
 synthetic defects landed in fewer tiles than that (and 4 % found no valid spot), so a second pass topped every class
 up to its tile target on hosts not used before (`02_make_films.py --topup-from`, least-used sources first).
 
-**What was built (dataset `dc3907f320474cd1ab034ea7689b89b1`, 2026-10-09):**
+**What was built (dataset `646e699eaa3246468b7f345c271c94c8`, version 2.0.1, 2026-10-12; replaces 2.0.0 `dc3907f3…`, see Results):**
 
 | class | synthetic defects | distinct real sources | synthetic tiles | target tiles | reached |
 |---|---:|---:|---:|---:|---:|
@@ -101,7 +101,7 @@ parameters recorded for the v1.0 dataset, so tiles are built exactly like the re
 
 Steps 0 to 5 plus a dry run of step 6: `scripts/run_pipeline.sh physical v2`, then the top-up
 `TOPUP=1 scripts/run_pipeline.sh physical v2`, on the box. Upload:
-`04_merge_upload.py ... --arm physical --version 2.0.0`. About 3.5 h of CPU on the box in total.
+`04_merge_upload.py ... --arm physical --version 2.0.1`. About 3.5 h of CPU on the box in total.
 
 ## Training (Bartu launches)
 
@@ -109,7 +109,7 @@ Identical to run A (`29f71fe4…`) except `--dataset-id` and `--name`. Launch fr
 `05_train.py` is the same on `main` and on `wp1-oversampling-rfs` (commit 40f53fb), so either checkout gives run A's code. The multi-gpu agent runs one task at a time, so queue it after B.
 
 ```bash
-cd ~/thesis/swrd_paper_baseline && AWS_PROFILE=data-rw uv run python scripts/05_train.py --dataset-id dc3907f320474cd1ab034ea7689b89b1 --split film --split-file ~/swrd_paper_baseline/data/work/split_films.json --model yolov8m --epochs 100 --emulate-paper-batch --batch 96 --devices 0,1,2,3 --workers 10 --seed 0 --queue multi-gpu --name v1.0-film-synth-physical-v2-yolov8m-100ep-paperbatch-4gpu
+cd ~/thesis/swrd_paper_baseline && AWS_PROFILE=data-rw uv run python scripts/05_train.py --dataset-id 646e699eaa3246468b7f345c271c94c8 --split film --split-file ~/swrd_paper_baseline/data/work/split_films.json --model yolov8m --epochs 100 --emulate-paper-batch --batch 96 --devices 0,1,2,3 --workers 10 --seed 0 --queue multi-gpu --name v1.0-film-synth-physical-v2.0.1-yolov8m-100ep-paperbatch-4gpu
 ```
 
 Check in the task: Configuration → film_split shows 369 val exposures and `expected_val_tiles` 15996; the console
@@ -118,7 +118,7 @@ shows `split film: train 155,174 tiles, val 15996 tiles` (143,918 real + 11,256 
 ## The naive arm (later, for the WP4 A/B)
 
 Same sources, flips, hosts and positions, alpha-blended instead of added:
-`scripts/run_pipeline.sh naive v2` (+ the same top-up), then `04_merge_upload.py --arm naive --version 2.0.0`.
+`scripts/run_pipeline.sh naive v2` (+ the same top-up), then `04_merge_upload.py --arm naive --version 1.0.0`.
 
 ## Caveats to state with the result
 
@@ -133,5 +133,14 @@ Same sources, flips, hosts and positions, alpha-blended instead of added:
 
 | date | ClearML | what | result |
 |---|---|---|---|
-| 2026-10-09 | `dc3907f320474cd1ab034ea7689b89b1` | dataset `swrd-paper-tiles-plus-synthetic-physical` 2.0.0 | 155,179 train + 15,991 val files; 11,256 synthetic train tiles |
-| 2026-10-09 | `67ab619187874451b5b11369e48779d0` | run C, queued on multi-gpu behind run B | pending |
+| 2026-10-09 | `dc3907f320474cd1ab034ea7689b89b1` | dataset 2.0.0, **broken, do not use** (see below) | 155,179 train + 15,991 val files; 11,256 synthetic train tiles |
+| 2026-10-11 | `67ab619187874451b5b11369e48779d0` | run C on 2.0.0 | **failed before training**: `Dataset merging failed`, 2 files missing |
+| 2026-10-12 | `646e699eaa3246468b7f345c271c94c8` | dataset `swrd-paper-tiles-plus-synthetic-physical` 2.0.1 | same tiles; 2 labels rewritten; full local copy assembled on the box (155,179 train + 15,991 val) |
+| | | run C on 2.0.1 | not launched |
+
+**Why 2.0.0 broke.** ClearML 2.1.12 de-duplicates by content: a new file whose SHA-256 equals any file of the parent
+is stored as a reference to the parent's copy, but under the new file name. Two synthetic crack labels were
+byte-identical to real crack labels by chance (both boxes span the full tile width, so only the rows matter, and the
+rows matched). The agent then looked for the synthetic names inside the parent's folder and failed. Images were
+never affected. `04_merge_upload.py` now hashes every synthetic file first: a matching image stops the upload, a
+matching label gets a trailing zero on each number (same values, different bytes).
