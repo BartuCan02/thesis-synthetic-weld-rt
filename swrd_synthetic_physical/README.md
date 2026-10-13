@@ -136,7 +136,7 @@ Same sources, flips, hosts and positions, alpha-blended instead of added:
 | 2026-10-09 | `dc3907f320474cd1ab034ea7689b89b1` | dataset 2.0.0, **broken, do not use** (see below) | 155,179 train + 15,991 val files; 11,256 synthetic train tiles |
 | 2026-10-11 | `67ab619187874451b5b11369e48779d0` | run C on 2.0.0 | **failed before training**: `Dataset merging failed`, 2 files missing |
 | 2026-10-12 | `646e699eaa3246468b7f345c271c94c8` | dataset `swrd-paper-tiles-plus-synthetic-physical` 2.0.1 | same tiles; 2 labels rewritten; full local copy assembled on the box (155,179 train + 15,991 val) |
-| | | run C on 2.0.1 | not launched |
+| 2026-10-13 | `7e2c90894a094766828910740f8a4670` | run C on 2.0.1, YOLOv8m, 100 epochs, seed 0 | best.pt val mAP50 **0.437** / mAP50-95 0.236 (A 0.452 / 0.240, B 0.450 / 0.239). Per class AP50: porosity 0.733, inclusion 0.266, crack 0.535, undercut 0.070, lack of fusion 0.243, lack of penetration 0.775. Three of the four boosted classes below A; no gain. Plateau precision 0.52 / recall 0.46 vs A 0.55 / 0.45. |
 
 **Why 2.0.0 broke.** ClearML 2.1.12 de-duplicates by content: a new file whose SHA-256 equals any file of the parent
 is stored as a reference to the parent's copy, but under the new file name. Two synthetic crack labels were

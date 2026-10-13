@@ -180,3 +180,8 @@ is launched with `--split film --rfs-threshold 0.0` and the same arguments: task
 Readout: best.pt mAP50 / mAP50-95 and per-class AP50 on the identical SWRD film-split val tiles. Customer labels are the
 catalogue's newest as of the export (same as the v2.13 pull unless re-pulled since); 26 films whose newest label has no
 six-class defect were skipped.
+Update 2026-10-13 (Bartu): run C `7e2c90894a094766828910740f8a4670` completed. best.pt val mAP50 0.437 / mAP50-95
+0.236 against A 0.452 / 0.240 and B 0.450 / 0.239. Undercut 0.070 (A 0.101), crack 0.535 (A 0.573), lack of fusion
+0.243 (A 0.263), inclusion 0.266 (A 0.260). Neither repeating real rare tiles (B) nor moving real rare defects onto new
+films (C) helped on this benchmark; C trades precision for recall. One seed per arm. Per-class montages of val
+predictions registered on A and B as debug samples "Validation by class" (`~/debug_pairs/class_montage.py` on the box).
