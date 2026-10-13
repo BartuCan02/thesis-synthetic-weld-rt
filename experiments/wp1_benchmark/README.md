@@ -45,9 +45,13 @@ classes as `other_defect` = never a box, never a negative) and tiled with the v1
 | dataset | content | status |
 |---|---|---|
 | `9b43a1ecb46b46658bc62523a1ae507b` | v1.0 + 22,132 train tiles from 557 films of the v3.0 set | superseded (wrong film set) |
-| `2067134b370c4757b1aaa9334f1a1397` | v1.0 + 35,744 train tiles (17,872 with a box + 17,872 clean) from 1,838 of the 1,875 v2.12 films; val identical to v1.0 (15,991 tiles) | **to be trained**: `v1.0+customer-v212-yolov8m-100ep-paperbatch-4gpu`, identical args to `4bca601e…` |
+| `2067134b370c4757b1aaa9334f1a1397` | v1.0 + 35,744 train tiles from 1,838 of the 1,875 v2.12 films | superseded (v2.13 is the latest Deeplify run) |
+| `1587e7d3764b461e959f93c04a52d28a` | v1.0 + 44,202 train tiles (22,101 with a box + 22,101 clean) from 2,491 of the 2,613 v2.13 films (`weld_defect_all_v2.13_pullv5`, dataset `15dd436e…`); val folder identical to v1.0 | **training**: `f4aa2155f4d04f268e37443899cfbd7e` `v1.0-film+customer-v213-yolov8m-100ep-paperbatch-4gpu`, queued 2026-10-13, film split + no RFS, identical args to the film baseline `29f71fe4…` (mAP50 0.453 / 0.240) |
 
-Customer tiles: side median 248 px (SWRD 343), min 54 (narrow seams), boxes porosity 7,842 / inclusion 5,275 / crack 206 /
-undercut 11,784 / LoF 1,474 / LoP 715. Caveats for the write-up: tile-level val split; Maroca labels are the HQ
+Comparison is against the **film-split** baseline (thesis protocol, 2026-10-08): the training script puts every tile of the 369
+val exposures into val and everything else, customer tiles included, into train, so the val set is exactly the baseline's.
+v2.13 customer tiles: side median 248 px (SWRD 343), min 74, boxes porosity 9,119 / inclusion 5,716 / crack 227 /
+undercut 14,949 / LoF 1,496 / LoP 1,017; 2,586 films exported (26 skipped: newest label has no six-class pixel; 1 no seam),
+seams: human label 981, v1.3 prediction 1,605. Caveats for the write-up: tile-level val split; Maroca labels are the HQ
 project's unreviewed prelabels as of 22 Sept (same as v2.12 trained on); 258 seams predicted at export time.
-Export report: box `~/swrd_paper_baseline/data/raw_customer_v212/export_report.json`.
+Export reports: box `~/swrd_paper_baseline/data/raw_customer_v21{2,3}/export_report.json`.

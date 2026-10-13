@@ -171,3 +171,12 @@ child of v1.0): 2,525 defects on 1,193 films, 11,256 synthetic train tiles (incl
 Update 2026-10-12 (Bartu): run C `67ab6191…` failed before training because ClearML 2.1.12 content de-duplication
 mis-filed 2 synthetic labels that were byte-identical to parent labels. Dataset re-uploaded as 2.0.1
 `646e699eaa3246468b7f345c271c94c8` (same tiles, 2 labels made unique, upload script now checks); `dc3907f3…` must not be used.
+
+## 2026-10-13 — Bartu — side run re-pinned to v2.13 and compared against the film-split baseline
+Deeplify's latest multiclass run moved to `weld_defect_all_v2.13_pullv5` (2026-10-09, 2,613 customer films: v2.12's
+1,875 plus 738 from a new Labelbox pull), so the customer arm uses that film set (dataset `1587e7d3…`, 44,202 train
+tiles). The thesis baseline is now the film-level split (`29f71fe4…`, mAP50 0.453 / mAP50-95 0.240), so the customer run
+is launched with `--split film --rfs-threshold 0.0` and the same arguments: task `f4aa2155…`, started 2026-10-13.
+Readout: best.pt mAP50 / mAP50-95 and per-class AP50 on the identical SWRD film-split val tiles. Customer labels are the
+catalogue's newest as of the export (same as the v2.13 pull unless re-pulled since); 26 films whose newest label has no
+six-class defect were skipped.
