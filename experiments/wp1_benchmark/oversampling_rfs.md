@@ -1,6 +1,6 @@
 # Does oversampling help the under-represented classes? (WP1, planned 2026-10-08)
 
-Status: **run A `29f71fe4…` completed 2026-10-09 (best.pt val mAP50 0.452 / mAP50-95 0.240). Run B `4784c43bfd9f449f832a1d90287bd4a8` queued on multi-gpu 2026-10-09, Run B completed 2026-10-11. Run C (synthetic, `swrd_synthetic_physical/`) failed on a broken dataset upload (`67ab6191…`); dataset fixed as `646e699e…`, run C to be relaunched. Code is on `main`; launch from `~/thesis` on `main`.**
+Status: **all three runs done. A `29f71fe4…` (2026-10-09) best.pt val mAP50 0.452 / mAP50-95 0.240; B `4784c43b…` (2026-10-11) 0.450 / 0.239; C `7e2c9089…` (synthetic, `swrd_synthetic_physical/`, 2026-10-13) 0.437 / 0.236. Per-class tables in `swrd_synthetic_physical/README.md`. Code is on `main`; launch from `~/thesis` on `main`.**
 
 ## The question
 
