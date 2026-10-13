@@ -44,9 +44,9 @@ import argparse
 import json
 import math
 import os
-import sys
 import random
 import shutil
+import sys
 from collections import Counter
 from pathlib import Path
 
@@ -69,6 +69,8 @@ def project_from_argv(default: str = PROJECT) -> str:
         if a.startswith("--project="):
             return a.split("=", 1)[1]
     return default
+
+
 OUTPUT_URI = "s3://clearml-data-deeplify/clearml-artifacts"
 DOCKER_IMAGE = "862264091922.dkr.ecr.eu-central-1.amazonaws.com/model-training:latest"
 DOCKER_ARGS = "--gpus all --network host --shm-size=16g -e AWS_PROFILE=clearml-s3 -v /home/ec2-user/.aws:/root/.aws:ro"
