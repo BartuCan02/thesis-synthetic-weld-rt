@@ -176,7 +176,9 @@ mis-filed 2 synthetic labels that were byte-identical to parent labels. Dataset 
 Deeplify's latest multiclass run moved to `weld_defect_all_v2.13_pullv5` (2026-10-09, 2,613 customer films: v2.12's
 1,875 plus 738 from a new Labelbox pull), so the customer arm uses that film set (dataset `1587e7d3…`, 44,202 train
 tiles). The thesis baseline is now the film-level split (`29f71fe4…`, mAP50 0.453 / mAP50-95 0.240), so the customer run
-is launched with `--split film --rfs-threshold 0.0` and the same arguments: task `f4aa2155…`, started 2026-10-13.
+is launched with `--split film --rfs-threshold 0.0` and the same arguments: task `cbe9e1a2…` in ClearML project
+`weld_defect_segmentation` (Bartu: the side run is Deeplify's question, so it lives next to the Deeplify runs; `05_train.py`
+got a `--project` option for that). The first attempt `f4aa2155…` failed on the agent's incomplete dataset cache, not on the data.
 Readout: best.pt mAP50 / mAP50-95 and per-class AP50 on the identical SWRD film-split val tiles. Customer labels are the
 catalogue's newest as of the export (same as the v2.13 pull unless re-pulled since); 26 films whose newest label has no
 six-class defect were skipped.
