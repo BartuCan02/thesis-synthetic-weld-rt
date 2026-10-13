@@ -44,6 +44,7 @@ import argparse
 import json
 import math
 import os
+import sys
 import random
 import shutil
 from collections import Counter
@@ -52,6 +53,22 @@ from pathlib import Path
 import yaml
 
 PROJECT = "thesis_wp1_benchmark"
+
+
+def project_from_argv(default: str = PROJECT) -> str:
+    """``--project NAME`` read before Task.init (which needs the project before argparse runs).
+
+    Bartu, 2026-10-13: the SWRD+customer side run for Felix belongs in Deeplify's ``weld_defect_segmentation``
+    project, the thesis runs stay in ``thesis_wp1_benchmark``. On the agent argv is empty and the task already
+    lives in its project, so the default is never used there.
+    """
+    argv = sys.argv[1:]
+    for i, a in enumerate(argv):
+        if a == "--project" and i + 1 < len(argv):
+            return argv[i + 1]
+        if a.startswith("--project="):
+            return a.split("=", 1)[1]
+    return default
 OUTPUT_URI = "s3://clearml-data-deeplify/clearml-artifacts"
 DOCKER_IMAGE = "862264091922.dkr.ecr.eu-central-1.amazonaws.com/model-training:latest"
 DOCKER_ARGS = "--gpus all --network host --shm-size=16g -e AWS_PROFILE=clearml-s3 -v /home/ec2-user/.aws:/root/.aws:ro"
@@ -136,6 +153,9 @@ def parse_args() -> argparse.Namespace:
     )
     ap.add_argument(
         "--name", required=True, help="run name (ClearML task name and local run folder)"
+    )
+    ap.add_argument(
+        "--project", default=PROJECT, help="ClearML project of the task (read before Task.init)"
     )
     ap.add_argument(
         "--queue", default="", help="ClearML queue for remote execution; empty = run here"
@@ -350,7 +370,7 @@ def main() -> None:
     # Task.init BEFORE parse_args: ClearML patches argparse so that, on the agent, the arguments stored
     # in the task's "Args" section are injected (the agent passes no command line of its own).
     task = Task.init(
-        project_name=PROJECT,
+        project_name=project_from_argv(),
         task_name="swrd-paper-baseline (naming…)",
         task_type=Task.TaskTypes.training,
         output_uri=OUTPUT_URI,
