@@ -6,6 +6,14 @@ model trained on the child is scored on exactly the SWRD val tiles the baseline 
 
 Refuses to run if the customer folder has a val split or a tile id that already exists in the parent.
 
+ClearML 2.1.12 de-duplicates by content against the parent: a new file whose SHA-256 equals a parent file is stored
+as a reference to the parent's copy under the new name, and get_local_copy() on the agent then fails with
+"Extracted file missing" (runs f4aa2155 and cbe9e1a2, 2026-10-13: all 22,101 empty labels of the clean customer
+tiles were identical to the parent's empty labels). So before uploading, every customer label whose hash matches
+a parent file is rewritten with the same meaning but different bytes: an empty label becomes a single newline
+(Ultralytics strips it to an empty label), a non-empty one gets a trailing zero on each number (same values).
+Images are only checked; an identical image would be a real duplicate and stops the upload.
+
 Run on the box (AWS_PROFILE=data-rw; datasets must live on S3, see 04_upload_clearml.py):
   AWS_PROFILE=data-rw uv run python scripts/07_merge_upload.py --parent-id de772ad9363c4067bed5835e13a9be81 \\
       --customer-yolo-dir ~/swrd_paper_baseline/data/yolo_customer_v1 --customer-work-dir ~/swrd_paper_baseline/data/work_customer \\
@@ -15,6 +23,7 @@ Run on the box (AWS_PROFILE=data-rw; datasets must live on S3, see 04_upload_cle
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from collections import Counter
 from pathlib import Path
@@ -23,6 +32,33 @@ from clearml import Dataset
 
 PROJECT = "thesis_wp1_benchmark"
 DEFAULT_OUTPUT_URI = "s3://clearml-data-deeplify/clearml-datasets"
+
+
+def sha256(path: Path) -> str:
+    """The hash ClearML compares files by (clearml.storage.hashing.sha256sum, whole file)."""
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def make_label_unique(path: Path, taken: set[str]) -> str:
+    """Rewrite a YOLO label so its bytes differ from every hash in ``taken`` while its meaning stays the same."""
+    text = path.read_text()
+    if not text.strip():
+        path.write_text(
+            "\n"
+        )  # empty label: Ultralytics reads it as no boxes, ClearML sees a new file
+        assert sha256(path) not in taken, (
+            f"{path.name}: even the newline-only label exists in the parent"
+        )
+        return "newline"
+    added = 0
+    while sha256(path) in taken:
+        lines = [ln.split() for ln in path.read_text().splitlines() if ln.strip()]
+        path.write_text(
+            "\n".join(" ".join([f[0]] + [v + "0" for v in f[1:]]) for f in lines) + "\n"
+        )
+        added += 1
+        assert added < 5, f"could not make {path.name} unique"
+    return f"trailing zeros x{added}"
 
 
 def main() -> None:
@@ -62,6 +98,28 @@ def main() -> None:
         f"{len(clashes)} customer tile ids already exist in the parent, e.g. {clashes[:3]}"
     )
     n_parent = Counter(p.split("/")[1] for p in parent_files if p.startswith("images/"))
+
+    # ClearML content de-duplication guard (see the docstring)
+    parent_hashes = {
+        fe.hash for fe in parent.file_entries_dict.values() if getattr(fe, "hash", None)
+    }
+    img_dups = [i for i in imgs if sha256(img_dir / i) in parent_hashes]
+    assert not img_dups, (
+        f"{len(img_dups)} customer images identical to a parent file: {img_dups[:3]}"
+    )
+    lab_dups = [x for x in labs if sha256(lab_dir / x) in parent_hashes]
+    n_empty_dups = sum(1 for x in lab_dups if (lab_dir / x).stat().st_size == 0)
+    print(
+        f"[merge] content check: 0 images and {len(lab_dups):,} labels identical to a parent file "
+        f"({n_empty_dups:,} of them empty labels of clean tiles)"
+    )
+    rewritten: Counter = Counter()
+    if lab_dups and not args.dry_run:
+        for x in lab_dups:
+            rewritten[make_label_unique(lab_dir / x, parent_hashes)] += 1
+        still = [x for x in labs if sha256(lab_dir / x) in parent_hashes]
+        assert not still, f"{len(still)} labels still identical to a parent file"
+        print(f"[merge] rewrote {len(lab_dups):,} labels: {dict(rewritten)}")
     print(
         f"[merge] parent {parent.name} {parent.version}: {dict(n_parent)}; adding {len(imgs):,} customer train tiles"
     )
@@ -117,6 +175,11 @@ def main() -> None:
             },
             "customer_split_params": split.get("params"),
             "val": "identical to parent (SWRD v1.0 tile-level val)",
+            "labels_rewritten_vs_parent_dedup": {
+                "n": len(lab_dups),
+                "how": dict(rewritten),
+                "why": "ClearML stores a file identical to a parent file as a parent reference under the new name",
+            },
         },
         metadata_name="pipeline",
     )
