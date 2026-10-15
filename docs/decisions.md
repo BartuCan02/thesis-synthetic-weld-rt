@@ -189,3 +189,12 @@ Update 2026-10-13 (Bartu): run C `7e2c90894a094766828910740f8a4670` completed. b
 0.243 (A 0.263), inclusion 0.266 (A 0.260). Neither repeating real rare tiles (B) nor moving real rare defects onto new
 films (C) helped on this benchmark; C trades precision for recall. One seed per arm. Per-class montages of val
 predictions registered on A and B as debug samples "Validation by class" (`~/debug_pairs/class_montage.py` on the box).
+
+## 2026-10-15 — Bartu — result of the customer-data side run (Felix's question)
+SWRD + v2.13 customer films, paper configuration, film split: best mAP50 0.466 / mAP50-95 0.250 against the SWRD-only
+film-split baseline 0.453 / 0.240 (task `bf130306…` vs `29f71fe4…`, identical arguments, identical val tiles). Adding
+our data helped a little rather than hurting: undercut 0.10 → 0.14, lack of fusion 0.26 → 0.30, porosity 0.74 → 0.75,
+inclusion and lack of penetration unchanged, crack 0.57 → 0.56. Single seed; identical-data runs differ by about 0.004,
+so the +0.013 is small but real. This does not say whether the paper's preprocessing helps: that needs the same model
+and films with the photometry varied (proposed: YOLOv8n, 40 epochs, SWRD only, per-tile stretch+CLAHE vs per-crop
+window; about 6 GPU hours), not a comparison with the gen-2 SegFormer runs, which differ in model, task, metric and val set.
