@@ -189,6 +189,9 @@ Update 2026-10-13 (Bartu): run C `7e2c90894a094766828910740f8a4670` completed. b
 0.243 (A 0.263), inclusion 0.266 (A 0.260). Neither repeating real rare tiles (B) nor moving real rare defects onto new
 films (C) helped on this benchmark; C trades precision for recall. One seed per arm. Per-class montages of val
 predictions registered on A and B as debug samples "Validation by class" (`~/debug_pairs/class_montage.py` on the box).
+Update 2026-10-15 (Bartu): side run `bf130306…` completed. best.pt mAP50 0.466 / mAP50-95 0.249 vs A 0.452 / 0.240; undercut
+0.139 (A 0.101), lack of fusion 0.299 (A 0.263), crack 0.558 (A 0.573), others within 0.01. Customer films helped slightly,
+against Felix's expectation. Diagnostic only; SWRD-only scope unchanged. Details in `experiments/wp1_benchmark/README.md`.
 
 ## 2026-10-15 — Bartu — result of the customer-data side run (Felix's question)
 SWRD + v2.13 customer films, paper configuration, film split: best mAP50 0.466 / mAP50-95 0.250 against the SWRD-only

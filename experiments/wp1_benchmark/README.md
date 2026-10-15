@@ -48,6 +48,15 @@ classes as `other_defect` = never a box, never a negative) and tiled with the v1
 | `2067134b370c4757b1aaa9334f1a1397` | v1.0 + 35,744 train tiles from 1,838 of the 1,875 v2.12 films | superseded (v2.13 is the latest Deeplify run) |
 | `91dbe45c7cda41d8a21835e8e6376e7c` (v1.0.1; `1587e7d3…` v1.0.0 is the same content with 22,101 dangling parent references, unusable) | v1.0 + 44,202 train tiles (22,101 with a box + 22,101 clean) from 2,491 of the 2,613 v2.13 films (`weld_defect_all_v2.13_pullv5`, dataset `15dd436e…`); val folder identical to v1.0 | **done 2026-10-15**: `bf1303065b67450da75dc71dbac3188f` `swrd-paper-film+customer-v213-yolov8m-100ep-paperbatch-4gpu`, in project **`weld_defect_segmentation`** (Bartu's choice), film split + no RFS, identical args to the film baseline `29f71fe4…`. **best.pt mAP50 0.466 / mAP50-95 0.250 vs baseline 0.453 / 0.240** (+0.013 / +0.009; best epoch 37 vs 30). AP50 per class (customer run vs baseline): porosity 0.749 vs 0.736, inclusion 0.261 vs 0.260, crack 0.558 vs 0.573, undercut 0.139 vs 0.101, LoF 0.299 vs 0.263, LoP 0.788 vs 0.783. Verdict: adding the customer films helps a little on SWRD (rare classes undercut and LoF gain most, crack loses 0.015); the gap is about three times the 0.004 run-to-run spread seen between identical-data runs, single seed. Attempts `f4aa2155…` and `cbe9e1a2…` (archived) died at dataset download with "Extracted file missing": ClearML stores a child file whose content equals a parent file as a parent reference, and every empty label of a clean customer tile equals the parent's empty labels. Fixed in `07_merge_upload.py` (empty label → newline, non-empty duplicate → trailing zeros); the cache wipe (`55dd7c87…`) in between was a wrong diagnosis |
 
+**Readout (2026-10-15, run `bf130306…` completed 2026-10-14 21:00 UTC, 32 h):** best.pt val mAP50 **0.466** / mAP50-95 **0.249**
+against the film baseline A `29f71fe4…` 0.452 / 0.240 (B 0.450 / 0.239, C 0.437 / 0.236). Per-class AP50, side run vs A:
+porosity 0.749 vs 0.736, inclusion 0.261 vs 0.260, crack 0.558 vs 0.573, undercut 0.139 vs 0.101, lack of fusion 0.299 vs 0.263,
+lack of penetration 0.788 vs 0.783. Precision 0.573 vs 0.539, recall 0.446 vs 0.456. Adding the customer films helped a little
+(+0.013 mAP50), mostly on undercut and lack of fusion, the two classes with the most customer boxes; crack (227 customer boxes) lost.
+Felix expected worse. One seed per arm, so the overall gap is at the edge of what one seed can show; the undercut and LoF gaps are larger
+than any A/B/C difference seen so far. Not a scope change: thesis methods stay SWRD-only.
+
+
 Comparison is against the **film-split** baseline (thesis protocol, 2026-10-08): the training script puts every tile of the 369
 val exposures into val and everything else, customer tiles included, into train, so the val set is exactly the baseline's.
 v2.13 customer tiles: side median 248 px (SWRD 343), min 74, boxes porosity 9,119 / inclusion 5,716 / crack 227 /
