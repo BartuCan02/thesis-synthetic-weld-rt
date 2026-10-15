@@ -20,7 +20,7 @@ echo "== 1/4 inventory"
 uv run python scripts/00_inventory.py --raw-dir "$RAW" --work-dir "$WORK"
 echo "== 2/4 tile (other_defect tiles are never negatives)"
 uv run python scripts/01_tile.py --raw-dir "$RAW" --work-dir "$WORK" --edge drop \
-  --min-side-px 4 --min-visible-frac 0.10 --min-tile-frac 0.005 --exclude-from-negatives other_defect
+  --min-side-px 4 --min-visible-frac 0.10 --min-tile-frac 0.005 --exclude-from-negatives other_defect excess_material
 echo "== 3/4 select: all positives + equal negatives, everything to train"
 uv run python scripts/02_select_split.py --work-dir "$WORK" --seed 0 --val-ratio 0
 echo "== 4/4 render"

@@ -23,8 +23,11 @@ Per film, reusing the deeplify dataset_builder readers so the labels mean exactl
      Then MEASURED, not assumed: pores/inclusions must be darker than their surroundings and the seam brighter
      than the plate, as on SWRD (98 % / 95 % / 92 % of instances, 300-film reference). A source that fails the
      pore test aborts the export unless --ignore-polarity-check.
-  4. six-class mask (build_mask target=multiclass) at image resolution; the other weld-defect classes
-     (burn-through, spatter, excess material, ...) become "other_defect" polygons so their tiles are never negatives
+  4. six-class mask (build_mask target=multiclass) at image resolution; the other weld-defect classes become
+     polygons labelled like Deeplify's multiclass-all classes 7 and 8: "other_defect" (burn-through, spatter, root
+     concavity, weld overlap) and "excess_material" (excess reinforcement, low cover, high-low, icicles, drop-through).
+     They never become YOLO boxes and their tiles are never negatives; the segmentation arm rasterises them as
+     mask classes 7 and 8 (9-class setup, 2026-10-15)
   5. seam = the film's own weld_seam_segmentation label when it has one (--seam-source gt-first, default), else the
      cached seam prediction (--seam-mask-dir, then --fallback-seam-mask-dir); the report says which was used
   6. crop = seam bbox + margin_frac x seam short side (deeplify pipeline-v2 rule), grown to contain every label;
@@ -72,6 +75,8 @@ USE_CASE = "weld_defect_segmentation"
 SEAM_USE_CASE = "weld_seam_segmentation"
 SIX = ["porosity", "inclusion", "crack", "undercut", "lack_of_fusion", "lack_of_penetration"]
 OTHER_DEFECT_LABEL = "other_defect"
+EXCESS_MATERIAL_LABEL = "excess_material"
+EXTRA_LABELS = [OTHER_DEFECT_LABEL, EXCESS_MATERIAL_LABEL]
 SWRD_REFERENCE = {  # 300 SWRD films, 2026-10-05, see _customer.instance_contrast / region_contrast
     "pores_darker": 0.984,
     "inclusions_darker": 0.95,
@@ -86,6 +91,7 @@ COLORS = {  # BGR for the montage
     5: (255, 255, 0),
     6: (0, 255, 0),
     7: (128, 128, 128),
+    8: (200, 200, 200),
 }
 
 
@@ -176,6 +182,8 @@ def main() -> None:
         sys.exit(f"MONGODB_URI not set; expected it in {args.env_file}")
 
     from dataset_builder.build_weld_defect_dataset import (
+        EXCESS_MATERIAL_CLASSES,
+        EXTRA_DEFECT_CLASSES,
         LABEL_MASK,
         LABEL_POLYGON,
         build_mask,
@@ -200,7 +208,14 @@ def main() -> None:
     from pymongo import MongoClient
 
     assert list(MULTICLASS_DEFECT_ORDER) == SIX, "class order drifted from the paper's"
-    extra_classes = frozenset(ALL_DEFECT_CLASSES - BINARY_DEFECT_CLASSES)
+    # the same two groups as the builder's multiclass-all target (classes 7 and 8 of v2.13)
+    extra_groups = {
+        OTHER_DEFECT_LABEL: frozenset(EXTRA_DEFECT_CLASSES),
+        EXCESS_MATERIAL_LABEL: frozenset(EXCESS_MATERIAL_CLASSES),
+    }
+    assert frozenset(EXTRA_DEFECT_CLASSES) | frozenset(EXCESS_MATERIAL_CLASSES) == frozenset(
+        ALL_DEFECT_CLASSES - BINARY_DEFECT_CLASSES
+    ), "builder's extra-class groups changed"
     names = {i + 1: n for i, n in enumerate(SIX)}
 
     col = MongoClient(os.environ["MONGODB_URI"], serverSelectionTimeoutMS=30000)["deeplify_ml"][
@@ -293,15 +308,21 @@ def main() -> None:
         return predicted_seam(source, sid, (h, w))
 
     def extra_mask(annotation: dict, payload: bytes, h: int, w: int) -> np.ndarray:
-        """{0,1} over the weld-defect classes that are NOT one of the six, at (h, w)."""
-        if annotation.get("label_type") == LABEL_MASK:
-            indexed = decode_image(payload)
-            m = binary_defect_mask_from_indexed(indexed, extra_classes)
-            return resize_nearest(m, h, w)
-        if annotation.get("label_type") == LABEL_POLYGON:
-            parsed = parse_labelme(json.loads(payload.decode("utf-8")))
-            return binary_defect_mask(parsed, height=h, width=w, classes=extra_classes)
-        return np.zeros((h, w), np.uint8)
+        """{0, 1, 2} over the weld-defect classes that are NOT one of the six, at (h, w):
+        1 = other_defect, 2 = excess_material (other_defect wins where both are drawn, as in the builder)."""
+        out = np.zeros((h, w), np.uint8)
+        for value, label in ((2, EXCESS_MATERIAL_LABEL), (1, OTHER_DEFECT_LABEL)):
+            classes = extra_groups[label]
+            if annotation.get("label_type") == LABEL_MASK:
+                indexed = decode_image(payload)
+                m = resize_nearest(binary_defect_mask_from_indexed(indexed, classes), h, w)
+            elif annotation.get("label_type") == LABEL_POLYGON:
+                parsed = parse_labelme(json.loads(payload.decode("utf-8")))
+                m = binary_defect_mask(parsed, height=h, width=w, classes=classes)
+            else:
+                continue
+            out[m > 0] = value
+        return out
 
     montage_items: list[np.ndarray] = []
 
@@ -403,9 +424,9 @@ def main() -> None:
         rec["size_crop"] = [int(image.shape[1]), int(image.shape[0])]
 
         shapes = mask_to_shapes(mask6, names)
-        shapes += mask_to_shapes(other, {1: OTHER_DEFECT_LABEL})
+        shapes += mask_to_shapes(other, {1: OTHER_DEFECT_LABEL, 2: EXCESS_MATERIAL_LABEL})
         counts = Counter(s["label"] for s in shapes)
-        rec["instances"] = {k: counts.get(k, 0) for k in SIX + [OTHER_DEFECT_LABEL]}
+        rec["instances"] = {k: counts.get(k, 0) for k in SIX + EXTRA_LABELS}
         if not any(counts.get(k) for k in SIX) and not rec["verified_clean"]:
             return rec | {"status": "skip: no six-class polygon survived the crop"}
 
@@ -422,7 +443,7 @@ def main() -> None:
             doc = labelme_document(stem, image.shape[0], image.shape[1], shapes)
             json_path.write_text(json.dumps(doc, ensure_ascii=False), encoding="utf-8")
         if args.montage:
-            overlay = np.where(other > 0, 7, mask6).astype(np.uint8)
+            overlay = np.where(other > 0, 6 + other, mask6).astype(np.uint8)
             # thumbnail only: keeping full crops for 600 films OOM-killed the box (12.6 GB) on 2026-10-05
             montage_items.append(montage_tile(image, overlay, seam.astype(np.uint8), stem))
         return rec | {"status": "ok", "stem": stem}
@@ -609,7 +630,7 @@ def print_tables(per_source: dict) -> None:
             f"| {s} | {p['pores_darker']} ({p['n_pores']}) | {p['inclusions_darker']} "
             f"({p['n_inclusions']}) | {p['seam_brighter']} ({p['n_seams']}) |"
         )
-    cols = SIX + [OTHER_DEFECT_LABEL]
+    cols = SIX + EXTRA_LABELS
     print("\n| source | " + " | ".join(cols) + " |\n|---|" + "---:|" * len(cols))
     for s, d in per_source.items():
         print(f"| {s} | " + " | ".join(str(d["instances"].get(k, 0)) for k in cols) + " |")

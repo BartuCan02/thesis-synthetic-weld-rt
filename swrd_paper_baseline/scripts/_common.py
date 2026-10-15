@@ -54,6 +54,10 @@ LABEL_TO_CLASS: dict[str, int] = {
 #: spatter, excess material, ...). Never a training label; tiles it touches are excluded from the
 #: negatives with ``01_tile.py --exclude-from-negatives other_defect``.
 OTHER_DEFECT_LABEL = "other_defect"
+#: Second group, Deeplify's multiclass-all class 8 (excess reinforcement, low cover, high-low, icicles, drop-through).
+EXCESS_MATERIAL_LABEL = "excess_material"
+#: SWRD's own extra labels that belong to the other_defect group in Deeplify's multiclass-all (class 7).
+SWRD_OTHER_DEFECT_LABELS = ("焊瘤", "内凹")  # weld overlap, internal root concavity
 
 # Paper's numbers we test ourselves against.
 FIG4_INSTANCES_ORIGINAL: dict[str, int] = {  # Fig. 4, on the original films
