@@ -64,3 +64,18 @@ undercut 14,949 / LoF 1,496 / LoP 1,017; 2,586 films exported (26 skipped: newes
 seams: human label 981, v1.3 prediction 1,605. Caveats for the write-up: tile-level val split; Maroca labels are the HQ
 project's unreviewed prelabels as of 22 Sept (same as v2.12 trained on); 258 seams predicted at export time.
 Export reports: box `~/swrd_paper_baseline/data/raw_customer_v21{2,3}/export_report.json`.
+
+## Preprocessing comparison on Deeplify's model: SegFormer on paper tiles vs v2.13 (launched 2026-10-15)
+Bartu's question after the Felix run: is the paper's preprocessing better than Deeplify's? Answered with the same
+model (SegFormer mit-b4, framework recipe), the same films and split (v2.13's: SWRD 3,701/305, customer 2,059/527
+films present in the export), the same 9 classes and the same metric; only the preprocessing differs.
+
+| arm | preprocessing | dataset | run |
+|---|---|---|---|
+| Deeplify gen-2 | seam crop, per-crop window, 512 px patches, residual channel | `15dd436e…` (55,107 / 7,243 patches) | `c3df0377…` `weld_defect_all_v2.13_pullv5`, 22 ep, best val IoU 0.425 |
+| paper | half-short-side tiles, per-tile P0.5–99.5 stretch, CLAHE; all 9-class-positive tiles + 1:1 clean | `8a6aa755088142b8b54e892b34c10940` (208,300 / 30,220 tiles, `08_render_segmentation.py`, norm 0.4875/0.2453) | `da522e1206144671ba032d79350719b4` `weld_defect_all_v2.14_papertiles_9cls_v213split`, **30 ep** (Bartu's choice), in_channels 1, invert_p 0, otherwise v2.13's overrides, launched from `deeplify-wt-weldsuite` @ `78987d92c` + its 272 KB uncommitted diff |
+
+Readout: framework val IoU per class and overall (same metric as the weld-defect project; it ignores background
+false positives) plus post-hoc true IoU for both runs. Caveats: 30 vs 22 epochs; the paper arm has ~3.8x more
+training units (every 9-class-positive tile, 50 % overlap) so an epoch is not the same amount of data; customer
+labels are the catalogue's newest as of the export (same pull as v2.13).

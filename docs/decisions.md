@@ -201,3 +201,11 @@ inclusion and lack of penetration unchanged, crack 0.57 → 0.56. Single seed; i
 so the +0.013 is small but real. This does not say whether the paper's preprocessing helps: that needs the same model
 and films with the photometry varied (proposed: YOLOv8n, 40 epochs, SWRD only, per-tile stretch+CLAHE vs per-crop
 window; about 6 GPU hours), not a comparison with the gen-2 SegFormer runs, which differ in model, task, metric and val set.
+
+## 2026-10-15 — Bartu — preprocessing comparison on Deeplify's own model
+After the Felix run, Bartu wants to know whether the paper's preprocessing is better than Deeplify's gen-2
+preprocessing, with the model held fixed. Decision: train Deeplify's SegFormer (framework recipe, 9 classes incl.
+other_defect and excess_material, v2.13's film split and validation films) on the paper-preprocessed tiles, and compare
+with `weld_defect_all_v2.13_pullv5` by the framework's IoU on the same validation films. Segmentation, not detection:
+SegFormer has no box head. 30 epochs (Bartu). Dataset `8a6aa755…`, task `da522e12…` in `weld_defect_segmentation`.
+The export now emits other_defect and excess_material separately so the 9-class masks match v2.13's classes.
