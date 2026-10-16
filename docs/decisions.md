@@ -220,3 +220,38 @@ re-derived and checked byte for byte; dataset `c385c61a95bd40f191ecd8ca60894f7e`
 `--model yolov8m-seg`. Label geometry: traced boundary of the rasterised visible piece, multi-piece instances bridged
 (607, 0.4 %), implied box 1 px smaller than D7 (inclusive vs exclusive edge). Memory probe on the box: 12.4 GB per T4 at
 batch 24, so A's `--batch 96` stands. Command in `experiments/wp1_benchmark/README.md`. Bartu launches.
+
+## 2026-10-16 — Felix (call) — second physics run: vary the inserted defect, make placement explicit and measured
+Felix on run C: (1) a pasted defect is the same defect again; rotate, scale and stretch it when inserting. (2) He asked
+how the pipeline guarantees each class sits where it occurs (undercut at the bead edge) and whether placement is per
+tile or per film. Answer after checking the code: placement is per film (tiles cut afterwards by the baseline tiler);
+the position across the weld is copied from the source by matching the brightness profile across the weld (median
+score 0.975, 5th percentile 0.72), with no explicit per-class rule, no check against the host's seam polygon, and no
+verification of the outcome. (3) Two papers: Tyystjärvi 2022 (virtual flaws in weld RT: affine + noise + flips on the
+extracted flaw, placed inside a weld mask; combined real+virtual best at every data fraction, gain only below ~25 % of
+the data and for the near-empty crack class, nothing at full data) and Virkkunen 2021 (origin of the method, UT:
+amplitude scaling to emulate other sizes, null implants so the model cannot learn the insertion itself). Notes in
+`docs/literature/`, meeting note `docs/meetings/2026-10-16_felix.md`.
+Plan for the second physics run (to confirm with Felix): per-class position measured on the real labels as a
+normalised across-weld coordinate and sampled from it, inside the host seam, with a real-vs-synthetic plot per class;
+affine + amplitude variation of the residual (scale 0.7–1.4, stretch 0.8–1.25, ±5° for elongated classes, amplitude
+0.7–1.3); null implants; faintness compensated; scored on full data with a synthetic share well above run C's 7.8 %
+(Bartu: no data-fraction sweep; about 3× run C as the starting budget, no longer tied to RFS), with false calls per
+weld length as a secondary readout. No seed repeat (Bartu): the
+~0.004 identical-data estimate stands unless a result lands inside the ~0.02 band.
+Run C's full-data no-gain result is consistent with Tyystjärvi's 100 % column and is no longer surprising.
+
+## 2026-10-16 — Bartu — run D: version-3 synthetic build launched (full data, 3x budget, 50 epochs)
+After the Felix call (entry above), the second physics run is built with pipeline version 3 on branch
+`wp2-synthetic-v3` (`swrd_synthetic_physical/README.md`, top section). Decisions: full SWRD training data plus a
+synthetic share 3x run C's (33,879 target tiles, +23.5 %, 6,462 defects; undercut reused ~10x per source); defects
+varied per use (size 0.7–1.4x, stretch 0.8–1.25x, rotation <= 5 deg for elongated classes, depth 0.7–1.3x, both
+mirrors); placement by the measured across-weld coordinate u of the source, inside the host seam, profile match >= 0.5
+as a check; depth lost to the 1 px blur put back (<= 1.6x); null implants on about half of the films (their tiles
+train as negatives, 300 held out for the artefact check); 50 epochs (Bartu, time), which requires a 50-epoch
+baseline A' on the parent dataset for a fair readout (run A's 100-epoch schedule is a different recipe).
+Measured on the real training films (26,488 polygons): undercut median |u| 1.34 with 15 % inside the bead, lack of
+penetration median 0.28 with 97 % inside, i.e. the coordinate reproduces the textbook positions; this is the answer to
+Felix's placement question, and `position_check.png` compares real vs run C vs v3 per class.
+Build runs detached on the box (tmux session `v3`, log `~/swrd_synthetic_physical/data/pipeline_physical_v3.log`),
+uploads as dataset version 3.0.0 at the end. Training commands in the README; Bartu launches.

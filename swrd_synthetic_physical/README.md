@@ -1,4 +1,91 @@
-# Synthetic run C: real rare-class defects inserted physically into other SWRD films
+# Synthetic insertion of real rare-class defects into other SWRD films (runs C and D)
+
+Thesis WP2 (physics-based insertion). Version 2 of the pipeline built run C's data (2026-10-09, below). **Version 3**
+(branch `wp2-synthetic-v3`, 2026-10-16, after the Felix call recorded in `docs/meetings/2026-10-16_felix.md`) builds the
+data for the second physics run, run D. Everything below the version-3 section describes run C and still applies to
+the parts version 3 keeps.
+
+## Version 3 (run D): what changed and why
+
+| | run C (version 2) | run D (version 3) |
+|---|---|---|
+| where across the weld | row with the best match of the source's brightness profile; no explicit rule, nothing checked | the defect's across-weld coordinate u is measured on the source (bead geometry: 0 = centre line, 1 = toe) and the defect goes to the host row with the same u, inside the host's main seam polygon, profile match >= 0.5 as a check; measured again on the synthetic films and plotted against the real distribution per class |
+| the defect itself | the real residual, mirrored left-right with p = 0.5 | varied per use: size 0.7-1.4x, stretch 0.8-1.25x, rotation <= 5 deg (elongated classes; any angle for inclusions), depth 0.7-1.3x, left-right and top-bottom mirror (a top-bottom mirror also mirrors u) |
+| depth lost to the 1 px smoothing | not corrected (synthetic cracks/inclusions about 20 % fainter than real in the 8-bit tiles) | measured per defect as median depth inside the polygon before/after the blur and put back (factor clipped to <= 1.6) |
+| negatives with the pipeline's traces | none | null implants: on about half of the films the removal-and-refill step runs on one clean spot with nothing added; their tiles are negatives in training, 300 of them held out for the post-training check (`work_*/null_holdout.json`) |
+| budget | matched to repeat factor sampling t = 0.1 (11,293 tiles, +7.8 %) | 3x that: 33,879 target tiles (+23.5 %), 6,462 synthetic defects, budget no longer tied to RFS (`results/budget_v3.json`) |
+| defects per synthetic film | up to 4 | up to 5 |
+| training | 100 epochs | 50 epochs (Bartu, 2026-10-16); needs the 50-epoch baseline A' for a fair readout |
+
+Unchanged: physical insertion (removal, darkening-only residual, grain-ratio contrast scale 0.5-2x, raw16 additive),
+sources and hosts from training films only, exclusions (8-bit films, val copies, tungsten, T-joint crossing welds,
+borders), the version-2 rule (no inserted pixel on a tile the baseline trains on), tiling and rendering with the
+baseline's v1.0 parameters, val byte-identical.
+
+**Across-weld coordinate, measured on the real training films** (`05_measure_positions.py`, 26,488 polygons on 3,707
+films, 98 % with a defined bead geometry; `results/positions_real.json`):
+
+| class | n | median \|u\| | share inside the bead (\|u\| <= 1) | accepted source band [p2.5, p97.5] of \|u\| |
+|---|---:|---:|---:|---|
+| porosity | 21,588 | 0.44 | 83 % | 0.02-1.58 |
+| inclusion | 1,732 | 0.58 | 73 % | 0.03-1.82 |
+| crack | 1,661 | 0.36 | 74 % | 0.01-1.82 |
+| undercut | 182 | **1.34** | **15 %** | 0.21-1.84 |
+| lack of fusion | 668 | 0.53 | 83 % | 0.05-1.53 |
+| lack of penetration | 657 | 0.28 | 97 % | 0.01-1.12 |
+
+Undercut sits at or outside the toe, lack of penetration near the centre line: the measurement reproduces the
+textbook positions, which is the answer to Felix's question. A source whose u is undefined (bead cut on both sides,
+mostly T-joint halves) or outside its class band is placed by the version-2 profile match instead and flagged
+`placement: profile` in `inserted.jsonl`.
+
+**Budget per class (version 3, `01_budget.py --scale 3`):**
+
+| class | synthetic defects | target tiles | usable real sources | uses per source |
+|---|---:|---:|---:|---:|
+| inclusion | 2,322 | 9,774 | 1,763 | 1.3 |
+| crack | 897 | 5,901 | 1,665 | 0.5 |
+| undercut | 1,818 | 7,662 | 185 | 9.8 |
+| lack of fusion | 1,425 | 10,542 | 669 | 2.1 |
+| **total** | **6,462** | **33,879** | | |
+
+Undercut is reused about 10 times per source; each use is a different variation, host, position and side of the
+bead. The real undercut distribution in SWRD (182 training instances) is the limit, not the pipeline.
+
+**Build (on the box, worktree `~/thesis-synth-v3`, detached in tmux so it survives a closed laptop):**
+
+```bash
+tmux new-session -d -s v3 "cd ~/thesis-synth-v3/swrd_synthetic_physical/scripts && UPLOAD=1 bash run_pipeline.sh physical v3 > ~/swrd_synthetic_physical/data/pipeline_physical_v3.log 2>&1"
+```
+
+Steps: budget x3 -> real positions (cached) -> films -> tiles -> selection (+ null tiles) -> render -> automatic top-up
+if a class is below 97 % of its tile target -> positions of the inserted defects, `position_check.png`,
+`compare_sheet.png` (real | run C | v3) -> ClearML upload as `swrd-paper-tiles-plus-synthetic-physical` **3.0.0**
+(child of v1.0 `de772ad9...`). The dataset id is the last `[merge] dataset id` line of the log. Expected: about 1,500
+synthetic films, 32,000-35,000 positive tiles, 2,500-3,500 null tiles, 6-10 h of CPU.
+
+**Training run D (Bartu launches; identical to run A except dataset, epochs and name):**
+
+```bash
+cd ~/thesis/swrd_paper_baseline && AWS_PROFILE=data-rw uv run python scripts/05_train.py --dataset-id <DATASET_ID_FROM_LOG> --split film --split-file ~/swrd_paper_baseline/data/work/split_films.json --model yolov8m --epochs 50 --emulate-paper-batch --batch 96 --devices 0,1,2,3 --workers 10 --seed 0 --queue multi-gpu --name v1.0-film-synth-physical-v3.0.0-yolov8m-50ep-paperbatch-4gpu
+```
+
+**50-epoch baseline A' (needed once, same command on the parent dataset):**
+
+```bash
+cd ~/thesis/swrd_paper_baseline && AWS_PROFILE=data-rw uv run python scripts/05_train.py --dataset-id de772ad9363c4067bed5835e13a9be81 --split film --split-file ~/swrd_paper_baseline/data/work/split_films.json --model yolov8m --epochs 50 --emulate-paper-batch --batch 96 --devices 0,1,2,3 --workers 10 --seed 0 --queue multi-gpu --name v1.0-film-real-yolov8m-50ep-paperbatch-4gpu
+```
+
+Run A (100 epochs) is not a fair reference for a 50-epoch run: Ultralytics' learning-rate schedule and the close-mosaic
+phase scale with the epoch count, so a 50-epoch run is a different recipe, not a truncated one.
+
+**Readout for run D:** per-class AP50 and mAP50 / mAP50-95 on the identical val tiles against A'; false calls per unit weld
+length as the secondary readout (run C traded precision for recall and mAP hid it); detections on the 300 held-out
+null tiles (any = insertion artefacts learned).
+
+---
+
+# Run C (version 2): real rare-class defects inserted physically into other SWRD films
 
 Built 2026-10-09 (branches `wp2-synthetic-physical-v1`, then `wp2-synthetic-v2`, both merged into `main`). Thesis WP2 (physics-based insertion), first training
 test. Method from the WP2 trial (`experiments/wp2_physics/trial_log_compositing/`, review page shared with Felix).

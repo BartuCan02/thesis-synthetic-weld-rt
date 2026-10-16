@@ -107,8 +107,10 @@ def extract_defect(
     The cleaned crop gets real grain back inside the removed area, transplanted from the nearest
     window of the same film beside the defect, so that removal does not leave a smooth patch.
     compensate > 0 (version 3): the blur makes thin defects shallower (a 2 px crack keeps about 70 % of
-    its depth). The median depth inside the labelled polygon is measured before and after the blur and
-    the residual is multiplied by their ratio, clipped to [1, compensate]. 0 switches it off.
+    its peak depth). The deepest decile inside the labelled polygon is measured on a barely smoothed
+    residual (sigma 0.5) and on the blurred one, and the residual is multiplied by their ratio, clipped to
+    [1, compensate]. Grain inflates the reference by a few percent on faint, wide defects (known bias,
+    bounded by the clip). 0 switches it off.
     """
     h, w = film.shape
     x0, y0 = np.floor(points.min(axis=0)).astype(int) - margin
@@ -136,8 +138,13 @@ def extract_defect(
         elif sign > 0:
             r = np.maximum(r, 0.0)
         if compensate > 0 and lab.any():
-            before = float(np.median(np.abs(r_raw[lab > 0])))
-            after = float(np.median(np.abs(r[lab > 0])))
+            # depth = deepest decile inside the polygon (the peak a detector sees), measured on a barely
+            # smoothed residual (sigma 0.5: pixel noise halved, a 2 px line keeps > 90 % of its peak) and
+            # on the blurred one; the ratio is what the blur took from the peak. The median would not see
+            # it (a blur spreads a thin line, it does not lower its median over a wider polygon).
+            r_ref = cv2.GaussianBlur(r_raw, (0, 0), 0.5)
+            before = float(np.percentile(np.abs(r_ref[lab > 0]), 90))
+            after = float(np.percentile(np.abs(r[lab > 0]), 90))
             if after > 0:
                 comp = float(np.clip(before / after, 1.0, compensate))
                 r = r * comp
