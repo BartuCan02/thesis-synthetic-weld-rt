@@ -9,14 +9,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from _common import (
     Polygon,
     box_from_visible,
-    clip_polygon_to_tile,
     contrast_stretch_to_uint8,
     exposure_id,
+    merge_polygon_pieces,
     polygon_to_yolo_seg,
     polygon_visible_mask,
     simplify_polygon,
     tile_positions,
     tile_side,
+    trace_mask_polygon,
 )
 
 
@@ -94,48 +95,62 @@ def test_contrast_stretch_percentiles_and_minmax():
 # ---- polygon labels for the segmentation arm ---------------------------------------------------------
 
 
-def test_clip_keeps_a_polygon_fully_inside_the_tile():
-    pts = np.array([[10, 10], [30, 10], [30, 30], [10, 30]], dtype=np.float32)
-    out = clip_polygon_to_tile(pts, 0, 0, 100)
-    assert out.shape == (4, 2)
-    assert np.allclose(sorted(map(tuple, out)), sorted(map(tuple, pts)))
+def _filled(points, side=100):
+    import cv2
+
+    canvas = np.zeros((side, side), dtype=np.uint8)
+    cv2.fillPoly(canvas, [np.round(points).astype(np.int32)], 1)
+    return canvas
 
 
-def test_clip_translates_to_tile_coordinates_and_cuts_at_the_border():
-    # square 90..110 in image coords, tile at x=50 of side 50 covers 50..100 -> visible part 90..100 -> local 40..50
-    pts = np.array([[90, 90], [110, 90], [110, 110], [90, 110]], dtype=np.float32)
-    out = clip_polygon_to_tile(pts, 50, 50, 50)
-    assert len(out) == 4
-    assert out.min(axis=0).tolist() == [40.0, 40.0]
-    assert out.max(axis=0).tolist() == [50.0, 50.0]
+def test_trace_round_trips_a_square_and_implies_the_d7_box_minus_one():
+    poly = _square(10, 10, 30, 30)
+    mask = polygon_visible_mask(poly, 0, 0, 100)
+    box = box_from_visible(poly, mask, 4, 0.10, 0.005)
+    pts, n_pieces = trace_mask_polygon(mask)
+    assert n_pieces == 1
+    assert np.array_equal(_filled(pts), mask)
+    assert pts.min(axis=0).tolist() == [box.x0, box.y0]
+    assert pts.max(axis=0).tolist() == [box.x1 - 1, box.y1 - 1]
 
 
-def test_clip_of_polygon_outside_the_tile_is_empty():
-    pts = np.array([[500, 500], [520, 500], [520, 520]], dtype=np.float32)
-    assert len(clip_polygon_to_tile(pts, 0, 0, 100)) == 0
+def test_trace_of_the_visible_piece_follows_the_window():
+    # square 90..110 in image coords, window at (50, 50) of side 50 sees 90..100 -> local 40..49 inclusive
+    poly = _square(90, 90, 110, 110)
+    mask = polygon_visible_mask(poly, 50, 50, 50)
+    pts, _ = trace_mask_polygon(mask)
+    assert np.array_equal(_filled(pts, 50), mask)
+    assert pts.min(axis=0).tolist() == [40.0, 40.0]
+    assert pts.max(axis=0).tolist() == [49.0, 49.0]
 
 
-def test_clipped_concave_polygon_rasterises_like_the_d7_mask():
-    # a U shape: base at y 80..100, two arms at y 100..150 (x 10..30 and x 60..80). The window y 100..200
-    # sees only the two arms, so the clipped polygon must keep both and leave the gap between them empty.
-    pts = np.array(
+def test_trace_of_concave_piece_keeps_both_arms_and_the_gap():
+    # a U shape: base at y 80..100, arms at y 100..150 (x 10..30 and x 60..80). The window y 100..200 sees only
+    # the two arms: one instance, two pieces, joined by a bridge; the gap between the arms stays empty
+    pts_img = np.array(
         [[10, 80], [10, 150], [30, 150], [30, 100], [60, 100], [60, 150], [80, 150], [80, 80]],
         dtype=np.float32,
     )
-    poly = Polygon("裂纹", 2, pts, "polygon")
+    poly = Polygon("裂纹", 2, pts_img, "polygon")
     mask = polygon_visible_mask(poly, 0, 100, 100)
-    out = clip_polygon_to_tile(pts, 0, 100, 100)
-    canvas = np.zeros((100, 100), dtype=np.uint8)
-    import cv2
+    pts, n_pieces = trace_mask_polygon(mask)
+    assert n_pieces == 2
+    filled = _filled(pts)
+    inter = np.logical_and(filled, mask).sum()
+    union = np.logical_or(filled, mask).sum()
+    assert inter / union > 0.95  # only the one-pixel bridge line is extra
+    assert filled[25, 20] == 1 and filled[25, 70] == 1
+    assert filled[75, 45] == 0 and filled[10, 45] == 0  # the gap away from the bridge
+    assert pts.min(axis=0).tolist() == [10.0, 0.0] and pts.max(axis=0).tolist() == [80.0, 50.0]
 
-    cv2.fillPoly(canvas, [np.round(out).astype(np.int32)], 1)
-    inter = np.logical_and(canvas, mask).sum()
-    union = np.logical_or(canvas, mask).sum()
-    assert inter / union > 0.95
-    assert (
-        canvas[25, 20] == 1 and canvas[25, 70] == 1 and canvas[25, 45] == 0
-    )  # both arms, not the gap
-    assert canvas[75, 20] == 0  # below the arms nothing
+
+def test_merge_pieces_returns_one_closed_path_covering_both():
+    a = np.array([[0, 0], [10, 0], [10, 10], [0, 10]], dtype=np.float32)
+    b = np.array([[50, 50], [60, 50], [60, 60], [50, 60]], dtype=np.float32)
+    merged = merge_polygon_pieces([a, b])
+    assert len(merged) == len(a) + len(b) + 2  # bridge out and back
+    filled = _filled(merged)
+    assert filled[5, 5] == 1 and filled[55, 55] == 1 and filled[5, 55] == 0
 
 
 def test_simplify_keeps_corners_and_at_least_three_points():

@@ -18,10 +18,13 @@ Labels (--labels, 2026-10-16, segmentation arm of WP1):
   polygon   Ultralytics segment lines "cls x1 y1 x2 y2 ..." for the SAME instances: every defect polygon is
             rasterised into the window again, the D7 keep rule (read from tiles_summary.json) decides exactly as
             in 01_tile.py, and the box of each kept instance must equal the stored one byte for byte, otherwise
-            the script stops. The written polygon is the LabelMe polygon clipped to the window (Sutherland-
-            Hodgman, optional Douglas-Peucker with --simplify-px), so the instance set and its boxes are those of
-            the detection dataset and only the label geometry differs. Degenerate shapes (1-2 points, or nothing
-            left after clipping) fall back to the D7 box as a 4-point polygon and are counted.
+            the script stops. The written polygon is the traced outer boundary of the rasterised visible piece
+            (the very mask the D7 rule measured; several pieces of one instance are joined by a zero-width
+            bridge, as Ultralytics' COCO converter does; collinear vertices removed with --simplify-px). So the
+            instance set is that of the detection dataset and only the label geometry differs. The box Ultralytics
+            derives from the polygon spans the boundary pixels inclusively, i.e. 1 px narrower and shorter than
+            the D7 box, whose upper edges are exclusive. Pieces that trace to fewer than 3 vertices fall back to
+            the D7 box as a 4-point polygon and are counted.
 --reuse-images DIR  hardlink (or copy) the PNGs of an existing render instead of decoding the TIFFs, so a second
             label format sits on byte-identical images. Only the labels are computed.
 
@@ -50,19 +53,20 @@ from _common import (
     CLASS_NAMES,
     Polygon,
     box_from_visible,
-    clip_polygon_to_tile,
     load_polygons,
     polygon_to_yolo_seg,
     polygon_visible_mask,
     preprocess_tile,
     read_tif,
     simplify_polygon,
+    trace_mask_polygon,
     write_json,
 )
 from tqdm import tqdm
 
-# Instances whose written polygon covers less than this fraction (IoU) of the rasterised D7 piece are counted
-# in label_stats as "low_mask_iou"; a few are expected from rounding on 4 px pieces, many would mean a bug.
+# Instances whose written polygon, filled again, overlaps the rasterised D7 piece with an IoU below this are
+# counted in label_stats as "low_mask_iou". The trace round-trips exactly; only the bridge line of a
+# multi-piece instance adds pixels, so anything below this means a bug.
 MASK_IOU_WARN = 0.8
 
 
@@ -94,14 +98,16 @@ def polygon_lines_for_tile(
             continue
         boxes.append(b.to_yolo(side))
         stats["instances"] += 1
-        pts = clip_polygon_to_tile(p.points, x, y, side) if len(p.points) >= 3 else np.empty((0, 2))
-        pts = simplify_polygon(pts, simplify_px) if len(pts) >= 3 else pts
-        if (
-            len(pts) < 3
-        ):  # 1-2 point shapes, or clipping left nothing usable: the D7 box as a polygon
+        pts, n_pieces = trace_mask_polygon(mask)
+        if n_pieces > 1:
+            stats["multi_piece"] += 1
+        if pts is not None:
+            pts = simplify_polygon(pts, simplify_px)
+        if pts is None or len(pts) < 3:
             stats["fallback_box_polygon"] += 1
             pts = np.array(
-                [[b.x0, b.y0], [b.x1, b.y0], [b.x1, b.y1], [b.x0, b.y1]], dtype=np.float32
+                [[b.x0, b.y0], [b.x1 - 1, b.y0], [b.x1 - 1, b.y1 - 1], [b.x0, b.y1 - 1]],
+                dtype=np.float32,
             )
         else:
             canvas = np.zeros((side, side), dtype=np.uint8)
@@ -112,7 +118,10 @@ def polygon_lines_for_tile(
                 stats["low_mask_iou"] += 1
             px0, py0 = pts.min(axis=0)
             px1, py1 = pts.max(axis=0)
-            dev = max(abs(px0 - b.x0), abs(py0 - b.y0), abs(px1 - b.x1), abs(py1 - b.y1))
+            # D7 upper edges are exclusive; the traced boundary is inclusive, hence the -1
+            dev = max(
+                abs(px0 - b.x0), abs(py0 - b.y0), abs(px1 - (b.x1 - 1)), abs(py1 - (b.y1 - 1))
+            )
             stats["max_box_deviation_px"] = max(stats["max_box_deviation_px"], float(dev))
         stats["vertices"] += len(pts)
         lines.append(polygon_to_yolo_seg(p.class_id, pts, side))
@@ -294,6 +303,7 @@ def main() -> None:
         params["d7_params"] = d7
         params["label_stats"] = {
             "instances": stats["instances"],
+            "multi_piece": stats["multi_piece"],
             "fallback_box_polygon": stats["fallback_box_polygon"],
             "low_mask_iou": stats["low_mask_iou"],
             "mask_iou_warn_threshold": MASK_IOU_WARN,

@@ -361,45 +361,47 @@ def dataclass_dict(obj) -> dict:
 # ---------------------------------------------------------------------------
 
 
-def clip_polygon_to_tile(points: np.ndarray, x: int, y: int, side: int) -> np.ndarray:
-    """Clip a polygon to the window [x, x+side] x [y, y+side] and return it in tile-local pixel coordinates.
+def merge_polygon_pieces(pieces: list[np.ndarray]) -> np.ndarray:
+    """Join several closed polygons into one by zero-width bridges between their nearest vertices.
 
-    Sutherland-Hodgman against the four window edges. A concave polygon that leaves and re-enters the
-    window comes back as one polygon whose pieces are joined by zero-width edges along the window border;
-    that rasterises to the right pixels, which is all the segmentation label needs. Consecutive duplicate
-    vertices are removed. Fewer than 3 vertices means nothing of the polygon is inside the window.
+    Same idea as Ultralytics' ``merge_multi_segment`` (COCO conversion): the path runs around the first
+    piece, jumps to the closest vertex of the next piece, around it, and back along the same bridge. The
+    bridge has no area, so the filled polygon is the union of the pieces plus a one-pixel line between them.
     """
-    pts = np.asarray(points, dtype=np.float64) - np.array([x, y], dtype=np.float64)
-    lo, hi = 0.0, float(side)
-    # (axis, bound, keep_below): keep p[axis] >= lo, p[axis] <= hi for both axes
-    edges = ((0, lo, False), (0, hi, True), (1, lo, False), (1, hi, True))
-    for axis, bound, keep_below in edges:
-        if len(pts) == 0:
-            break
-        out: list[np.ndarray] = []
-        prev = pts[-1]
-        prev_in = (prev[axis] <= bound) if keep_below else (prev[axis] >= bound)
-        for cur in pts:
-            cur_in = (cur[axis] <= bound) if keep_below else (cur[axis] >= bound)
-            if cur_in != prev_in:  # the edge crosses the boundary: add the crossing point
-                t = (bound - prev[axis]) / (cur[axis] - prev[axis])
-                out.append(prev + t * (cur - prev))
-            if cur_in:
-                out.append(cur)
-            prev, prev_in = cur, cur_in
-        pts = np.asarray(out, dtype=np.float64).reshape(-1, 2)
-    if len(pts) == 0:
-        return pts.astype(np.float32)
-    keep = np.ones(len(pts), dtype=bool)
-    keep[1:] = np.any(np.abs(pts[1:] - pts[:-1]) > 1e-9, axis=1)
-    pts = pts[keep]
-    if len(pts) > 1 and np.all(np.abs(pts[0] - pts[-1]) <= 1e-9):
-        pts = pts[:-1]
-    return pts.astype(np.float32)
+    poly = np.asarray(pieces[0], dtype=np.float32)
+    for piece in pieces[1:]:
+        piece = np.asarray(piece, dtype=np.float32)
+        d = ((poly[:, None, :] - piece[None, :, :]) ** 2).sum(axis=-1)
+        i, j = np.unravel_index(int(np.argmin(d)), d.shape)
+        rotated = np.concatenate([piece[j:], piece[:j]])
+        poly = np.concatenate([poly[: i + 1], rotated, rotated[:1], poly[i:]])
+    return poly
+
+
+def trace_mask_polygon(mask: np.ndarray) -> tuple[np.ndarray | None, int]:
+    """The outer boundary of a binary mask as one polygon, in pixel coordinates of the mask.
+
+    Returns (polygon, number of pieces). Pieces are the external contours (holes are ignored, LabelMe
+    polygons have none); contours of fewer than 3 points (1-px slivers) are dropped. Several pieces are
+    merged with ``merge_polygon_pieces``. ``cv2.fillPoly`` of the result reproduces the mask, so the label
+    says exactly what the D7 rule measured. The implied box spans the boundary pixels inclusively, i.e. it is
+    one pixel narrower and shorter than the D7 box, whose upper edges are exclusive.
+    """
+    contours, _ = cv2.findContours(
+        mask.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+    )
+    pieces = [c.reshape(-1, 2).astype(np.float32) for c in contours if len(c) >= 3]
+    if not pieces:
+        return None, 0
+    pieces.sort(key=lambda c: -cv2.contourArea(c))
+    return merge_polygon_pieces(pieces), len(pieces)
 
 
 def simplify_polygon(points: np.ndarray, epsilon_px: float) -> np.ndarray:
-    """Douglas-Peucker with a tolerance in pixels; keeps at least 3 vertices or returns the input."""
+    """Douglas-Peucker with a tolerance in pixels; keeps at least 3 vertices or returns the input.
+
+    On integer contours a tolerance below 1 removes only collinear vertices, so the filled shape is unchanged.
+    """
     if epsilon_px <= 0 or len(points) <= 3:
         return points
     approx = cv2.approxPolyDP(points.astype(np.float32).reshape(-1, 1, 2), epsilon_px, True)
