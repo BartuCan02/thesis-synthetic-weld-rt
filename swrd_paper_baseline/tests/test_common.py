@@ -125,14 +125,15 @@ def test_trace_of_the_visible_piece_follows_the_window():
 
 
 def test_trace_of_concave_piece_keeps_both_arms_and_the_gap():
-    # a U shape: base at y 80..100, arms at y 100..150 (x 10..30 and x 60..80). The window y 100..200 sees only
-    # the two arms: one instance, two pieces, joined by a bridge; the gap between the arms stays empty
+    # a U shape: base at y 80..100, arms at y 100..150 (x 10..30 and x 60..80). The window y 105..205 sees only
+    # the two arms (the base's lower edge at y 100 stays outside, fillPoly would otherwise draw it on row 0):
+    # one instance, two pieces, joined by a bridge; the gap between the arms stays empty
     pts_img = np.array(
         [[10, 80], [10, 150], [30, 150], [30, 100], [60, 100], [60, 150], [80, 150], [80, 80]],
         dtype=np.float32,
     )
     poly = Polygon("裂纹", 2, pts_img, "polygon")
-    mask = polygon_visible_mask(poly, 0, 100, 100)
+    mask = polygon_visible_mask(poly, 0, 105, 100)
     pts, n_pieces = trace_mask_polygon(mask)
     assert n_pieces == 2
     filled = _filled(pts)
@@ -141,7 +142,7 @@ def test_trace_of_concave_piece_keeps_both_arms_and_the_gap():
     assert inter / union > 0.95  # only the one-pixel bridge line is extra
     assert filled[25, 20] == 1 and filled[25, 70] == 1
     assert filled[75, 45] == 0 and filled[10, 45] == 0  # the gap away from the bridge
-    assert pts.min(axis=0).tolist() == [10.0, 0.0] and pts.max(axis=0).tolist() == [80.0, 50.0]
+    assert pts.min(axis=0).tolist() == [10.0, 0.0] and pts.max(axis=0).tolist() == [80.0, 45.0]
 
 
 def test_merge_pieces_returns_one_closed_path_covering_both():
