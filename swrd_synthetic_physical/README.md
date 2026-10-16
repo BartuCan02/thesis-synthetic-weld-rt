@@ -79,6 +79,14 @@ cd ~/thesis/swrd_paper_baseline && AWS_PROFILE=data-rw uv run python scripts/05_
 Run A (100 epochs) is not a fair reference for a 50-epoch run: Ultralytics' learning-rate schedule and the close-mosaic
 phase scale with the epoch count, so a 50-epoch run is a different recipe, not a truncated one.
 
+**Smoke build before the full launch (100 defects, 2026-10-16, `raw_physical_v3smoke`):** 89 placed after 10 rounds
+(85 by geometry, 4 by profile fallback), 4.6 tiles per defect, 49 films, 11 null implants. Two findings:
+(1) **run C had placed about a quarter of its undercuts inside the bead** (|u| < 1), where real undercuts almost never
+are (real median |u| 1.34, run C 1.16, KS distance 0.30); v3 reproduces the real position (median 1.34, KS 0.14 on
+19 samples). (2) The 1 px blur is not the main cause of run C's faint defects: the measured depth compensation is
+1.0-1.1 (cracks ~1.09), so the faintness must come from elsewhere (per-tile stretch, or the amplitude of real-vs-
+inserted contrast); the 0.7-1.3 amplitude variation now covers that range either way.
+
 **Readout for run D:** per-class AP50 and mAP50 / mAP50-95 on the identical val tiles against A'; false calls per unit weld
 length as the secondary readout (run C traded precision for recall and mAP hid it); detections on the 300 held-out
 null tiles (any = insertion artefacts learned).
