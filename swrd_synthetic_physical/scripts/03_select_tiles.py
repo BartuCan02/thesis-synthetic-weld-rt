@@ -5,6 +5,12 @@ every tile, real or inserted, with the v1.0 rule. This script keeps a tile when 
 polygon (LabelMe flags.synthetic) passes that same keep rule (D7) in it. Other tiles of the synthetic films
 are dropped: they only repeat the host film. This matches what oversampling adds: extra positive tiles.
 
+Version 3 (2026-10-16): null implants (inserted.jsonl records with class "null", no label polygon) make
+*negative* tiles that carry the pipeline's processing traces. A tile whose window holds a null implant's centre
+and no inserted defect is kept as a null tile; --null-holdout of them (random, seeded) are kept out of the
+training list and written to <work-dir>/null_holdout.json for the post-training check (detections on them =
+insertion artefacts learned).
+
 Writes <work-dir>/split_tiles.json ({"train": [...], "val": [], ...}) for the baseline's 03_render.py, and
 <work-dir>/selection_report.json.
 
@@ -16,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import random
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -51,7 +58,18 @@ def main() -> None:
         default=None,
         help="baseline split_films.json; if given, count inserted defects that touch a baseline tile",
     )
+    ap.add_argument("--null-holdout", type=int, default=300, help="null tiles kept out of training")
+    ap.add_argument("--seed", type=int, default=0)
     a = ap.parse_args()
+
+    nulls: dict[str, list[tuple[float, float]]] = defaultdict(list)
+    ins_path = a.raw / "inserted.jsonl"
+    if ins_path.is_file():
+        for line in ins_path.read_text(encoding="utf-8").splitlines():
+            r = json.loads(line)
+            if r["class"] == "null":
+                (x, y), (h, w) = r["top_left"], r["patch_hw"]
+                nulls[r["film"]].append((x + w / 2, y + h / 2))
 
     inserted: dict[str, list[Polygon]] = defaultdict(list)
     for js in (a.raw / "crop_weld_jsons").rglob("*.json"):
@@ -66,6 +84,7 @@ def main() -> None:
                 )
 
     keep, boxes_ins, tiles_ins, boxes_real = [], Counter(), Counter(), Counter()
+    null_tiles, null_tiles_positive = [], 0
     n_tiles = 0
     with open(a.work_dir / "tiles.jsonl", encoding="utf-8") as f:
         for line in f:
@@ -73,6 +92,10 @@ def main() -> None:
             n_tiles += 1
             classes = set()
             n_ins = 0
+            has_null = any(
+                t["x"] <= cx < t["x"] + t["side"] and t["y"] <= cy < t["y"] + t["side"]
+                for cx, cy in nulls.get(t["stem"], [])
+            )
             for p in inserted.get(t["stem"], []):
                 m = polygon_visible_mask(p, t["x"], t["y"], t["side"])
                 if m is None or not m.any():
@@ -83,6 +106,11 @@ def main() -> None:
                     boxes_ins[p.class_id] += 1
                     n_ins += 1
             if not classes:
+                if has_null:
+                    if t["boxes"]:
+                        null_tiles_positive += 1
+                    else:
+                        null_tiles.append(t["tile_id"])
                 continue
             keep.append(t["tile_id"])
             for c in classes:
@@ -120,21 +148,31 @@ def main() -> None:
                     for wx, wy, ws in win.get(host, [])
                 ):
                     touching += 1
+    rng = random.Random(a.seed)
+    null_tiles.sort()
+    holdout = sorted(rng.sample(null_tiles, min(a.null_holdout, len(null_tiles))))
+    null_train = sorted(set(null_tiles) - set(holdout))
+    (a.work_dir / "null_holdout.json").write_text(json.dumps({"tiles": holdout}))
     report = {
         "synthetic_films": len(inserted),
         "tiles_on_synthetic_films": n_tiles,
-        "tiles_kept": len(keep),
+        "tiles_kept": len(keep) + len(null_train),
+        "tiles_with_inserted_defect": len(keep),
+        "null_tiles_train": len(null_train),
+        "null_tiles_holdout": len(holdout),
+        "null_tiles_dropped_positive": null_tiles_positive,
         "target_total_extra_tiles": budget["total_extra_tiles"],
         "per_class": per_class,
         "real_host_boxes_in_kept_tiles": boxes_real["any"],
         "inserted_defects_touching_a_baseline_tile": touching,
         "params": {k: str(v) for k, v in vars(a).items()},
     }
+    train = sorted(keep + null_train)
     split = {
-        "train": sorted(keep),
+        "train": train,
         "val": [],
         "params": report["params"],
-        "counts": {"train": len(keep)},
+        "counts": {"train": len(train), "null_train": len(null_train)},
     }
     (a.work_dir / "split_tiles.json").write_text(json.dumps(split))
     (a.work_dir / "selection_report.json").write_text(json.dumps(report, indent=2))

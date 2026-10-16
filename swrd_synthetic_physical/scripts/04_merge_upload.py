@@ -40,8 +40,15 @@ def sha256(path: Path) -> str:
 
 
 def make_label_unique(path: Path, taken: set[str]) -> int:
-    """Append a zero to every number of a YOLO label until its hash is not taken. Returns zeros added."""
+    """Append a zero to every number of a YOLO label until its hash is not taken. Returns zeros added.
+    An empty label (null tile) becomes a single newline, which Ultralytics reads as no boxes."""
     added = 0
+    if path.stat().st_size == 0:
+        path.write_text("\n")
+        assert sha256(path) not in taken, (
+            f"{path.name}: even the newline-only label exists in the parent"
+        )
+        return 1
     while sha256(path) in taken:
         lines = [ln.split() for ln in path.read_text().splitlines() if ln.strip()]
         path.write_text(
@@ -86,8 +93,12 @@ def main() -> None:
     ]
     assert not clashes, f"{len(clashes)} tile ids already exist in the parent, e.g. {clashes[:3]}"
     n_parent = Counter(p.split("/")[1] for p in parent_files if p.startswith("images/"))
+    selection = json.loads((a.work_dir / "selection_report.json").read_text())
+    n_null = selection.get("null_tiles_train", 0)
     n_pos = sum(1 for x in labs if (lab_dir / x).stat().st_size > 0)
-    assert n_pos == len(labs), "every synthetic tile must hold at least one box"
+    assert n_pos == len(labs) - n_null, (
+        f"{len(labs) - n_pos} empty labels but {n_null} null tiles: every other tile must hold a box"
+    )
 
     # ClearML content de-duplication guard (see the docstring)
     parent_hashes = {
@@ -106,8 +117,8 @@ def main() -> None:
         print(f"[merge] rewrote {len(lab_dups)} labels with a trailing zero per number: {lab_dups}")
 
     budget = json.loads(a.budget.read_text())
-    selection = json.loads((a.work_dir / "selection_report.json").read_text())
     make = json.loads((a.raw_dir / "make_films_report.json").read_text())
+    version = make.get("version", 2)
     tiling = json.loads((a.work_dir / "tiles_summary.json").read_text())
     render = json.loads((a.yolo_dir / "render_params.json").read_text())
     print(
@@ -126,8 +137,9 @@ def main() -> None:
         output_uri=a.output_uri,
         description=(
             f"SWRD paper-baseline tiles v1.0 (parent, unchanged incl. val) + synthetic train tiles: real "
-            f"SWRD defects of the rare classes moved into other SWRD training films ({a.arm} insertion), "
-            f"budget matched to repeat factor sampling t={budget['rfs_threshold']}. Thesis WP2."
+            f"SWRD defects of the rare classes moved into other SWRD training films ({a.arm} insertion, "
+            f"pipeline version {version}), budget = {budget.get('scale', 1)} x repeat factor sampling "
+            f"t={budget['rfs_threshold']}; {n_null} null-implant negative tiles. Thesis WP2."
         ),
     )
     ds.add_files(path=str(img_dir), dataset_path="images/train", verbose=False)
@@ -146,6 +158,11 @@ def main() -> None:
             "parent": a.parent_id,
             "arm": a.arm,
             "synthetic_train_tiles": len(imgs),
+            "synthetic_positive_tiles": len(imgs) - n_null,
+            "null_tiles_train": n_null,
+            "null_tiles_holdout": selection.get("null_tiles_holdout", 0),
+            "pipeline_version": version,
+            "v3": make.get("v3"),
             "synthetic_films": make["films"],
             "per_class_insertions": make["per_class"],
             "per_class_tiles": selection["per_class"],

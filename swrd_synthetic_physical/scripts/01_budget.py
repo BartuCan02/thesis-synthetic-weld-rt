@@ -49,6 +49,13 @@ def main() -> None:
     )
     ap.add_argument("--out", type=Path, default=HERE.parent / "results")
     ap.add_argument("--grey-steps", type=Path, default=HERE.parent / "results" / "grey_steps.json")
+    ap.add_argument(
+        "--scale",
+        type=float,
+        default=1.0,
+        help="version 3: multiply the RFS-matched tile and instance targets (run C used 1.0)",
+    )
+    ap.add_argument("--name", default="budget.json")
     args = ap.parse_args()
     steps = json.loads(args.grey_steps.read_text())
 
@@ -113,7 +120,7 @@ def main() -> None:
     rows, total_tiles, total_inst = [], 0, 0
     for name in args.classes:
         c = CLASS_NAMES.index(name)
-        extra = seen[c] - tiles_with[c]
+        extra = (seen[c] - tiles_with[c]) * args.scale
         tiles_per_inst = boxes[c] / inst[c]
         target = math.ceil(extra / tiles_per_inst)
         rows.append(
@@ -139,12 +146,13 @@ def main() -> None:
         "n_val_exposures": len(val_exp),
         "train_exposures_identical_to_val": sorted(tainted),
         "rfs_threshold": args.rfs_threshold,
+        "scale": args.scale,
         "classes": rows,
         "total_extra_tiles": total_tiles,
         "total_synthetic_instances": total_inst,
     }
     args.out.mkdir(parents=True, exist_ok=True)
-    (args.out / "budget.json").write_text(json.dumps(out, indent=2))
+    (args.out / args.name).write_text(json.dumps(out, indent=2))
 
     hdr = f"{'class':20s} {'films':>6s} {'inst':>6s} {'elig':>6s} {'tiles':>6s} {'r':>5s} {'+tiles':>7s} {'t/inst':>6s} {'synth':>6s} {'uses':>5s}"
     print(hdr)

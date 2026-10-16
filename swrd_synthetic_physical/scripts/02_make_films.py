@@ -30,6 +30,19 @@ Writes, under --out:
 
 --arm naive writes the A/B control with the identical sources, flips, hosts and positions.
 
+Version 3 (default since 2026-10-16, after the Felix call; --version 2 gives run C's behaviour):
+  * placement by bead geometry: the source defect's across-weld coordinate u (weld_geometry.py) is measured
+    on the source film with the defect removed, and the defect goes to the host row with the same u, at a
+    column where the host's bead geometry is defined, inside the host's main seam polygon, with the profile
+    match as a check (--min-score). Sources whose u is undefined or outside the class's real band
+    (--positions, from 05_measure_positions.py) fall back to the version-2 profile placement, flagged.
+  * every use of a source is varied (Tyystjarvi 2022 / Virkkunen 2021): size, aspect, a small rotation for
+    elongated classes (any angle for round ones), amplitude, left-right and top-bottom mirror (a top-bottom
+    mirror also mirrors u).
+  * the depth lost to the 1 px smoothing is put back (--compensate, measured per defect).
+  * null implants (--null-prob): on some films the removal-and-refill step runs on a clean spot with
+    nothing added; recorded in inserted.jsonl with class "null", no label polygon.
+
 Run on the box (any python with numpy, opencv, tifffile; e.g. the swrd_paper_baseline venv):
     python 02_make_films.py --raw ~/swrd_paper_baseline/data/raw --work-dir ~/swrd_paper_baseline/data/work \
         --budget ../results/budget.json --out ~/swrd_synthetic_physical/data/raw_physical_v1 --arm physical
@@ -58,14 +71,20 @@ from _common import CLASS_NAMES, LABEL_TO_CLASS, read_tif, tile_side
 
 from rtsynth.compositing import (
     AdditiveSpace,
+    Augmentation,
+    SourceProfile,
+    augment_patch,
     composite_naive,
     composite_physical,
     contrast_scale,
     extract_defect,
     flip_patch,
+    null_implant,
+    place_by_geometry,
     place_with_profile,
     source_profile,
 )
+from rtsynth.weld_geometry import geometry_at
 
 SEAM = "焊缝"
 TUNGSTEN = "夹钨"
@@ -186,15 +205,21 @@ def find_sources(rec: dict, raw: Path, targets: set[str], a: argparse.Namespace)
 
 
 def extract_film(job: tuple) -> list[tuple]:
-    """Extract every chosen source on one film. Returns (key, patch, profile) tuples."""
-    raw, image, rot, items, dilate, denoise = job
+    """Extract every chosen source on one film. Returns (key, patch, profile, u) tuples, u = the
+    defect's across-weld coordinate on the cleaned source (None if the bead geometry is undefined)."""
+    raw, image, rot, items, dilate, denoise, compensate = job
     film = read_tif(Path(raw) / image)
     if rot:
         film = np.rot90(film, 1).copy()
     out = []
     for key, pts in items:
         patch = extract_defect(
-            film, np.asarray(pts), SPACE, dilate_px=dilate, denoise_sigma=denoise
+            film,
+            np.asarray(pts),
+            SPACE,
+            dilate_px=dilate,
+            denoise_sigma=denoise,
+            compensate=compensate,
         )
         ph, pw = patch.residual.shape
         sx, sy = patch.origin
@@ -202,7 +227,9 @@ def extract_film(job: tuple) -> list[tuple]:
         band[sy : sy + ph, :] = patch.cleaned_crop
         cleaned = np.zeros_like(film[:, : sx + pw])
         cleaned[:, sx : sx + pw] = band
-        out.append((key, patch, source_profile(cleaned, patch)))
+        g = geometry_at(cleaned, sx, sx + pw)
+        u = None if g is None else float(g.u(sy + float(patch.points[:, 1].mean())))
+        out.append((key, patch, source_profile(cleaned, patch), u))
     return out
 
 
@@ -212,7 +239,7 @@ def extract_film(job: tuple) -> list[tuple]:
 
 
 def make_film(job: tuple) -> dict:
-    (film_idx, rnd, seed, host, raw, out_dir, arm, uses, scale_range, qc, windows) = job
+    (film_idx, rnd, seed, host, raw, out_dir, arm, uses, scale_range, qc, windows, v3) = job
     rng = np.random.default_rng([seed, rnd, film_idx])
     img = read_tif(Path(raw) / host["image"])
     d, shapes = load_shapes(Path(raw) / host["json"])
@@ -220,6 +247,7 @@ def make_film(job: tuple) -> dict:
     side = tile_side(hh, hw)
     seams = [p for lab, p in shapes if lab == SEAM and len(p) >= 3]
     main = max(seams, key=area) if seams else None
+    inside = (fill(img.shape, main) > 0) if (main is not None and v3["geometry"]) else None
     keep = np.zeros(img.shape, np.uint8)
     for lab, p in shapes:
         if lab == SEAM and p is main:
@@ -233,16 +261,50 @@ def make_film(job: tuple) -> dict:
         keep[wy : wy + ws, wx : wx + ws] = True
 
     cur = img.copy()
-    placed, failed, qc_crops = [], [], []
+    placed, failed, qc_crops, nulls = [], [], [], []
+    last = None
     for use in uses:
         patch, prof = use["patch"], use["prof"]
-        if use["flip"]:
+        aug = None
+        if v3["augment"]:
+            aug = Augmentation.sample(
+                rng,
+                use["class"] in ELONGATED,
+                scale=v3["aug_scale"],
+                aspect=v3["aug_aspect"],
+                angle_deg=v3["aug_angle"],
+                amplitude=v3["aug_amplitude"],
+                hflip_prob=0.5,
+                vflip_prob=v3["vflip_prob"],
+            )
+            patch = augment_patch(patch, aug)
+            if aug.vflip:  # the source profile must mirror with the patch
+                prof = SourceProfile(prof.values[::-1].copy(), len(prof.values) - 1 - prof.off, 0)
+        elif use["flip"]:
             patch = flip_patch(patch)
-        try:
-            (x, y), score = place_with_profile(cur, keep, prof, patch, rng)
-        except RuntimeError:
-            failed.append((use["uid"], "no_spot"))
-            continue
+        prof = SourceProfile(prof.values, prof.off, round(float(patch.points[:, 1].mean())))
+        u_src, band = use.get("u_src"), v3["bands"].get(use["class"])
+        mode = (
+            "geometry"
+            if v3["geometry"] and u_src is not None and band and band[0] <= abs(u_src) <= band[1]
+            else "profile"
+        )
+        u_t = u_real = None
+        if mode == "geometry":
+            u_t = -u_src if (aug and aug.vflip) else u_src
+            res = place_by_geometry(
+                cur, keep, inside, patch, prof, u_t, rng, min_score=v3["min_score"]
+            )
+            if res is None:
+                failed.append((use["uid"], "no_spot"))
+                continue
+            (x, y), score, u_real = res
+        else:
+            try:
+                (x, y), score = place_with_profile(cur, keep, prof, patch, rng)
+            except RuntimeError:
+                failed.append((use["uid"], "no_spot"))
+                continue
         ph, pw = patch.residual.shape
         scale = float(contrast_scale(cur, patch, (x, y)))
         if not scale_range[0] <= scale <= scale_range[1]:
@@ -256,6 +318,7 @@ def make_film(job: tuple) -> dict:
         sup = np.zeros(img.shape, np.uint8)
         sup[y : y + ph, x : x + pw] = patch.weight > 0
         keep |= cv2.dilate(sup, grow) > 0
+        last = (patch, prof, mode, u_t)
         pts = patch.points + [x, y]
         placed.append(
             {
@@ -263,11 +326,17 @@ def make_film(job: tuple) -> dict:
                 "class": use["class"],
                 "label": use["label"],
                 "source": use["key"],
-                "flip": bool(use["flip"]),
+                "flip": bool(aug.hflip if aug else use["flip"]),
                 "top_left": [int(x), int(y)],
                 "patch_hw": [int(ph), int(pw)],
                 "profile_match": round(score, 4),
                 "contrast_scale": round(scale, 4),
+                "placement": mode,
+                "u_source": None if u_src is None else round(u_src, 4),
+                "u_target": None if u_t is None else round(u_t, 4),
+                "u_realised": None if u_real is None else round(float(u_real), 4),
+                "aug": aug.as_dict() if aug else None,
+                "compensation": round(float(patch.compensation), 4),
                 "points": np.round(pts, 2).tolist(),
             }
         )
@@ -280,6 +349,42 @@ def make_film(job: tuple) -> dict:
         return {"film_idx": film_idx, "stem": None, "placed": [], "failed": failed, "qc": []}
     code = "P" if arm == "physical" else "N"
     stem = f"SYN-{code}{rnd}{film_idx:05d}-{host['stem']}"
+    # version 3: a null implant on some films (removal + grain refill of a clean spot, nothing added)
+    if last is not None and v3["null_prob"] > 0 and rng.random() < v3["null_prob"]:
+        patch, prof, mode, u_t = last
+        spot = None
+        if mode == "geometry":
+            res = place_by_geometry(
+                cur, keep, inside, patch, prof, u_t, rng, min_score=v3["min_score"]
+            )
+            if res is not None:
+                spot, nscore = res[0], res[1]
+        else:
+            try:
+                spot, nscore = place_with_profile(cur, keep, prof, patch, rng)
+            except RuntimeError:
+                spot = None
+        if spot is not None:
+            x, y = spot
+            ph, pw = patch.residual.shape
+            support = patch.weight > 0
+            cur = null_implant(cur, support, (x, y), SPACE)
+            sup = np.zeros(img.shape, np.uint8)
+            sup[y : y + ph, x : x + pw] = support
+            keep |= cv2.dilate(sup, grow) > 0
+            nulls.append(
+                {
+                    "uid": f"null-{rnd}{film_idx:05d}",
+                    "class": "null",
+                    "top_left": [int(x), int(y)],
+                    "patch_hw": [int(ph), int(pw)],
+                    "placement": mode,
+                    "u_target": None if u_t is None else round(u_t, 4),
+                    "profile_match": round(float(nscore), 4),
+                    "film": stem,
+                    "host": host["stem"],
+                }
+            )
     img_path = Path(out_dir) / "crop_weld_images" / "S" / "1" / f"{stem}.tif"
     js_path = Path(out_dir) / "crop_weld_jsons" / "S" / "1" / f"{stem}.json"
     img_path.parent.mkdir(parents=True, exist_ok=True)
@@ -296,7 +401,7 @@ def make_film(job: tuple) -> dict:
             "group_id": None,
             "shape_type": "polygon",
             "flags": {"synthetic": True},
-            "description": f"{arm}; source {r['source']}; flip {r['flip']}",
+            "description": f"{arm}; source {r['source']}; {r['placement']}; aug {r['aug']}",
         }
         for r in placed
     ]
@@ -304,7 +409,13 @@ def make_film(job: tuple) -> dict:
     for r in placed:
         r["film"] = stem
         r["host"] = host["stem"]
-    return {"film_idx": film_idx, "stem": stem, "placed": placed, "failed": failed, "qc": qc_crops}
+    return {
+        "film_idx": film_idx,
+        "stem": stem,
+        "placed": placed + nulls,
+        "failed": failed,
+        "qc": qc_crops,
+    }
 
 
 def qc_sheet(crops: list[tuple], path: Path, n: int = 24) -> None:
@@ -370,7 +481,51 @@ def main() -> None:
     )
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--seed", type=int, default=0)
+    g3 = ap.add_argument_group("version 3 (2026-10-16)")
+    g3.add_argument("--version", type=int, choices=[2, 3], default=3, help="2 = run C's behaviour")
+    g3.add_argument(
+        "--positions",
+        type=Path,
+        default=HERE.parent / "results" / "positions_real.json",
+        help="05_measure_positions.py summary of the real films (per-class |u| bands)",
+    )
+    g3.add_argument(
+        "--no-augment", action="store_true", help="version 3 without the affine variation"
+    )
+    g3.add_argument("--aug-scale", type=float, nargs=2, default=[0.7, 1.4])
+    g3.add_argument("--aug-aspect", type=float, nargs=2, default=[0.8, 1.25])
+    g3.add_argument(
+        "--aug-angle", type=float, default=5.0, help="max rotation of elongated classes"
+    )
+    g3.add_argument("--aug-amplitude", type=float, nargs=2, default=[0.7, 1.3])
+    g3.add_argument("--vflip-prob", type=float, default=0.5)
+    g3.add_argument("--compensate", type=float, default=1.6, help="max depth factor; 0 = off")
+    g3.add_argument(
+        "--null-prob", type=float, default=0.5, help="share of films with a null implant"
+    )
+    g3.add_argument(
+        "--min-score", type=float, default=0.5, help="profile match needed by geometry placement"
+    )
     a = ap.parse_args()
+    if a.version == 2:
+        a.no_augment, a.compensate, a.null_prob = True, 0.0, 0.0
+    bands = {}
+    if a.version == 3:
+        pos = json.loads(a.positions.read_text())["per_class"]
+        bands = {c: s["abs_u_band"] for c, s in pos.items() if s.get("abs_u_band")}
+        print(f"[v3] |u| bands from {a.positions.name}: {bands}")
+    v3 = {
+        "geometry": a.version == 3,
+        "augment": not a.no_augment,
+        "aug_scale": tuple(a.aug_scale),
+        "aug_aspect": tuple(a.aug_aspect),
+        "aug_angle": a.aug_angle,
+        "aug_amplitude": tuple(a.aug_amplitude),
+        "vflip_prob": a.vflip_prob,
+        "null_prob": a.null_prob,
+        "min_score": a.min_score,
+        "bands": bands,
+    }
 
     budget = json.loads(a.budget.read_text())
     target = {r["class"]: r["synthetic_instances"] for r in budget["classes"]}
@@ -379,8 +534,8 @@ def main() -> None:
         # measured on the earlier pass: tiles per inserted defect; missing tiles -> extra defects
         sel = json.loads(a.topup_from.read_text())["per_class"]
         prev = [json.loads(x) for x in (a.out / "inserted.jsonl").read_text("utf-8").splitlines()]
-        placed_prev = Counter(r["class"] for r in prev)
-        prev_uses = Counter(r["source"] for r in prev)
+        placed_prev = Counter(r["class"] for r in prev if r["class"] != "null")
+        prev_uses = Counter(r["source"] for r in prev if r["class"] != "null")
         target = {}
         for r in budget["classes"]:
             c = r["class"]
@@ -456,18 +611,28 @@ def main() -> None:
     for s in need.values():
         by_film[(s["image"], s["rot"])].append((s["key"], s["points"]))
     jobs = [
-        (str(a.raw), img, rot, items, a.dilate, a.denoise_sigma)
+        (str(a.raw), img, rot, items, a.dilate, a.denoise_sigma, a.compensate)
         for (img, rot), items in by_film.items()
     ]
     lib = {}
     with ProcessPoolExecutor(a.workers) as ex:
         for res in ex.map(extract_film, jobs, chunksize=4):
-            for key, patch, prof in res:
-                lib[key] = (patch, prof)
+            for key, patch, prof, u_src in res:
+                lib[key] = (patch, prof, u_src)
     print(f"[library] {len(lib):,} defects extracted from {len(jobs):,} films")
+    src_geom = Counter()
     for u in uses:
-        u["patch"], u["prof"] = lib[u["key"]]
+        u["patch"], u["prof"], u["u_src"] = lib[u["key"]]
+        band = bands.get(u["class"])
+        if u["u_src"] is None:
+            src_geom[f"{u['class']}:undefined"] += 1
+        elif band and not (band[0] <= abs(u["u_src"]) <= band[1]):
+            src_geom[f"{u['class']}:outside_band"] += 1
+        else:
+            src_geom[f"{u['class']}:ok"] += 1
         del u["src"]
+    if v3["geometry"]:
+        print(f"[v3] source geometry: {dict(sorted(src_geom.items()))}")
 
     # ---- hosts and films ----------------------------------------------------------------------------
     used_hosts = {r["host"] for r in prev}
@@ -504,6 +669,7 @@ def main() -> None:
                     tuple(a.scale_range),
                     film_idx % 6 == 0,
                     windows.get(hosts[host_i % len(hosts)]["stem"], []),
+                    v3,
                 )
             )
             host_i += 1
@@ -529,13 +695,25 @@ def main() -> None:
     with open(a.out / "inserted.jsonl", "a" if a.topup_from else "w", encoding="utf-8") as f:
         for r in manifest:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
-    placed = Counter(r["class"] for r in manifest)
-    sc = np.array([r["contrast_scale"] for r in manifest]) if manifest else np.zeros(1)
-    pm = np.array([r["profile_match"] for r in manifest]) if manifest else np.zeros(1)
+    defects = [r for r in manifest if r["class"] != "null"]
+    placed = Counter(r["class"] for r in defects)
+    sc = np.array([r["contrast_scale"] for r in defects]) if defects else np.zeros(1)
+    pm = np.array([r["profile_match"] for r in defects]) if defects else np.zeros(1)
+    comp = np.array([r.get("compensation", 1.0) for r in defects]) if defects else np.ones(1)
+    ut = np.array([abs(r["u_target"]) for r in defects if r.get("u_target") is not None])
     report = {
         "arm": a.arm,
+        "version": a.version,
         "films": len(film_stems),
         "hosts_used": len({r["host"] for r in manifest}),
+        "null_implants": sum(1 for r in manifest if r["class"] == "null"),
+        "placement_modes": dict(Counter(r.get("placement", "profile") for r in defects)),
+        "source_geometry": dict(sorted(src_geom.items())),
+        "compensation_p5_p50_p95": [round(float(v), 3) for v in np.percentile(comp, [5, 50, 95])],
+        "abs_u_target_p5_p50_p95": (
+            [round(float(v), 3) for v in np.percentile(ut, [5, 50, 95])] if len(ut) else None
+        ),
+        "v3": {k: (list(v) if isinstance(v, tuple) else v) for k, v in v3.items()},
         "per_class": {
             c: {
                 "target": target[c],
@@ -557,6 +735,7 @@ def main() -> None:
         merged = dict(old)
         merged["films"] = old["films"] + report["films"]
         merged["hosts_used"] = len({r["host"] for r in all_rows})
+        merged["null_implants"] = old.get("null_implants", 0) + report["null_implants"]
         for c in old["per_class"]:
             merged["per_class"][c] = {
                 "target": old["per_class"][c]["target"]
