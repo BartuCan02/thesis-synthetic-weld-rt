@@ -84,9 +84,21 @@ def main() -> None:
             },
             "instances_per_class_on_tiles": tiles_summary["instances_per_class"],
             "render": {
-                k: render_params[k]
-                for k in ("p_lo", "p_hi", "clahe_clip", "clahe_grid", "three_channel", "split")
+                k: render_params.get(k)
+                for k in (
+                    "p_lo",
+                    "p_hi",
+                    "clahe_clip",
+                    "clahe_grid",
+                    "three_channel",
+                    "split",
+                    "labels",
+                    "reuse_images",
+                    "simplify_px",
+                )
             },
+            "d7_params": render_params.get("d7_params"),
+            "label_stats": render_params.get("label_stats"),
             "split_counts": render_params.get("split_counts"),
             "split_params": render_params.get("split_params"),
             "n_files": {"images": n_img, "labels": n_lab},

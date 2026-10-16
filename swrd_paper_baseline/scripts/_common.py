@@ -354,3 +354,61 @@ def dataclass_dict(obj) -> dict:
         if isinstance(v, np.ndarray):
             d[k] = v.tolist()
     return d
+
+
+# ---------------------------------------------------------------------------
+# Polygon -> YOLO segment inside a tile (segmentation arm, 2026-10-16)
+# ---------------------------------------------------------------------------
+
+
+def clip_polygon_to_tile(points: np.ndarray, x: int, y: int, side: int) -> np.ndarray:
+    """Clip a polygon to the window [x, x+side] x [y, y+side] and return it in tile-local pixel coordinates.
+
+    Sutherland-Hodgman against the four window edges. A concave polygon that leaves and re-enters the
+    window comes back as one polygon whose pieces are joined by zero-width edges along the window border;
+    that rasterises to the right pixels, which is all the segmentation label needs. Consecutive duplicate
+    vertices are removed. Fewer than 3 vertices means nothing of the polygon is inside the window.
+    """
+    pts = np.asarray(points, dtype=np.float64) - np.array([x, y], dtype=np.float64)
+    lo, hi = 0.0, float(side)
+    # (axis, bound, keep_below): keep p[axis] >= lo, p[axis] <= hi for both axes
+    edges = ((0, lo, False), (0, hi, True), (1, lo, False), (1, hi, True))
+    for axis, bound, keep_below in edges:
+        if len(pts) == 0:
+            break
+        out: list[np.ndarray] = []
+        prev = pts[-1]
+        prev_in = (prev[axis] <= bound) if keep_below else (prev[axis] >= bound)
+        for cur in pts:
+            cur_in = (cur[axis] <= bound) if keep_below else (cur[axis] >= bound)
+            if cur_in != prev_in:  # the edge crosses the boundary: add the crossing point
+                t = (bound - prev[axis]) / (cur[axis] - prev[axis])
+                out.append(prev + t * (cur - prev))
+            if cur_in:
+                out.append(cur)
+            prev, prev_in = cur, cur_in
+        pts = np.asarray(out, dtype=np.float64).reshape(-1, 2)
+    if len(pts) == 0:
+        return pts.astype(np.float32)
+    keep = np.ones(len(pts), dtype=bool)
+    keep[1:] = np.any(np.abs(pts[1:] - pts[:-1]) > 1e-9, axis=1)
+    pts = pts[keep]
+    if len(pts) > 1 and np.all(np.abs(pts[0] - pts[-1]) <= 1e-9):
+        pts = pts[:-1]
+    return pts.astype(np.float32)
+
+
+def simplify_polygon(points: np.ndarray, epsilon_px: float) -> np.ndarray:
+    """Douglas-Peucker with a tolerance in pixels; keeps at least 3 vertices or returns the input."""
+    if epsilon_px <= 0 or len(points) <= 3:
+        return points
+    approx = cv2.approxPolyDP(points.astype(np.float32).reshape(-1, 1, 2), epsilon_px, True)
+    approx = approx.reshape(-1, 2)
+    return approx if len(approx) >= 3 else points
+
+
+def polygon_to_yolo_seg(class_id: int, points: np.ndarray, side: int) -> str:
+    """One Ultralytics segment line: class then x y pairs normalised to the tile, clipped to [0, 1]."""
+    norm = np.clip(np.asarray(points, dtype=np.float64) / float(side), 0.0, 1.0)
+    coords = " ".join(f"{v:.6f}" for v in norm.reshape(-1))
+    return f"{class_id} {coords}"

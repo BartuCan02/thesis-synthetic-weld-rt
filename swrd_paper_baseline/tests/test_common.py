@@ -9,9 +9,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from _common import (
     Polygon,
     box_from_visible,
+    clip_polygon_to_tile,
     contrast_stretch_to_uint8,
     exposure_id,
+    polygon_to_yolo_seg,
     polygon_visible_mask,
+    simplify_polygon,
     tile_positions,
     tile_side,
 )
@@ -86,3 +89,71 @@ def test_contrast_stretch_percentiles_and_minmax():
     assert (clipped == 0).mean() > 0.05 and (clipped == 255).mean() > 0.05  # tails saturate
     flat = contrast_stretch_to_uint8(np.full((8, 8), 1234, dtype=np.uint16), 0.5, 99.5)
     assert flat.max() == 0
+
+
+# ---- polygon labels for the segmentation arm ---------------------------------------------------------
+
+
+def test_clip_keeps_a_polygon_fully_inside_the_tile():
+    pts = np.array([[10, 10], [30, 10], [30, 30], [10, 30]], dtype=np.float32)
+    out = clip_polygon_to_tile(pts, 0, 0, 100)
+    assert out.shape == (4, 2)
+    assert np.allclose(sorted(map(tuple, out)), sorted(map(tuple, pts)))
+
+
+def test_clip_translates_to_tile_coordinates_and_cuts_at_the_border():
+    # square 90..110 in image coords, tile at x=50 of side 50 covers 50..100 -> visible part 90..100 -> local 40..50
+    pts = np.array([[90, 90], [110, 90], [110, 110], [90, 110]], dtype=np.float32)
+    out = clip_polygon_to_tile(pts, 50, 50, 50)
+    assert len(out) == 4
+    assert out.min(axis=0).tolist() == [40.0, 40.0]
+    assert out.max(axis=0).tolist() == [50.0, 50.0]
+
+
+def test_clip_of_polygon_outside_the_tile_is_empty():
+    pts = np.array([[500, 500], [520, 500], [520, 520]], dtype=np.float32)
+    assert len(clip_polygon_to_tile(pts, 0, 0, 100)) == 0
+
+
+def test_clipped_concave_polygon_rasterises_like_the_d7_mask():
+    # a U shape whose two arms enter the tile from below; clipping must keep both arms
+    pts = np.array(
+        [[10, 80], [10, 150], [30, 150], [30, 100], [60, 100], [60, 150], [80, 150], [80, 80]],
+        dtype=np.float32,
+    )
+    poly = Polygon("裂纹", 2, pts, "polygon")
+    mask = polygon_visible_mask(poly, 0, 0, 100)
+    out = clip_polygon_to_tile(pts, 0, 0, 100)
+    canvas = np.zeros((100, 100), dtype=np.uint8)
+    import cv2
+
+    cv2.fillPoly(canvas, [np.round(out).astype(np.int32)], 1)
+    inter = np.logical_and(canvas, mask).sum()
+    union = np.logical_or(canvas, mask).sum()
+    assert inter / union > 0.95
+    assert (
+        canvas[90, 20] == 1 and canvas[90, 70] == 1 and canvas[90, 45] == 0
+    )  # both arms, not the gap
+
+
+def test_simplify_keeps_corners_and_at_least_three_points():
+    # 20 points along the edges of a square -> 4 corners
+    sq = []
+    for i in range(5):
+        sq.append([i * 10, 0])
+    for i in range(5):
+        sq.append([40, i * 10])
+    for i in range(5):
+        sq.append([40 - i * 10, 40])
+    for i in range(5):
+        sq.append([0, 40 - i * 10])
+    out = simplify_polygon(np.array(sq, dtype=np.float32), 0.5)
+    assert len(out) == 4
+    tri = np.array([[0, 0], [10, 0], [0, 10]], dtype=np.float32)
+    assert len(simplify_polygon(tri, 5.0)) == 3
+
+
+def test_yolo_seg_line_is_normalised_and_clipped():
+    pts = np.array([[0, 0], [50, 0], [50, 100.4]], dtype=np.float32)
+    line = polygon_to_yolo_seg(3, pts, 100)
+    assert line == "3 0.000000 0.000000 0.500000 0.000000 0.500000 1.000000"

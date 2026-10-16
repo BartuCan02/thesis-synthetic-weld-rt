@@ -25,6 +25,11 @@ Only --split tile without oversampling trains from the dataset folder as it is. 
 folder of symlinks next to the run (<runs-dir>/<name>_view), so the downloaded dataset is never written to and
 the paper runs' label cache is left alone.
 
+Segmentation arm (2026-10-16): ``--model yolov8m-seg`` (any size) trains the Ultralytics segmentation variant on a
+dataset whose labels are polygons (03_render.py --labels polygon). The paper batch / emulation values are those of
+the detection model of the same size. Ultralytics reports box metrics "(B)" and mask metrics "(M)"; the summary
+and the ClearML single values carry both, so the box mAP50 is directly comparable with the detection runs.
+
 Data: a ClearML Dataset id (downloaded on whichever machine runs this; the data yaml path is rewritten to the
 local copy) or a local folder with ``swrd6.yaml``. Remote execution: ``--queue multi-gpu`` enqueues the task
 and exits; the agent runs the same script. The multi-gpu agent has 4x T4 and 48 vCPU; the 4 vCPUs of the data
@@ -87,6 +92,12 @@ EMULATE_BATCH = {
     "yolov8l": 20,
     "yolov8x": 16,
 }  # x8 / x10 / x20 / x16 / x15 = paper batch
+MODEL_CHOICES = list(PAPER_BATCH) + [f"{m}-seg" for m in PAPER_BATCH]
+
+
+def detect_base(model: str) -> str:
+    """'yolov8m-seg' -> 'yolov8m': the detection model whose paper batch and emulation values apply."""
+    return model.removesuffix("-seg")
 
 
 def parse_args() -> argparse.Namespace:
@@ -98,7 +109,12 @@ def parse_args() -> argparse.Namespace:
     src.add_argument(
         "--data-dir", type=Path, help="local YOLO folder with swrd6.yaml (output of 03_render.py)"
     )
-    ap.add_argument("--model", default="yolov8n", choices=list(PAPER_BATCH))
+    ap.add_argument(
+        "--model",
+        default="yolov8n",
+        choices=MODEL_CHOICES,
+        help="detection (yolov8n..x) or segmentation (yolov8n-seg..x-seg, needs polygon labels)",
+    )
     ap.add_argument("--epochs", type=int, default=100, help="paper: 100")
     ap.add_argument(
         "--imgsz", type=int, default=640, help="Ultralytics default; paper: unspecified -> default"
@@ -386,7 +402,10 @@ def main() -> None:
     # what is missing so pip does not pull a second torch.
     task.set_packages(["ultralytics==8.4.171", "clearml==2.1.12", "pyyaml==6.0.3"])
     task.set_user_properties(
-        paper_batch=PAPER_BATCH[args.model], paper_epochs=100, paper="Zhao 2025 Table 4"
+        paper_batch=PAPER_BATCH[detect_base(args.model)],
+        paper_epochs=100,
+        paper="Zhao 2025 Table 4",
+        task_kind="segment" if args.model.endswith("-seg") else "detect",
     )
     film_split = connect_film_split(task, args.split_file) if args.split == "film" else None
     if args.queue:
@@ -416,7 +435,7 @@ def main() -> None:
     weight_decay = args.weight_decay if args.weight_decay is not None else ULTRALYTICS_WD
     batch = args.batch
     if args.emulate_paper_batch:
-        paper = PAPER_BATCH[args.model]
+        paper = PAPER_BATCH[detect_base(args.model)]
         nbs = args.nbs or paper
         weight_decay = (
             args.weight_decay
@@ -424,7 +443,7 @@ def main() -> None:
             else ULTRALYTICS_WD * paper / ULTRALYTICS_NBS
         )
         if batch == -1:
-            batch = EMULATE_BATCH[args.model]
+            batch = EMULATE_BATCH[detect_base(args.model)]
     accumulate = max(round(nbs / batch), 1) if batch > 0 else None
     n_train = data_info["train_entries"]  # with RFS, repeated tiles count once per copy
     task.set_user_properties(
@@ -440,11 +459,13 @@ def main() -> None:
         optimizer_steps_per_epoch=round(n_train * args.fraction / (batch * accumulate))
         if accumulate
         else None,
-        paper_steps_per_epoch=round((72585 + 72646) / PAPER_BATCH[args.model]),  # Table 3 train set
+        paper_steps_per_epoch=round(
+            (72585 + 72646) / PAPER_BATCH[detect_base(args.model)]
+        ),  # Table 3 train set
     )
     print(
         f"[train] batch {batch} x accumulate {accumulate} = effective {batch * accumulate if accumulate else '?'}; "
-        f"nbs {nbs}; weight_decay {weight_decay:.5f}; paper: batch {PAPER_BATCH[args.model]}"
+        f"nbs {nbs}; weight_decay {weight_decay:.5f}; paper: batch {PAPER_BATCH[detect_base(args.model)]}"
     )
 
     model = YOLO(f"{args.model}.pt")  # COCO-pretrained, downloaded by Ultralytics on first use
@@ -511,6 +532,13 @@ def main() -> None:
         summary["best_mAP50"] = {"value": best50[key50], "epoch": int(best50["epoch"])}
         summary["best_mAP50-95"] = {"value": best5095[key5095], "epoch": int(best5095["epoch"])}
         summary["last"] = {key50: rows[-1][key50], key5095: rows[-1][key5095]}
+        m50, m5095 = "metrics/mAP50(M)", "metrics/mAP50-95(M)"  # segmentation models only
+        if m50 in rows[-1]:
+            bm50 = max(rows, key=lambda r: r.get(m50, 0))
+            bm5095 = max(rows, key=lambda r: r.get(m5095, 0))
+            summary["best_mask_mAP50"] = {"value": bm50[m50], "epoch": int(bm50["epoch"])}
+            summary["best_mask_mAP50-95"] = {"value": bm5095[m5095], "epoch": int(bm5095["epoch"])}
+            summary["last"].update({m50: rows[-1][m50], m5095: rows[-1][m5095]})
     try:
         val = YOLO(str(run_dir / "weights" / "best.pt")).val(
             data=str(data_yaml),
@@ -540,6 +568,17 @@ def main() -> None:
         task.get_logger().report_single_value(
             "best.pt mAP50-95", summary["best_pt_val"]["mAP50-95"]
         )
+        seg = getattr(val, "seg", None)  # mask metrics, segmentation models only
+        if seg is not None and getattr(seg, "ap_class_index", None) is not None:
+            summary["best_pt_val"]["mask_mAP50"] = float(seg.map50)
+            summary["best_pt_val"]["mask_mAP50-95"] = float(seg.map)
+            summary["best_pt_val"]["per_class_mask_AP50"] = {
+                names[i]: float(v) for i, v in zip(seg.ap_class_index.tolist(), seg.ap50.tolist())
+            }
+            for cname, v in summary["best_pt_val"]["per_class_mask_AP50"].items():
+                task.get_logger().report_single_value(f"mask AP50/{cname}", v)
+            task.get_logger().report_single_value("best.pt mask mAP50", float(seg.map50))
+            task.get_logger().report_single_value("best.pt mask mAP50-95", float(seg.map))
     except Exception as e:  # noqa: BLE001 — the summary must never kill a finished run
         summary["best_pt_val_error"] = repr(e)
     (run_dir / "summary.json").write_text(json.dumps(summary, indent=2))
