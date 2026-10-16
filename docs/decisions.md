@@ -209,3 +209,14 @@ other_defect and excess_material, v2.13's film split and validation films) on th
 with `weld_defect_all_v2.13_pullv5` by the framework's IoU on the same validation films. Segmentation, not detection:
 SegFormer has no box head. 30 epochs (Bartu). Dataset `8a6aa755…`, task `da522e12…` in `weld_defect_segmentation`.
 The export now emits other_defect and excess_material separately so the 9-class masks match v2.13's classes.
+
+## 2026-10-16 — Bartu — segmentation vs detection on the same model family: one YOLOv8m-seg run
+Bartu asked whether segmentation beats detection, without the March SegFormer and without a new eval script. There is no
+run-free answer: a metric needs predictions, and the detector has no masks to score. Cheapest fair test: YOLOv8m-seg on
+baseline A's tiles, film split, recipe and val tiles, compared by box mAP50 on the identical val tiles (the seg model
+reports box and mask mAP together); mask mAP50 becomes the benchmark's first segmentation number. Built: polygon labels
+for the same 151,051 D7 instances on v1.0's byte-identical PNGs (`03_render.py --labels polygon --reuse-images`), D7 boxes
+re-derived and checked byte for byte; dataset `c385c61a95bd40f191ecd8ca60894f7e` (`swrd-paper-tiles-seg` 1.0.0); `05_train.py` takes
+`--model yolov8m-seg`. Label geometry: traced boundary of the rasterised visible piece, multi-piece instances bridged
+(607, 0.4 %), implied box 1 px smaller than D7 (inclusive vs exclusive edge). Memory probe on the box: 12.4 GB per T4 at
+batch 24, so A's `--batch 96` stands. Command in `experiments/wp1_benchmark/README.md`. Bartu launches.

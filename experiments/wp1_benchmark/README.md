@@ -79,3 +79,33 @@ Readout: framework val IoU per class and overall (same metric as the weld-defect
 false positives) plus post-hoc true IoU for both runs. Caveats: 30 vs 22 epochs; the paper arm has ~3.8x more
 training units (every 9-class-positive tile, 50 % overlap) so an epoch is not the same amount of data; customer
 labels are the catalogue's newest as of the export (same pull as v2.13).
+
+## Segmentation vs detection, same model family (built 2026-10-16, run to be launched by Bartu)
+Bartu's question: does training with masks instead of boxes find the defects better? Answered with one run: YOLOv8m-seg
+on exactly baseline A's tiles, film split, recipe and val tiles, compared by **box mAP50 on the identical 15,996 val
+tiles** (the seg model reports box "(B)" and mask "(M)" metrics side by side). Mask mAP50 is the first segmentation
+number of the benchmark. Not a SegFormer comparison and not pixel IoU; those stay with the preprocessing-comparison run.
+
+Dataset `c385c61a95bd40f191ecd8ca60894f7e` = `thesis_wp1_benchmark / swrd-paper-tiles-seg 1.0.0`: the PNGs of v1.0 (`de772ad9…`,
+byte-identical, hardlinked at build time) with polygon labels of the same 151,051 D7 instances (`03_render.py
+--labels polygon --reuse-images`). Each label is the traced outer boundary of the rasterised visible piece, i.e. the very
+mask the D7 rule measured; the recomputed D7 boxes matched `tiles.jsonl` byte for byte on all 159,914 tiles. Build stats:
+607 multi-piece instances (0.40 %, pieces joined by a zero-width bridge as Ultralytics' COCO converter does), 65 of them
+(0.04 %, thin edge slivers) where the bridge line lowers the filled-polygon overlap below IoU 0.8, 0 fallbacks, 27.9
+vertices per instance, labels 82 MB. The box Ultralytics derives from a polygon spans the boundary pixels inclusively, so
+it is 1 px narrower and shorter than the D7 box (exclusive upper edges); the centre is identical.
+
+Smoke on the box (one T4): `fc792848…` yolov8n-seg 1 epoch on 1,722 tiles, summary with box and mask metrics OK;
+yolov8m-seg at batch 24 = 12.4 GB of 15.4 GB (tasks `smoke-seg-v1.0-yolov8m-seg-b24*`). `f9eaed55…` is an aborted
+Task.init: training on the box needs `AWS_PROFILE=data-rw` for the artifact bucket (archive it). Run command, identical
+to A except the dataset and model:
+```
+cd ~/thesis/swrd_paper_baseline && uv run python scripts/05_train.py --dataset-id c385c61a95bd40f191ecd8ca60894f7e \
+    --split film --split-file ~/swrd_paper_baseline/data/work/split_films.json --model yolov8m-seg --epochs 100 \
+    --emulate-paper-batch --batch 96 --devices 0,1,2,3 --workers 10 --seed 0 --queue multi-gpu \
+    --name v1.0seg-film-yolov8m-seg-100ep-paperbatch-4gpu
+```
+If the 4-GPU run hits CUDA OOM, `--batch 48` keeps the effective batch (nbs 480, accumulate 10). Readout: best.pt box
+mAP50 / mAP50-95 and per-class AP50 against A `29f71fe4…` 0.453 / 0.240 (identical-data runs differ by ~0.004, one seed
+per arm); mask mAP50 / mAP50-95 and per-class mask AP50 as the segmentation column. Ultralytics picks best.pt by a fitness
+that includes the mask metrics, so also read `best_mAP50` (box, from results.csv) in the summary artifact.

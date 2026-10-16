@@ -10,7 +10,7 @@ SegFormer mit_b4, 7 classes, SWRD v7 only, March 2026. Macro IoU 0.4838. Ids in 
 ## Work packages
 | WP | folder | milestone | status |
 |---|---|---|---|
-| WP1 | `wp1_benchmark/` + `../swrd_paper_baseline/` | M1 23 Oct 2026 | paper baseline reproduced (tile split); film-split YOLOv8m baseline A `29f71fe4…` 0.452 / 0.240; RFS arm B and physical-synthetic arm C done (no gain); customer side run done (+0.013). Open for M1: detection vs segmentation metric, seed noise, freeze doc |
+| WP1 | `wp1_benchmark/` + `../swrd_paper_baseline/` | M1 23 Oct 2026 | paper baseline reproduced (tile split); film-split YOLOv8m baseline A `29f71fe4…` 0.452 / 0.240; RFS arm B and physical-synthetic arm C done (no gain); customer side run done (+0.013); segmentation arm dataset built (`swrd-paper-tiles-seg` 1.0.0), YOLOv8m-seg run to launch. Open for M1: detection vs segmentation metric, seed noise, freeze doc |
 | WP2 | `wp2_physics/` | M2 4 Dec 2026 | compositing trial done (2026-10-08), run C done; image-formation note and noise measurement not started |
 | WP3 | `wp3_inpainting/` | M3 15 Jan 2027 | not started |
 | WP4 | `wp4_ab_physical_vs_naive/` | M4 29 Jan 2027 | not started |

@@ -75,7 +75,10 @@ D7 and two flags, *has_box* and *touches_defect*. **No pixels are written**: the
   `split_films.json`, the same tiles split by exposure (A_/B_ halves together) for step 5.
 - `03_render.py`: crops each selected window from the TIFF, D5 stretch → 8-bit → D6 CLAHE, PNG + YOLO label
   file in the Ultralytics layout, `swrd6.yaml`, `render_params.json`. Single-channel PNGs by default (identical
-  tensors after loading; `--three-channel` for the literal 24-bit files).
+  tensors after loading; `--three-channel` for the literal 24-bit files). `--labels polygon` (2026-10-16) writes
+  Ultralytics segment lines for the same D7 instances instead of boxes: the traced outer boundary of the rasterised
+  visible piece, checked byte for byte against the stored boxes; `--reuse-images <render>` hardlinks an existing
+  render's PNGs so the segmentation dataset sits on byte-identical images (no TIFF decoding, ~3 min for v1.0).
 - `04_upload_clearml.py`: ClearML Dataset in project `thesis_wp1_benchmark`, stored on S3, with every
   pipeline parameter and count as metadata. Visual check of 20 tiles against Fig. 12 before uploading.
 **Gate:** Table 3 counts within ±1 %; tiles look like Fig. 12 right-hand column; dataset id recorded.
@@ -84,6 +87,9 @@ D7 and two flags, *has_box* and *touches_defect*. **No pixels are written**: the
 YOLOv8n, 100 epochs, defaults, ClearML task in project `thesis_wp1_benchmark`. Bartu launches. Then YOLOv8m.
 Rough cost, to be measured on the first epochs: n ≈ 1 day on one T4; m ≈ 3–4 days on one T4 or ≈ 1 day on 4×T4.
 **Gate:** n within ±0.03 of 0.482 mAP50; m within ±0.03 of 0.663.
+Segmentation arm (2026-10-16): `--model yolov8m-seg` on the polygon dataset; paper batch and emulation values are
+those of yolov8m; the summary and the ClearML single values carry box "(B)" and mask "(M)" mAP. yolov8m-seg at
+batch 24 per T4 (= 96 over 4 GPUs) used 12.4 of 15.4 GB on the box, so the detection runs' `--batch 96` holds.
 
 ### Step 5 — evaluate and write up (`scripts/06_eval.py`)
 Best-epoch mAP50 / mAP50-95, plus per-class AP (the paper has none). Then the first thesis-protocol number:
@@ -130,18 +136,18 @@ swrd_paper_baseline/
   README.md              this file: protocol, decisions, status
   pyproject.toml         uv project, exact pins (ultralytics, torch, tifffile, opencv-headless, ...)
   configs/swrd6.yaml     Ultralytics data file, 6 classes in paper order
-  scripts/_common.py     constants from the paper, label map, window rule, D7 box rule, D5/D6 preprocessing
+  scripts/_common.py     constants from the paper, label map, window rule, D7 box rule, D5/D6 preprocessing, mask -> polygon tracing
   scripts/00_inventory.py  step 1   raw files vs the paper's counts
   scripts/01_tile.py       step 2   tile index + boxes, no pixels
   scripts/02_select_split.py step 3a  negatives + 9:1 split (tile-level, plus a film-level variant)
-  scripts/03_render.py     step 3b  crop, preprocess, write YOLO layout
+  scripts/03_render.py     step 3b  crop, preprocess, write YOLO layout; --labels polygon + --reuse-images for the segmentation dataset
   scripts/04_upload_clearml.py step 3c  ClearML Dataset with metadata
   scripts/fetch_from_official_zip.py   HTTP-range reader for the official SWXD_Data.zip (list / fetch selected members)
   scripts/reconstruct_missing_crops.py rebuild unpublished crops from Raw_data originals (validated pixel-exact)
-  scripts/05_train.py      step 4   Ultralytics training, ClearML task, remote queue; --split film, --rfs-threshold
+  scripts/05_train.py      step 4   Ultralytics training, ClearML task, remote queue; --split film, --rfs-threshold, --model yolov8*-seg
   scripts/06_eval.py       step 5   score saved weights on the tile- or film-level val split
   scripts/_customer.py, export_customer_films.py, run_customer_pipeline.sh, 07_merge_upload.py   side run (customer films)
-  tests/test_common.py   unit tests for the window rule, the D7 box rule, the stretch
+  tests/test_common.py   unit tests for the window rule, the D7 box rule, the stretch, the polygon tracing
   tests/test_train_sampling.py  unit tests for the film split and repeat factor sampling in 05_train.py
   results/               numbers, curves, tables (small files only; no images, no weights)
 ```
