@@ -145,6 +145,20 @@ def test_trace_of_concave_piece_keeps_both_arms_and_the_gap():
     assert pts.min(axis=0).tolist() == [10.0, 0.0] and pts.max(axis=0).tolist() == [80.0, 45.0]
 
 
+def test_trace_keeps_a_one_pixel_sliver_as_a_degenerate_polygon():
+    # a blob plus a straight 1-px line far from it: the line is a 2-point contour and must survive, so the
+    # filled label still covers it and the implied box reaches the end of the line
+    mask = np.zeros((100, 100), dtype=np.uint8)
+    mask[10:20, 10:20] = 1
+    mask[50, 10:80] = 1
+    pts, n_pieces = trace_mask_polygon(mask)
+    assert n_pieces == 2
+    filled = _filled(pts)
+    assert filled[50, 75] == 1 and filled[15, 15] == 1
+    assert pts.max(axis=0).tolist() == [79.0, 50.0]
+    assert np.logical_and(filled, mask).sum() / np.logical_or(filled, mask).sum() > 0.9
+
+
 def test_merge_pieces_returns_one_closed_path_covering_both():
     a = np.array([[0, 0], [10, 0], [10, 10], [0, 10]], dtype=np.float32)
     b = np.array([[50, 50], [60, 50], [60, 60], [50, 60]], dtype=np.float32)

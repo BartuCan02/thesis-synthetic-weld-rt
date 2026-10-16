@@ -382,15 +382,24 @@ def trace_mask_polygon(mask: np.ndarray) -> tuple[np.ndarray | None, int]:
     """The outer boundary of a binary mask as one polygon, in pixel coordinates of the mask.
 
     Returns (polygon, number of pieces). Pieces are the external contours (holes are ignored, LabelMe
-    polygons have none); contours of fewer than 3 points (1-px slivers) are dropped. Several pieces are
-    merged with ``merge_polygon_pieces``. ``cv2.fillPoly`` of the result reproduces the mask, so the label
-    says exactly what the D7 rule measured. The implied box spans the boundary pixels inclusively, i.e. it is
-    one pixel narrower and shorter than the D7 box, whose upper edges are exclusive.
+    polygons have none). A straight 1-px sliver traces to 1 or 2 points; it is kept as a degenerate 3-point
+    polygon (points repeated), which ``cv2.fillPoly`` draws back as the same line, so no piece is lost and the
+    implied box keeps the D7 extent. Several pieces are merged with ``merge_polygon_pieces``. ``cv2.fillPoly``
+    of the result reproduces the mask (plus the bridge line of a multi-piece instance), so the label says what
+    the D7 rule measured. The implied box spans the boundary pixels inclusively, i.e. it is one pixel narrower
+    and shorter than the D7 box, whose upper edges are exclusive.
     """
     contours, _ = cv2.findContours(
         mask.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
     )
-    pieces = [c.reshape(-1, 2).astype(np.float32) for c in contours if len(c) >= 3]
+    pieces = []
+    for c in contours:
+        pts = c.reshape(-1, 2).astype(np.float32)
+        if len(pts) == 1:
+            pts = np.repeat(pts, 3, axis=0)
+        elif len(pts) == 2:
+            pts = np.concatenate([pts, pts[:1]])
+        pieces.append(pts)
     if not pieces:
         return None, 0
     pieces.sort(key=lambda c: -cv2.contourArea(c))
