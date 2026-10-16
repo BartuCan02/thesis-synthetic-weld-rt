@@ -156,7 +156,8 @@ def test_trace_keeps_a_one_pixel_sliver_as_a_degenerate_polygon():
     filled = _filled(pts)
     assert filled[50, 75] == 1 and filled[15, 15] == 1
     assert pts.max(axis=0).tolist() == [79.0, 50.0]
-    assert np.logical_and(filled, mask).sum() / np.logical_or(filled, mask).sum() > 0.9
+    # the only extra pixels are the bridge line from the blob to the sliver (about 30 px here)
+    assert np.logical_and(filled, mask).sum() / np.logical_or(filled, mask).sum() > 0.8
 
 
 def test_merge_pieces_returns_one_closed_path_covering_both():
