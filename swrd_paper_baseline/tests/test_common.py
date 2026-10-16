@@ -116,14 +116,15 @@ def test_clip_of_polygon_outside_the_tile_is_empty():
 
 
 def test_clipped_concave_polygon_rasterises_like_the_d7_mask():
-    # a U shape whose two arms enter the tile from below; clipping must keep both arms
+    # a U shape: base at y 80..100, two arms at y 100..150 (x 10..30 and x 60..80). The window y 100..200
+    # sees only the two arms, so the clipped polygon must keep both and leave the gap between them empty.
     pts = np.array(
         [[10, 80], [10, 150], [30, 150], [30, 100], [60, 100], [60, 150], [80, 150], [80, 80]],
         dtype=np.float32,
     )
     poly = Polygon("裂纹", 2, pts, "polygon")
-    mask = polygon_visible_mask(poly, 0, 0, 100)
-    out = clip_polygon_to_tile(pts, 0, 0, 100)
+    mask = polygon_visible_mask(poly, 0, 100, 100)
+    out = clip_polygon_to_tile(pts, 0, 100, 100)
     canvas = np.zeros((100, 100), dtype=np.uint8)
     import cv2
 
@@ -132,8 +133,9 @@ def test_clipped_concave_polygon_rasterises_like_the_d7_mask():
     union = np.logical_or(canvas, mask).sum()
     assert inter / union > 0.95
     assert (
-        canvas[90, 20] == 1 and canvas[90, 70] == 1 and canvas[90, 45] == 0
+        canvas[25, 20] == 1 and canvas[25, 70] == 1 and canvas[25, 45] == 0
     )  # both arms, not the gap
+    assert canvas[75, 20] == 0  # below the arms nothing
 
 
 def test_simplify_keeps_corners_and_at_least_three_points():
