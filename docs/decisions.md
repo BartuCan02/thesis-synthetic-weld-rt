@@ -255,3 +255,10 @@ penetration median 0.28 with 97 % inside, i.e. the coordinate reproduces the tex
 Felix's placement question, and `position_check.png` compares real vs run C vs v3 per class.
 Build runs detached on the box (tmux session `v3`, log `~/swrd_synthetic_physical/data/pipeline_physical_v3.log`),
 uploads as dataset version 3.0.0 at the end. Training commands in the README; Bartu launches.
+
+## 2026-10-17 — Bartu — run D launched on the version-3 dataset
+Build finished 00:57 UTC: dataset `4e72b695729840018da24ca311013edd` (3.0.0), 31,153 positive synthetic tiles (+21.6 %)
+and 2,272 null tiles on top of the unchanged v1.0 parent; 6,760 defects on 3,750 films, 859 null implants, 300 null
+tiles held out. Position check on the full build is in `raw_physical_v3/position_check.png`. Run D = YOLOv8m, film split,
+50 epochs, run A's other arguments: task `1fd29082b4cc4022971a2cdc24742604` on `multi-gpu`, launched by Claude on Bartu's
+instruction. Open: the 50-epoch baseline A' on the parent dataset (needed for the readout; command in the README).

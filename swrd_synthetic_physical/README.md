@@ -87,6 +87,19 @@ are (real median |u| 1.34, run C 1.16, KS distance 0.30); v3 reproduces the real
 1.0-1.1 (cracks ~1.09), so the faintness must come from elsewhere (per-tile stretch, or the amplitude of real-vs-
 inserted contrast); the 0.7-1.3 amplitude variation now covers that range either way.
 
+**Full build result (2026-10-17 00:57 UTC, 4 h 42 min on the box):** dataset `4e72b695729840018da24ca311013edd`
+(`swrd-paper-tiles-plus-synthetic-physical` 3.0.0): 177,348 train files = 143,923 parent + 31,153 positive synthetic
+tiles + 2,272 null tiles; val 15,991, byte-identical. 6,760 defects on 3,750 synthetic films (2,646 distinct hosts: some
+hosts carry two synthetic films from the retry rounds, at different positions), 859 null implants, 300 null tiles held out
+(`work_physical_v3/null_holdout.json`). Placement 5,245 by geometry, 504 by profile fallback. Per class, tiles of target:
+inclusion 9,564 / 9,775, crack 5,216 / 5,901, undercut 7,110 / 7,663, lack of fusion 9,263 / 10,543 (88-98 %; one automatic
+top-up pass). Contrast scale p5/p50/p95 0.61 / 1.03 / 1.71, depth compensation 1.01 / 1.04 / 1.12, profile match median 0.96.
+Checks: `raw_physical_v3/position_check.png` (real vs run C vs v3 per class) and `compare_sheet.png`.
+
+**Run D launched 2026-10-17 (Bartu's go-ahead, launched from the box):** ClearML task `1fd29082b4cc4022971a2cdc24742604`,
+project `thesis_wp1_benchmark`, queue `multi-gpu`, 50 epochs, otherwise run A's arguments. The 50-epoch baseline A' is
+not launched yet.
+
 **Readout for run D:** per-class AP50 and mAP50 / mAP50-95 on the identical val tiles against A'; false calls per unit weld
 length as the secondary readout (run C traded precision for recall and mAP hid it); detections on the 300 held-out
 null tiles (any = insertion artefacts learned).
