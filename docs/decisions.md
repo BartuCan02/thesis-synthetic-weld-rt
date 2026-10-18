@@ -284,3 +284,14 @@ detection threshold (CNR 1-2), per-use unsharpness 0-2 px, host-grain-matched no
 groove at the toe, lack of fusion = planar gap) converted with a grey-per-pixel-of-steel scale fitted on real pore dips,
 placed by the across-weld coordinate: new shapes under an attenuation constraint, the clean form of the novelty claim.
 (4) Report recall at a fixed false-call rate per weld length next to AP for the rare classes. Not started: (2)-(4).
+
+## 2026-10-18 — Bartu — run D result: no gain, loss on the boosted classes; run E (naive) running
+Run D (physical v3, 50 epochs, task `1fd29082…`): best.pt mAP50 0.424 / mAP50-95 0.229 vs A 0.452 / 0.240 (100 epochs,
+fair A' not run) and C 0.437. AP50 undercut 0.041 vs 0.101, crack 0.544 vs 0.573, lack of fusion 0.224 vs 0.263, inclusion
+0.240 vs 0.260; porosity and lack of penetration within 0.03. Null-tile check: 17/300 held-out null tiles get a detection
+vs 10/300 real clean val tiles, mostly porosity boxes; the insertion trace was not learned as a defect. With the realism
+check (synthetic defects found as often as real by A), the conclusion stands: copies of known shapes, however well
+inserted, do not add usable appearance and at a 22 % share they pull the rare-class scores down. Run E (naive arm,
+dataset `4dadc0ed…`, task `16cd8721…`) started 12:53 UTC on the same recipe; D vs E is the physical-vs-naive A/B.
+Next physics work is the appearance-range list in the 2026-10-18 entry above (CNR sweep, unsharpness, grain, procedural
+thickness maps); the copy-based v3 build is the last of its kind.

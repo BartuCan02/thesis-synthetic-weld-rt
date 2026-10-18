@@ -121,6 +121,22 @@ their appearance range: even the undercuts A trained on are found only 14 % of t
 films' undercuts 8 %. Copies of training defects, however well placed and varied, cannot add appearance that the
 training set does not contain; that diversity has to come from a learned generator (WP3) or from more real films.
 
+**Run D result (completed 2026-10-18 10:59 UTC, 15.2 h, task `1fd29082…`):** best.pt val mAP50 **0.424** / mAP50-95
+**0.229** (curve best 0.429 at epoch 26, flat from epoch 25). Per-class AP50 against run A (100 epochs, 0.452 / 0.240):
+porosity 0.743 vs 0.736, inclusion 0.240 vs 0.260, crack 0.544 vs 0.573, **undercut 0.041 vs 0.101**, lack of fusion 0.224
+vs 0.263, lack of penetration 0.752 vs 0.783. Every boosted class is below A, undercut by most; worse than run C (0.437).
+Caveat: 50 vs 100 epochs, the fair reference A' is not run. **Null-tile check** (best.pt at conf 0.25): 17 of 300 held-out
+null tiles get a detection vs 13 of 300 trained null tiles and 10 of 300 real clean val tiles; the boxes are mostly
+porosity (13 / 12 / 8), only 6 of the four inserted classes on the held-out set. The model did not learn the insertion
+trace as a defect cue. Reading, with the realism check above: the synthetic defects are plausible and placement is
+right, yet they lower the rare-class scores; the most likely mechanism is that 31,153 extra tiles of 2,500 known shapes
+shift the model's class priors and box statistics toward the synthetic population without adding appearance it can use
+on the val films.
+
+**Run E (naive arm) launched automatically 2026-10-18 12:53 UTC:** dataset `4dadc0eda75147b3b881ec70241b83ad`
+(`swrd-paper-tiles-plus-synthetic-naive` 3.0.0), task `16cd8721af2146ca84f0ee2f038dd2ea`, run D's arguments. Expected
+end about 2026-10-19 04:00 UTC. D vs E on the identical val tiles = the physical-vs-naive A/B.
+
 **Readout for run D:** per-class AP50 and mAP50 / mAP50-95 on the identical val tiles against A'; false calls per unit weld
 length as the secondary readout (run C traded precision for recall and mAP hid it); detections on the 300 held-out
 null tiles (any = insertion artefacts learned).
