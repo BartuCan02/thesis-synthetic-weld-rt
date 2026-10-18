@@ -262,3 +262,13 @@ and 2,272 null tiles on top of the unchanged v1.0 parent; 6,760 defects on 3,750
 tiles held out. Position check on the full build is in `raw_physical_v3/position_check.png`. Run D = YOLOv8m, film split,
 50 epochs, run A's other arguments: task `1fd29082b4cc4022971a2cdc24742604` on `multi-gpu`, launched by Claude on Bartu's
 instruction. Open: the 50-epoch baseline A' on the parent dataset (needed for the readout; command in the README).
+
+## 2026-10-18 — Bartu — realism check: run A's detector finds synthetic v3 defects as easily as real ones
+Run A's weights on the 33,425 synthetic v3 tiles vs the real film-split val set (eval tasks `333273c1…`, `0711262f…`):
+recall inclusion 0.41 vs 0.28, crack 0.58 vs 0.55, undercut 0.14 vs 0.08, lack of fusion 0.37 vs 0.35. The synthetic
+defects are plausible to a model that never saw them; they are not a different-looking population. Together with run C
+(no gain), RFS (no gain) and run D's curve (plateau at mAP50 0.43 at epoch 40 of 50, below A's 0.452), the reading is that
+more examples of the same rare-class shapes do not help this detector; the missing appearance range must come from a
+generator that produces new shapes (WP3) or from more real films (the customer side run gained +0.013). Run D still
+running; its per-class table and null-tile check are read when it ends. Table and caveats in
+`swrd_synthetic_physical/README.md`.

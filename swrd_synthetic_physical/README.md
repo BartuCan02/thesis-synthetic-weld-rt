@@ -100,6 +100,27 @@ Checks: `raw_physical_v3/position_check.png` (real vs run C vs v3 per class) and
 project `thesis_wp1_benchmark`, queue `multi-gpu`, 50 epochs, otherwise run A's arguments. The 50-epoch baseline A' is
 not launched yet.
 
+**Realism check with run A's detector (2026-10-18, before run D finished; Bartu's request).** Run A's best.pt
+(model `d7ab854e…`) scored on the 33,425 synthetic v3 tiles alone (31,153 positives + 2,272 null tiles; eval task
+`333273c13584458386579148e42c64f5`) and, with identical settings, on the real film-split val set (`0711262f…`):
+
+| class | real val AP50 | synthetic AP50 | real val recall | synthetic recall | real val precision | synthetic precision |
+|---|---:|---:|---:|---:|---:|---:|
+| inclusion | 0.260 | 0.244 | 0.28 | **0.41** | 0.37 | 0.28 |
+| crack | 0.573 | 0.325 | 0.55 | **0.58** | 0.60 | 0.24 |
+| undercut | 0.101 | 0.286 | 0.08 | **0.14** | 0.44 | 0.63 |
+| lack of fusion | 0.263 | 0.351 | 0.35 | **0.37** | 0.38 | 0.47 |
+
+Recall is the comparable column (AP and precision depend on the class mix of the set: the synthetic set has no porosity
+or lack-of-penetration tiles and no random negatives, so cross-class confusions weigh differently). A detector that never
+saw a synthetic tile finds the synthetic defects of every class at least as often as the real val ones. So the synthetic
+defects are plausible to the model; they are not a different-looking population. Caveats: the sources are training
+defects A has seen in their original films (helps synthetic recall), and the host backgrounds are training films whose
+neighbouring tiles A has seen. Reading: what limits run A on the rare classes is not the number of rare examples but
+their appearance range: even the undercuts A trained on are found only 14 % of the time when moved, and the 16 val
+films' undercuts 8 %. Copies of training defects, however well placed and varied, cannot add appearance that the
+training set does not contain; that diversity has to come from a learned generator (WP3) or from more real films.
+
 **Readout for run D:** per-class AP50 and mAP50 / mAP50-95 on the identical val tiles against A'; false calls per unit weld
 length as the secondary readout (run C traded precision for recall and mAP hid it); detections on the 300 held-out
 null tiles (any = insertion artefacts learned).
