@@ -244,7 +244,16 @@ cd ~/thesis/swrd_paper_baseline && AWS_PROFILE=data-rw uv run python scripts/05_
 Check in the task: Configuration → film_split shows 369 val exposures and `expected_val_tiles` 15996; the console
 shows `split film: train 155,174 tiles, val 15996 tiles` (143,918 real + 11,256 synthetic).
 
-## The naive arm (later, for the WP4 A/B)
+## The naive arm (run E, the WP4 A/B control)
+
+**Started 2026-10-18 08:06 UTC on the box** (tmux `v3naive`, script `~/swrd_synthetic_physical/data/naive_chain.sh`, logs
+`pipeline_naive_v3.log` and `naive_chain.log`): `UPLOAD=1 run_pipeline.sh naive v3`, i.e. the version-3 pipeline with the
+same seed, sources, variations, hosts and positions as the physical build, alpha-blended instead of added; registered
+as `swrd-paper-tiles-plus-synthetic-naive` 3.0.0. When the dataset id appears in the log the chain launches the training
+run `v1.0-film-synth-naive-v3.0.0-yolov8m-50ep-paperbatch-4gpu` (run D's arguments) on `multi-gpu`, behind run D.
+Readout: physical (run D) vs naive (run E) per class on the identical val tiles is the physical-vs-naive A/B of RQ3/WP4;
+neither arm has to beat real-only for that comparison to hold.
+
 
 Same sources, flips, hosts and positions, alpha-blended instead of added:
 `scripts/run_pipeline.sh naive v2` (+ the same top-up), then `04_merge_upload.py --arm naive --version 1.0.0`.

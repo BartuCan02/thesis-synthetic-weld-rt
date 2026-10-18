@@ -272,3 +272,15 @@ more examples of the same rare-class shapes do not help this detector; the missi
 generator that produces new shapes (WP3) or from more real films (the customer side run gained +0.013). Run D still
 running; its per-class table and null-tile check are read when it ends. Table and caveats in
 `swrd_synthetic_physical/README.md`.
+
+## 2026-10-18 — Bartu — physics track next steps; naive arm (run E) building and chained to training
+After the realism check, Bartu asked what makes the physics part contribute. Decision: bank the A/B first, then make
+the physics step add appearance range rather than examples. (1) Naive arm started on the box with the version-3
+pipeline (same seed, sources, variations, hosts, positions; alpha blend), uploads as `synthetic-naive` 3.0.0 and launches
+its 50-epoch run on `multi-gpu` behind run D automatically (`naive_chain.sh`). Run D vs run E on identical val tiles is the
+physical-vs-naive A/B. (2) Proposed next physics build: contrast-to-noise sweep with half the insertions near the
+detection threshold (CNR 1-2), per-use unsharpness 0-2 px, host-grain-matched noise on the defect (RQ3 noise model).
+(3) Proposed WP2 content: procedural thickness maps per class (pore = sphere chord, crack = thin curve, undercut =
+groove at the toe, lack of fusion = planar gap) converted with a grey-per-pixel-of-steel scale fitted on real pore dips,
+placed by the across-weld coordinate: new shapes under an attenuation constraint, the clean form of the novelty claim.
+(4) Report recall at a fixed false-call rate per weld length next to AP for the rare classes. Not started: (2)-(4).
