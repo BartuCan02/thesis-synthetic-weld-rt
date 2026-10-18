@@ -295,3 +295,8 @@ inserted, do not add usable appearance and at a 22 % share they pull the rare-cl
 dataset `4dadc0ed…`, task `16cd8721…`) started 12:53 UTC on the same recipe; D vs E is the physical-vs-naive A/B.
 Next physics work is the appearance-range list in the 2026-10-18 entry above (CNR sweep, unsharpness, grain, procedural
 thickness maps); the copy-based v3 build is the last of its kind.
+
+## 2026-10-18 — Bartu — 50-epoch baseline A' queued
+Run A's recipe on the parent dataset `de772ad9…` with 50 epochs, task `b1357e6011544643b07389cdc95297ea`
+(`v1.0-film-real-yolov8m-50ep-paperbatch-4gpu`), queued on `multi-gpu` behind run E. It is the fair reference for runs
+D and E, which both train 50 epochs. Expected start about 04:00 UTC on 19 October, end about 19:00 UTC.

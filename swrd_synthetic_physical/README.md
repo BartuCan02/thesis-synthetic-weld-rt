@@ -70,7 +70,7 @@ synthetic films, 32,000-35,000 positive tiles, 2,500-3,500 null tiles, 6-10 h of
 cd ~/thesis/swrd_paper_baseline && AWS_PROFILE=data-rw uv run python scripts/05_train.py --dataset-id <DATASET_ID_FROM_LOG> --split film --split-file ~/swrd_paper_baseline/data/work/split_films.json --model yolov8m --epochs 50 --emulate-paper-batch --batch 96 --devices 0,1,2,3 --workers 10 --seed 0 --queue multi-gpu --name v1.0-film-synth-physical-v3.0.0-yolov8m-50ep-paperbatch-4gpu
 ```
 
-**50-epoch baseline A' (needed once, same command on the parent dataset):**
+**50-epoch baseline A' (queued 2026-10-18 behind run E, task `b1357e6011544643b07389cdc95297ea`, launched by Claude on Bartu's instruction):**
 
 ```bash
 cd ~/thesis/swrd_paper_baseline && AWS_PROFILE=data-rw uv run python scripts/05_train.py --dataset-id de772ad9363c4067bed5835e13a9be81 --split film --split-file ~/swrd_paper_baseline/data/work/split_films.json --model yolov8m --epochs 50 --emulate-paper-batch --batch 96 --devices 0,1,2,3 --workers 10 --seed 0 --queue multi-gpu --name v1.0-film-real-yolov8m-50ep-paperbatch-4gpu
