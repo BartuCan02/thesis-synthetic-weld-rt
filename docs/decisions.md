@@ -300,3 +300,11 @@ thickness maps); the copy-based v3 build is the last of its kind.
 Run A's recipe on the parent dataset `de772ad9…` with 50 epochs, task `b1357e6011544643b07389cdc95297ea`
 (`v1.0-film-real-yolov8m-50ep-paperbatch-4gpu`), queued on `multi-gpu` behind run E. It is the fair reference for runs
 D and E, which both train 50 epochs. Expected start about 04:00 UTC on 19 October, end about 19:00 UTC.
+
+## 2026-10-18 — Bartu — debug samples of runs C and D repaired; E and A' repaired automatically when done
+The multi-gpu agent still registers debug images at the file server's private address `172.31.21.134:8081`, which a
+browser cannot open (agent clearml.conf, Felix's to change). Runs C `7e2c9089…` and D `1fd29082…` re-pointed to the live
+host with `~/testset_prep/rehost_all.py --only=<id> --apply`: 9/9 links each, all load. Run E `16cd8721…` and A' `b1357e60…`
+are repaired by a waiter on the box (tmux `rehost`, `~/testset_prep/rehost_when_done.py`, log `rehost_when_done.log`)
+that polls their status every 10 minutes and runs the same repair when each finishes. Every later agent run needs the
+same step until the agent config is fixed.
