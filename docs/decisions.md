@@ -342,3 +342,12 @@ Visual comparison on matched tiles (Cecilia deck, 19 Oct): many physical defects
 some nearly invisible; the naive pastes are strong and often sit in a patch of different brightness. Working hypothesis
 for D < E: faint physical insertions act as label noise. Next check: contrast and edge sharpness of real, physical and
 naive defects in the 8-bit tiles.
+
+## 2026-10-19 — Bartu — null-implant check for run E
+Run E's best.pt at conf 0.25: 32 of its 300 held-out null tiles get a detection, 22 of 300 trained null tiles, 17 of 300
+real clean val tiles (a different random draw from the same pool than the run D check). Run D's model on run E's held-out
+null tiles: 18 of 300. Boxes on E's held-out nulls are mostly porosity (22), 9 of the inserted classes. Reading: both models
+fire on processed clean spots about 1.7-1.9 times as often as on real clean tiles (D 17 vs 10, E 32 vs 17); for E the
+excess is borderline significant on 300 tiles, for D it is not. Run E also fires more on real clean tiles than run D,
+consistent with a higher detection rate overall. Neither model learned the processing trace as a strong defect cue.
+Held-out null tiles of the naive build rendered at `~/swrd_synthetic_physical/data/yolo_naive_v3_nullholdout`.
