@@ -137,6 +137,14 @@ on the val films.
 (`swrd-paper-tiles-plus-synthetic-naive` 3.0.0), task `16cd8721af2146ca84f0ee2f038dd2ea`, run D's arguments. Expected
 end about 2026-10-19 04:00 UTC. D vs E on the identical val tiles = the physical-vs-naive A/B.
 
+**Run E result (completed 2026-10-19 04:10 UTC, task `16cd8721…`):** best.pt val mAP50 **0.459** / mAP50-95 **0.246**
+(curve best 0.460 at epoch 30). Per-class AP50, run E (naive) vs run D (physical) vs run A (real, 100 epochs): porosity
+0.743 / 0.743 / 0.736, inclusion 0.265 / 0.240 / 0.260, crack 0.568 / 0.544 / 0.573, **undercut 0.132 / 0.041 / 0.101**,
+lack of fusion 0.273 / 0.224 / 0.263, lack of penetration 0.774 / 0.752 / 0.783. **The naive arm beats the physical arm by
+0.035 mAP50** (about nine times the 0.004 spread between identical-data runs; one seed each), on every boosted class, and
+lands above run A. The physical-vs-naive A/B therefore comes out opposite to the hypothesis at this setup. The fair real-only
+reference at 50 epochs, A' `b1357e60…`, is still training. Debug samples repaired automatically (6/6 links).
+
 **Readout for run D:** per-class AP50 and mAP50 / mAP50-95 on the identical val tiles against A'; false calls per unit weld
 length as the secondary readout (run C traded precision for recall and mAP hid it); detections on the 300 held-out
 null tiles (any = insertion artefacts learned).

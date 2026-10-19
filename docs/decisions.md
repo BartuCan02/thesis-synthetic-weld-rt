@@ -308,3 +308,14 @@ host with `~/testset_prep/rehost_all.py --only=<id> --apply`: 9/9 links each, al
 are repaired by a waiter on the box (tmux `rehost`, `~/testset_prep/rehost_when_done.py`, log `rehost_when_done.log`)
 that polls their status every 10 minutes and runs the same repair when each finishes. Every later agent run needs the
 same step until the agent config is fixed.
+
+## 2026-10-19 — Bartu — run E result: the naive arm beats the physical arm
+Run E (naive alpha blend, same seed, sources, variations, hosts and positions as run D, 50 epochs): best.pt mAP50 0.459 /
+mAP50-95 0.246 vs run D (physical) 0.424 / 0.229 and run A (real, 100 epochs) 0.452 / 0.240. AP50 E / D: undercut 0.132 /
+0.041, lack of fusion 0.273 / 0.224, inclusion 0.265 / 0.240, crack 0.568 / 0.544; porosity and lack of penetration within
+0.03. The A/B at this setup favours naive blending by 0.035 mAP50, on every boosted class, one seed each. This contradicts
+the thesis hypothesis and has to be explained before it is written up; the fair 50-epoch real-only reference A'
+(`b1357e60…`) ends about 17:30 UTC today and decides whether naive also beats real-only. Candidate explanations to test,
+none checked yet: the physical residual loses appearance (darkening-only clip drops bright rims, the 1 px blur and the
+grain-ratio scale weaken edges and contrast; run C's defects were already ~20 % fainter in the 8-bit tiles), while the
+naive paste keeps the source defect's full local appearance; and a second seed of D and E to bound the gap.
