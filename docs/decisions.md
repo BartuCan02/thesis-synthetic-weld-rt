@@ -351,3 +351,13 @@ fire on processed clean spots about 1.7-1.9 times as often as on real clean tile
 excess is borderline significant on 300 tiles, for D it is not. Run E also fires more on real clean tiles than run D,
 consistent with a higher detection rate overall. Neither model learned the processing trace as a strong defect cue.
 Held-out null tiles of the naive build rendered at `~/swrd_synthetic_physical/data/yolo_naive_v3_nullholdout`.
+
+## 2026-10-19 — Bartu — realism check on run E's tiles: run A's model misses the naive pastes
+Run A's best.pt on the 33,317 synthetic tiles of the naive v3 build (eval task `49b729257b6845859352637959553857`), same
+settings as the run D check. Recall real val / physical v3 (run D tiles) / naive v3 (run E tiles): inclusion 0.28 / 0.41 /
+0.12, crack 0.55 / 0.58 / 0.26, undercut 0.08 / 0.14 / 0.03, lack of fusion 0.35 / 0.37 / 0.24. A model trained on real
+films finds the naive pastes about half as often as real defects: to it they look different, as the sheets showed
+(solid black or white silhouettes). Yet training on them gave the higher validation score (E 0.459 vs D 0.424). So E's
+synthetic defects are less realistic and still more useful than D's. Most likely reading: D's near-invisible
+insertions hurt (boxes around nothing visible), E's conspicuous ones do not; whether E actually helps over real-only
+waits for A'.
