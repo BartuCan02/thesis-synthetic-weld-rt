@@ -319,3 +319,15 @@ the thesis hypothesis and has to be explained before it is written up; the fair 
 none checked yet: the physical residual loses appearance (darkening-only clip drops bright rims, the 1 px blur and the
 grain-ratio scale weaken edges and contrast; run C's defects were already ~20 % fainter in the 8-bit tiles), while the
 naive paste keeps the source defect's full local appearance; and a second seed of D and E to bound the gap.
+
+## 2026-10-19 — Bartu — why E beat D: the naive pastes are gross, part of the physical insertions are near-invisible
+Following single source defects through the builds as 8-bit training tiles (`swrd_synthetic_physical/scripts/08_follow_source.py`,
+three per class, seed 5): run E's naive pastes carry the source film's grey level, SWRD films differ in level up to ~10x,
+so after the per-tile stretch most pastes are solid black shapes or white patches with crisp outlines. The same
+insertions in run D are often faint and some are near-invisible (depth factor down to 0.7 times grain scaling). So E
+trained on conspicuous class silhouettes, D partly on boxes around nothing visible, which acts like label noise. The D vs E
+gap is therefore not yet the physical-vs-naive question of the thesis: run E is a far cruder paste than the literature's
+naive arm, and run D's contrast is too low on part of its defects. Before the A/B is rerun: (1) physical arm: reject or
+rescale insertions whose contrast-to-noise ratio in the tile is below that of real defects of the class; (2) naive arm:
+match the pasted crop's mean level to the host before blending (the usual naive baseline). Page with the sheets shared in
+the session; not yet measured over the whole build.
