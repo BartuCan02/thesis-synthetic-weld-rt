@@ -361,3 +361,13 @@ films finds the naive pastes about half as often as real defects: to it they loo
 synthetic defects are less realistic and still more useful than D's. Most likely reading: D's near-invisible
 insertions hurt (boxes around nothing visible), E's conspicuous ones do not; whether E actually helps over real-only
 waits for A'.
+
+## 2026-10-19 — Bartu — compared arms get exactly equal training data counts
+Runs B and C differed by 109 extra tiles (11,147 vs 11,256) and D and E by 108 (33,425 vs 33,317; positives 31,153 vs
+31,087, null tiles 2,272 vs 2,230), because neither repeat sampling nor defect insertion can hit a tile target exactly.
+The effect is far below seed noise (0.06–0.07 % of an epoch vs ~0.004 mAP50 between identical-data runs), but Bartu
+decided that from now on every pair of arms that is compared gets exactly the same counts, as a matter of scientific
+rigour: same number of synthetic tiles per class, same number of null tiles, same total. How: after both builds,
+randomly drop the surplus tiles of the larger arm per class (seeded, recorded in the dataset metadata) before upload.
+For a repeat-sampling arm, fix its copy count per class to the synthetic arm's tile count instead of drawing it.
+Runs B–E stay as they are and are reported with their actual counts.
