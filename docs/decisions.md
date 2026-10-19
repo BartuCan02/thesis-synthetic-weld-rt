@@ -331,3 +331,14 @@ naive arm, and run D's contrast is too low on part of its defects. Before the A/
 rescale insertions whose contrast-to-noise ratio in the tile is below that of real defects of the class; (2) naive arm:
 match the pasted crop's mean level to the host before blending (the usual naive baseline). Page with the sheets shared in
 the session; not yet measured over the whole build.
+
+## 2026-10-19 — Bartu — correction: runs D and E are matched in distribution, not defect by defect
+Earlier entries say run E has "the same sources, variations, hosts and positions" as run D. Measured on the two
+`inserted.jsonl` files: 6,760 (D) vs 6,767 (E) defects; 80 % of the defects (5,427) come from the same source, but only 47 %
+(3,162) sit on the same film at the same spot. The first insertion on each film is identical; later spots are chosen on
+the film as it looks after earlier insertions, which the two methods change differently. Tiles per class agree within
+2 % (D 9,564 / 5,216 / 7,110 / 9,263, E 9,657 / 5,193 / 7,010 / 9,227 for inclusion / crack / undercut / lack of fusion).
+Visual comparison on matched tiles (Cecilia deck, 19 Oct): many physical defects are faint after the per-tile stretch,
+some nearly invisible; the naive pastes are strong and often sit in a patch of different brightness. Working hypothesis
+for D < E: faint physical insertions act as label noise. Next check: contrast and edge sharpness of real, physical and
+naive defects in the 8-bit tiles.
