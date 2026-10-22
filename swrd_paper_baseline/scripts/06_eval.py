@@ -39,7 +39,13 @@ def main() -> None:
     w = ap.add_mutually_exclusive_group(required=True)
     w.add_argument("--model-id", help="ClearML model id")
     w.add_argument("--weights", type=Path, help="local .pt file")
-    w.add_argument("--task-id", help="ClearML training task whose best.pt artifact to score")
+    w.add_argument("--task-id", help="ClearML training task whose checkpoint artifact to score")
+    ap.add_argument(
+        "--checkpoint",
+        choices=["best", "last"],
+        default="best",
+        help="with --task-id: best.pt (chosen on that run's val set) or last.pt (final epoch, chosen by nothing)",
+    )
     ap.add_argument(
         "--split-file",
         type=Path,
@@ -80,7 +86,8 @@ def main() -> None:
     if args.weights:
         weights = str(args.weights)
     elif args.task_id:
-        weights = Task.get_task(task_id=args.task_id).artifacts["best.pt"].get_local_copy()
+        artifact = f"{args.checkpoint}.pt"
+        weights = Task.get_task(task_id=args.task_id).artifacts[artifact].get_local_copy()
     else:
         weights = InputModel(model_id=args.model_id).get_local_copy()
     if args.part == "test" and not args.split_file:
@@ -132,6 +139,8 @@ def main() -> None:
         "weights": weights,
         "model_id": args.model_id,
         "training_task_id": args.task_id,
+        "checkpoint": args.checkpoint if args.task_id else None,
+        "imgsz": args.imgsz,
         "part": args.part,
         "dataset": args.dataset_id or str(root),
         "split_file": str(args.split_file)
