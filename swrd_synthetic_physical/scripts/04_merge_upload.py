@@ -94,11 +94,19 @@ def main() -> None:
     assert not clashes, f"{len(clashes)} tile ids already exist in the parent, e.g. {clashes[:3]}"
     n_parent = Counter(p.split("/")[1] for p in parent_files if p.startswith("images/"))
     selection = json.loads((a.work_dir / "selection_report.json").read_text())
-    n_null = selection.get("null_tiles_train", 0)
-    n_pos = sum(1 for x in labs if (lab_dir / x).stat().st_size > 0)
-    assert n_pos == len(labs) - n_null, (
-        f"{len(labs) - n_pos} empty labels but {n_null} null tiles: every other tile must hold a box"
+    # 08_match_arms.py may have moved surplus tiles out to match another arm exactly
+    trim_path = a.yolo_dir / "trim_report.json"
+    trim = json.loads(trim_path.read_text()) if trim_path.is_file() else None
+    trimmed_null = (trim or {}).get("dropped_per_bucket", {}).get("null", 0)
+    n_null = sum(1 for x in labs if not (lab_dir / x).read_text().strip())
+    expected_null = selection.get("null_tiles_train", 0) - trimmed_null
+    assert n_null == expected_null, (
+        f"{n_null} empty labels, but the selection report minus the trim gives {expected_null} null tiles"
     )
+    if trim:
+        after = {b: v["after"] for b, v in trim["buckets"].items()}
+        assert sum(after.values()) == len(labs), "the trim report does not match the tiles on disk"
+        print(f"[merge] matched to {trim['matched_with']} (seed {trim['seed']}): {after}")
 
     # ClearML content de-duplication guard (see the docstring)
     parent_hashes = {
@@ -151,6 +159,7 @@ def main() -> None:
         a.raw_dir / "inserted.jsonl",
         a.yolo_dir / "render_params.json",
         a.work_dir / "tiles_summary.json",
+        *([trim_path] if trim else []),
     ):
         ds.add_files(path=str(p), dataset_path="synthetic")
     ds.set_metadata(
@@ -173,6 +182,16 @@ def main() -> None:
             },
             "val": "identical to parent; film split puts every synthetic tile in train",
             "labels_made_unique_vs_parent": lab_dups,
+            "matched_counts": (
+                {
+                    "matched_with": trim["matched_with"],
+                    "seed": trim["seed"],
+                    "tiles_per_bucket_after": {b: v["after"] for b, v in trim["buckets"].items()},
+                    "dropped_per_bucket": trim["dropped_per_bucket"],
+                }
+                if trim
+                else None
+            ),
         },
         metadata_name="pipeline",
     )
