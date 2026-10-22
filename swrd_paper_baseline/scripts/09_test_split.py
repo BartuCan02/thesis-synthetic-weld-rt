@@ -15,6 +15,9 @@ iterative stratification for multi-label data (Sechidis, Tsoumakas, Vlahavas, EC
      subtract the group from the desired counts of every class it holds; repeat until every group with a defect is placed;
   3. place the defect-free groups on the side that still lacks the most exposures.
 
+--n-test is a target, not an exact count: whole groups are placed to balance every class, and when every validation
+exposure holds a defect there are no defect-free groups left to top the count up (seed 0, target 100: 96 exposures).
+
 Groups: an exposure plus every exposure whose film is byte-identical to one of its films (inventory.json
 "duplicate_groups"), so identical films never sit on both sides. A group with a copy in TRAINING is forced to val,
 never test (three such train/val copies exist; they are a known small leak of the validation set, not of the test set).
@@ -167,7 +170,7 @@ def main() -> None:
     ap.add_argument(
         "--split", default="split_films.json", help="the film split to carve the test set from"
     )
-    ap.add_argument("--n-test", type=int, default=100, help="validation exposures that become test")
+    ap.add_argument("--n-test", type=int, default=100, help="target number of validation exposures that become test (can end a few short)")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--out", default="split_films_test.json")
     a = ap.parse_args()
