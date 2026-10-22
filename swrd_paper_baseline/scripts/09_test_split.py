@@ -170,7 +170,12 @@ def main() -> None:
     ap.add_argument(
         "--split", default="split_films.json", help="the film split to carve the test set from"
     )
-    ap.add_argument("--n-test", type=int, default=100, help="target number of validation exposures that become test (can end a few short)")
+    ap.add_argument(
+        "--n-test",
+        type=int,
+        default=100,
+        help="target number of validation exposures that become test (can end a few short)",
+    )
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--out", default="split_films_test.json")
     a = ap.parse_args()
