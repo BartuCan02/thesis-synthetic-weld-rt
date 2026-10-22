@@ -201,33 +201,62 @@ def connect_film_split(task, split_file: Path | None) -> dict:
 
     Where ``split_file`` exists (the box, at launch) its val exposures go into the task's configuration
     "film_split". On the agent the file does not exist, and ClearML returns the stored copy instead.
+    A split with a "test" list (09_test_split.py) also stores the test exposures: their tiles are held out of
+    training and validation alike. A split without one gives an empty test list, as before.
     """
-    local = {"val_exposures": [], "expected_val_tiles": 0, "source": ""}
+    local = {
+        "val_exposures": [],
+        "expected_val_tiles": 0,
+        "test_exposures": [],
+        "expected_test_tiles": 0,
+        "source": "",
+    }
     if split_file and Path(split_file).is_file():
         split = json.loads(Path(split_file).read_text())
         local = {
             "val_exposures": sorted({exposure_of(t) for t in split["val"]}),
             "expected_val_tiles": len(split["val"]),
+            "test_exposures": sorted({exposure_of(t) for t in split.get("test", [])}),
+            "expected_test_tiles": len(split.get("test", [])),
             "source": str(split_file),
         }
     cfg = task.connect_configuration(local, name="film_split")
     if not cfg.get("val_exposures"):
         raise SystemExit("--split film needs --split-file pointing at an existing split_films.json")
-    return {k: cfg[k] for k in ("val_exposures", "expected_val_tiles", "source")}
+    if set(cfg.get("test_exposures") or []) & set(cfg["val_exposures"]):
+        raise SystemExit("film split: an exposure is in both val and test")
+    return {
+        "val_exposures": cfg["val_exposures"],
+        "expected_val_tiles": cfg["expected_val_tiles"],
+        "test_exposures": cfg.get("test_exposures") or [],
+        "expected_test_tiles": cfg.get("expected_test_tiles") or 0,
+        "source": cfg["source"],
+    }
 
 
-def assign_parts(root: Path, val_exposures: set[str] | None) -> dict[str, list[Path]]:
-    """Every tile image of the dataset, grouped into train and val.
+def assign_parts(
+    root: Path, val_exposures: set[str] | None, test_exposures: set[str] | None = None
+) -> dict[str, list[Path]]:
+    """Every tile image of the dataset, grouped into train, val and (held out) test.
 
     ``None`` keeps the dataset's own folders. A set of exposures puts every tile of those exposures into
-    val, whichever folder it sits in, and every other tile into train.
+    val, whichever folder it sits in; tiles of ``test_exposures`` go to test, which no model ever sees in
+    training or validation; every other tile goes to train.
     """
     images = sorted(p for part in ("train", "val") for p in (root / "images" / part).glob("*.png"))
     if val_exposures is None:
-        return {part: [p for p in images if p.parent.name == part] for part in ("train", "val")}
+        parts = {part: [p for p in images if p.parent.name == part] for part in ("train", "val")}
+        return parts | {"test": []}
+    test_exposures = test_exposures or set()
     return {
-        "train": [p for p in images if exposure_of(p.stem) not in val_exposures],
+        "train": [
+            p
+            for p in images
+            if exposure_of(p.stem) not in val_exposures
+            and exposure_of(p.stem) not in test_exposures
+        ],
         "val": [p for p in images if exposure_of(p.stem) in val_exposures],
+        "test": [p for p in images if exposure_of(p.stem) in test_exposures],
     }
 
 
@@ -314,16 +343,23 @@ def resolve_data_yaml(
         return out, {"split": "tile", "train_tiles": n_train, "train_entries": n_train}
 
     val_exposures = set(film_split["val_exposures"]) if args.split == "film" else None
-    parts = assign_parts(root, val_exposures)
+    test_exposures = set(film_split.get("test_exposures") or []) if args.split == "film" else None
+    parts = assign_parts(root, val_exposures, test_exposures)
     if film_split and len(parts["val"]) != film_split["expected_val_tiles"]:
         raise RuntimeError(
             f"film split: {len(parts['val'])} val tiles here, "
             f"{film_split['expected_val_tiles']} in {film_split['source']}"
         )
+    if film_split and len(parts["test"]) != film_split.get("expected_test_tiles", 0):
+        raise RuntimeError(
+            f"film split: {len(parts['test'])} test tiles here, "
+            f"{film_split.get('expected_test_tiles', 0)} in {film_split['source']}"
+        )
 
     view = (Path(args.runs_dir) / f"{args.name}_view").resolve()
     shutil.rmtree(view, ignore_errors=True)  # holds only symlinks and Ultralytics label caches
-    for part, images in parts.items():
+    for part in ("train", "val"):  # test tiles are held out: they never enter the view
+        images = parts[part]
         for sub in ("images", "labels"):
             (view / sub / part).mkdir(parents=True)
         for img in images:
@@ -357,6 +393,7 @@ def resolve_data_yaml(
         "rfs_seed": args.seed if args.rfs_threshold else None,
         "train_tiles": len(parts["train"]),
         "val_tiles": len(parts["val"]),
+        "test_tiles_held_out": len(parts["test"]),
         "train_entries": sum(copies),
         "per_class": class_table(classes, copies, r_class, data["names"]),
     }
@@ -366,7 +403,8 @@ def resolve_data_yaml(
 def print_data_info(info: dict) -> None:
     print(
         f"[data] split {info['split']}: train {info['train_tiles']:,} tiles, "
-        f"val {info.get('val_tiles', '(dataset folder)')} tiles; "
+        f"val {info.get('val_tiles', '(dataset folder)')} tiles, "
+        f"test held out {info.get('test_tiles_held_out', 0)} tiles; "
         f"train entries per epoch {info['train_entries']:,}"
     )
     if "per_class" in info:

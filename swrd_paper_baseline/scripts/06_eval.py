@@ -7,9 +7,14 @@ film-level split (step 5 of the plan: how much does the tile-level split inflate
 Weights come from a ClearML model id (the output model Ultralytics registers) or a local .pt path.
 Data comes from a ClearML dataset id or a local YOLO folder. Results go to a ClearML task and a JSON file.
 
+With a split from 09_test_split.py, --part test scores the held-out test exposures and --part val the reduced
+validation set. --task-id takes the best.pt that a 05_train.py task uploaded as an artifact.
+
 Run:
   uv run python scripts/06_eval.py --dataset-id de772ad9363c4067bed5835e13a9be81 --model-id <id> --name eval-v1.0-yolov8m
   uv run python scripts/06_eval.py --data-dir ~/swrd_paper_baseline/data/yolo_v1.0_papergrid --weights runs/x/weights/best.pt --name eval-local
+  uv run python scripts/06_eval.py --data-dir ~/swrd_paper_baseline/data/yolo_v1.0_papergrid --task-id <training task> \
+      --split-file ~/swrd_paper_baseline/data/work/split_films_test.json --part test --name eval-A-test
 """
 
 from __future__ import annotations
@@ -34,10 +39,17 @@ def main() -> None:
     w = ap.add_mutually_exclusive_group(required=True)
     w.add_argument("--model-id", help="ClearML model id")
     w.add_argument("--weights", type=Path, help="local .pt file")
+    w.add_argument("--task-id", help="ClearML training task whose best.pt artifact to score")
     ap.add_argument(
         "--split-file",
         type=Path,
-        help="optional split json (train/val tile ids) to re-split the val set",
+        help="optional split json (train/val[/test] tile ids) to re-split the val set",
+    )
+    ap.add_argument(
+        "--part",
+        choices=["val", "test"],
+        default="val",
+        help="which list of --split-file to score (test needs a split from 09_test_split.py)",
     )
     ap.add_argument("--imgsz", type=int, default=640)
     ap.add_argument("--batch", type=int, default=32)
@@ -65,9 +77,14 @@ def main() -> None:
         if args.data_dir
         else Path(Dataset.get(dataset_id=args.dataset_id).get_local_copy())
     )
-    weights = (
-        str(args.weights) if args.weights else InputModel(model_id=args.model_id).get_local_copy()
-    )
+    if args.weights:
+        weights = str(args.weights)
+    elif args.task_id:
+        weights = Task.get_task(task_id=args.task_id).artifacts["best.pt"].get_local_copy()
+    else:
+        weights = InputModel(model_id=args.model_id).get_local_copy()
+    if args.part == "test" and not args.split_file:
+        raise SystemExit("--part test needs --split-file with a test list (09_test_split.py)")
     data = yaml.safe_load((root / "swrd6.yaml").read_text())
     data["path"] = str(root)
     args.out_dir.mkdir(parents=True, exist_ok=True)
@@ -75,17 +92,23 @@ def main() -> None:
     if args.split_file:
         # the images stay where they are; Ultralytics accepts a txt list of image paths as the val set
         split = json.loads(args.split_file.read_text())
-        val_ids = set(split["val"])
+        if args.part not in split:
+            raise SystemExit(f"{args.split_file.name} has no '{args.part}' list")
+        ids = set(split[args.part])
         paths = [
             p
             for part in ("train", "val")
             for p in (root / "images" / part).glob("*.png")
-            if p.stem in val_ids
+            if p.stem in ids
         ]
-        lst = args.out_dir / f"{args.name}_val.txt"
+        if len(paths) != len(ids):
+            raise SystemExit(
+                f"{len(ids) - len(paths)} {args.part} tiles of the split are missing here"
+            )
+        lst = args.out_dir / f"{args.name}_{args.part}.txt"
         lst.write_text("\n".join(str(p) for p in sorted(paths)) + "\n")
         data["val"] = str(lst)
-        print(f"[eval] val set from {args.split_file.name}: {len(paths):,} tiles")
+        print(f"[eval] {args.part} set from {args.split_file.name}: {len(paths):,} tiles")
     data_yaml = args.out_dir / f"{args.name}_data.yaml"
     data_yaml.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True))
 
@@ -108,6 +131,8 @@ def main() -> None:
     out = {
         "weights": weights,
         "model_id": args.model_id,
+        "training_task_id": args.task_id,
+        "part": args.part,
         "dataset": args.dataset_id or str(root),
         "split_file": str(args.split_file)
         if args.split_file

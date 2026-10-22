@@ -137,3 +137,70 @@ def test_film_split_refuses_a_val_count_that_does_not_match_the_split_file(tmp_p
     film = {"val_exposures": ["E3"], "expected_val_tiles": 3, "source": "test"}
     with pytest.raises(RuntimeError, match="film split"):
         train05.resolve_data_yaml(_args(root, tmp_path / "runs", split="film"), film)
+
+
+def test_film_split_holds_test_exposures_out_of_train_and_val(tmp_path):
+    root = tmp_path / "ds"
+    _fake_dataset(root)
+    film = {
+        "val_exposures": ["E3"],
+        "expected_val_tiles": 2,
+        "test_exposures": ["E1"],
+        "expected_test_tiles": 3,  # A_E1 x0, A_E1 x5, B_E1: both T-joint halves of exposure E1
+        "source": "test",
+    }
+    out, info = train05.resolve_data_yaml(_args(root, tmp_path / "runs", split="film"), film)
+    view = Path(yaml.safe_load(out.read_text())["path"])
+    seen = {p.stem for p in (view / "images").rglob("*.png")}
+    assert not any(train05.exposure_of(s) == "E1" for s in seen)  # never in train, never in val
+    assert sorted(p.stem for p in (view / "images" / "train").iterdir()) == ["E2__x0__y0__s10"]
+    assert not (view / "images" / "test").exists()
+    assert info["train_tiles"] == 1 and info["val_tiles"] == 2 and info["test_tiles_held_out"] == 3
+
+
+def test_film_split_refuses_a_test_count_that_does_not_match_the_split_file(tmp_path):
+    root = tmp_path / "ds"
+    _fake_dataset(root)
+    film = {
+        "val_exposures": ["E3"],
+        "expected_val_tiles": 2,
+        "test_exposures": ["E1"],
+        "expected_test_tiles": 2,
+        "source": "test",
+    }
+    with pytest.raises(RuntimeError, match="test tiles"):
+        train05.resolve_data_yaml(_args(root, tmp_path / "runs", split="film"), film)
+
+
+def test_film_split_without_a_test_list_behaves_as_before(tmp_path):
+    root = tmp_path / "ds"
+    _fake_dataset(root)
+    film = {"val_exposures": ["E3"], "expected_val_tiles": 2, "source": "old split file"}
+    _, info = train05.resolve_data_yaml(_args(root, tmp_path / "runs", split="film"), film)
+    assert info["train_tiles"] == 4 and info["val_tiles"] == 2 and info["test_tiles_held_out"] == 0
+
+
+class _FakeTask:
+    def connect_configuration(self, cfg, name):
+        return cfg
+
+
+def test_connect_film_split_reads_the_test_list(tmp_path):
+    import json
+
+    f = tmp_path / "split.json"
+    f.write_text(
+        json.dumps(
+            {
+                "train": ["A_E1__x0__y0__s10"],
+                "val": ["E3__x0__y0__s10"],
+                "test": ["E2__x0__y0__s10", "E2__x5__y0__s10"],
+            }
+        )
+    )
+    cfg = train05.connect_film_split(_FakeTask(), f)
+    assert cfg["val_exposures"] == ["E3"] and cfg["test_exposures"] == ["E2"]
+    assert cfg["expected_test_tiles"] == 2
+    f.write_text(json.dumps({"train": [], "val": ["E3__x0__y0__s10"], "test": ["E3__x5__y0__s10"]}))
+    with pytest.raises(SystemExit):
+        train05.connect_film_split(_FakeTask(), f)
