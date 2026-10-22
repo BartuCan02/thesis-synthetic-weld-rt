@@ -21,6 +21,11 @@ Split and sampling (WP1 oversampling experiment, experiments/wp1_benchmark/overs
   --rfs-threshold t    repeat factor sampling (Gupta, Dollar, Girshick, LVIS, CVPR 2019): a class found in fewer
                        than a fraction t of the train tiles gets its tiles listed r = sqrt(t / share) times per
                        epoch. 0 = off (default).
+  --equal-sampling     (2026-10-22, Cecilia's reference arm) repeat tiles so that every class appears in as many
+                       training tiles per epoch as the most common class (porosity): class factor = most common
+                       class's tile count / this class's tile count, a tile takes the largest factor of its classes
+                       (at least 1), defect-free tiles once. Nothing is dropped. Classes that share tiles with rarer
+                       ones end above the target (porosity does). Not combinable with --rfs-threshold.
 Only --split tile without oversampling trains from the dataset folder as it is. Every other choice trains from a
 folder of symlinks next to the run (<runs-dir>/<name>_view), so the downloaded dataset is never written to and
 the paper runs' label cache is left alone.
@@ -170,6 +175,11 @@ def parse_args() -> argparse.Namespace:
         "are oversampled; 0 = off",
     )
     ap.add_argument(
+        "--equal-sampling",
+        action="store_true",
+        help="repeat tiles so every class is seen in as many tiles per epoch as the most common class",
+    )
+    ap.add_argument(
         "--name", required=True, help="run name (ClearML task name and local run folder)"
     )
     ap.add_argument(
@@ -184,6 +194,8 @@ def parse_args() -> argparse.Namespace:
         ap.error("--split-file only applies to --split film")
     if not 0.0 <= args.rfs_threshold < 1.0:
         ap.error("--rfs-threshold is a fraction of tiles: 0 <= t < 1")
+    if args.equal_sampling and args.rfs_threshold:
+        ap.error("--equal-sampling and --rfs-threshold are two different samplers: choose one")
     return args
 
 
@@ -285,6 +297,22 @@ def repeat_factors(
     return r_tile, r_class
 
 
+def equal_factors(classes_per_tile: list[set[int]]) -> tuple[list[float], dict[int, float]]:
+    """Equal sampling: raise every class to the tile count of the most common class.
+
+    n_c      = train tiles that contain class c
+    r_c      = max_k n_k / n_c                         the most common class keeps r_c = 1
+    r_tile   = max(1, max of r_c over the classes in the tile)   (1 for a defect-free tile)
+    """
+    tiles_with = Counter(c for cs in classes_per_tile for c in cs)
+    if not tiles_with:
+        return [1.0] * len(classes_per_tile), {}
+    target = max(tiles_with.values())
+    r_class = {c: target / k for c, k in sorted(tiles_with.items())}
+    r_tile = [max(1.0, max((r_class[c] for c in cs), default=1.0)) for cs in classes_per_tile]
+    return r_tile, r_class
+
+
 def round_repeats(r_tile: list[float], seed: int) -> list[int]:
     """Whole copies per tile: floor(r), plus one more with probability r - floor(r).
 
@@ -336,7 +364,11 @@ def resolve_data_yaml(
     out = Path(args.runs_dir) / f"{args.name}_data.yaml"
     out.parent.mkdir(parents=True, exist_ok=True)
 
-    if args.split == "tile" and not args.rfs_threshold:
+    if (
+        args.split == "tile"
+        and not args.rfs_threshold
+        and not getattr(args, "equal_sampling", False)
+    ):
         data["path"] = str(root)
         out.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True))
         n_train = sum(1 for _ in (root / "images" / "train").glob("*.png"))
@@ -373,10 +405,14 @@ def resolve_data_yaml(
     classes = [tile_classes(label_of(root, img)) for img in parts["train"]]
     copies = [1] * len(classes)
     r_class: dict[int, float] = {}
-    if args.rfs_threshold:
-        r_tile, r_class = repeat_factors(classes, args.rfs_threshold)
+    equal = getattr(args, "equal_sampling", False)
+    if args.rfs_threshold or equal:
+        if equal:
+            r_tile, r_class = equal_factors(classes)
+        else:
+            r_tile, r_class = repeat_factors(classes, args.rfs_threshold)
         copies = round_repeats(r_tile, args.seed)
-        train_list = view / "train_rfs.txt"
+        train_list = view / ("train_equal.txt" if equal else "train_rfs.txt")
         train_list.write_text(
             "".join(
                 f"{view / 'images' / 'train' / img.name}\n" * k
@@ -391,6 +427,8 @@ def resolve_data_yaml(
         "split_source": film_split["source"] if film_split else "dataset folders",
         "rfs_threshold": args.rfs_threshold,
         "rfs_seed": args.seed if args.rfs_threshold else None,
+        "equal_sampling": equal,
+        "equal_sampling_seed": args.seed if equal else None,
         "train_tiles": len(parts["train"]),
         "val_tiles": len(parts["val"]),
         "test_tiles_held_out": len(parts["test"]),
@@ -487,6 +525,7 @@ def main() -> None:
     task.set_user_properties(
         split=args.split,
         rfs_threshold=args.rfs_threshold,
+        equal_sampling=args.equal_sampling,
         train_tiles=data_info["train_tiles"],
         train_entries=n_train,
         nbs=nbs,

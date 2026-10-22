@@ -204,3 +204,66 @@ def test_connect_film_split_reads_the_test_list(tmp_path):
     f.write_text(json.dumps({"train": [], "val": ["E3__x0__y0__s10"], "test": ["E3__x5__y0__s10"]}))
     with pytest.raises(SystemExit):
         train05.connect_film_split(_FakeTask(), f)
+
+
+def test_equal_factors_raise_every_class_to_the_most_common_one():
+    # class 0 in 6 tiles, class 1 in 3, class 3 in 2 (one tile shares 0 and 3), 2 empty tiles
+    classes = [{0}] * 5 + [{0, 3}] + [{1}] * 3 + [{3}] + [set()] * 2
+    r_tile, r_class = train05.equal_factors(classes)
+    assert r_class == {0: 1.0, 1: 2.0, 3: 3.0}
+    assert r_tile[:5] == [1.0] * 5  # the most common class alone: once
+    assert r_tile[5] == 3.0  # a shared tile takes the largest factor of its classes
+    assert r_tile[6:9] == [2.0] * 3 and r_tile[9] == 3.0
+    assert r_tile[10:] == [1.0, 1.0]  # defect-free tiles: once
+    # expected views per epoch: class 0 = 5 + 3 = 8 (overshoots through the shared tile), 1 = 6, 3 = 6
+    views = {c: sum(r for cs, r in zip(classes, r_tile) if c in cs) for c in (0, 1, 3)}
+    assert views == {0: 8.0, 1: 6.0, 3: 6.0}
+
+
+def test_equal_factors_without_defects_is_a_no_op():
+    assert train05.equal_factors([set(), set()]) == ([1.0, 1.0], {})
+
+
+def test_equal_sampling_builds_a_repeat_list_on_the_film_split(tmp_path):
+    root = tmp_path / "ds"
+    _fake_dataset(root)
+    film = {"val_exposures": ["E3"], "expected_val_tiles": 2, "source": "test"}
+    out, info = train05.resolve_data_yaml(
+        _args(root, tmp_path / "runs", split="film", equal_sampling=True), film
+    )
+    data = yaml.safe_load(out.read_text())
+    view = Path(data["path"])
+    assert data["train"] == "train_equal.txt"
+    lines = (view / "train_equal.txt").read_text().splitlines()
+    # 4 train tiles: porosity in 2 (A_E1 x0, A_E1 x5), undercut in 1 (B_E1), 1 empty (E2): undercut factor 2
+    assert sum(1 for x in lines if Path(x).stem == "B_E1__x0__y0__s10") == 2
+    assert sum(1 for x in lines if Path(x).stem == "E2__x0__y0__s10") == 1
+    assert info["equal_sampling"] is True and info["rfs_threshold"] == 0.0
+    undercut = next(r for r in info["per_class"] if r["class"] == "undercut")
+    assert undercut["r_class"] == 2.0 and undercut["tiles_per_epoch"] == 2
+
+
+def test_equal_sampling_with_the_tile_split_does_not_take_the_folder_shortcut(tmp_path):
+    root = tmp_path / "ds"
+    _fake_dataset(root)
+    out, _ = train05.resolve_data_yaml(_args(root, tmp_path / "runs", equal_sampling=True))
+    assert yaml.safe_load(out.read_text())["train"] == "train_equal.txt"
+
+
+def test_equal_sampling_and_rfs_cannot_be_combined(monkeypatch):
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "05_train.py",
+            "--data-dir",
+            "d",
+            "--name",
+            "t",
+            "--equal-sampling",
+            "--rfs-threshold",
+            "0.1",
+        ],
+    )
+    with pytest.raises(SystemExit):
+        train05.parse_args()
