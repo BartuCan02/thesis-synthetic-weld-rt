@@ -1,6 +1,7 @@
 """Unit tests for the split and oversampling options of 05_train.py. Run: uv run pytest tests/test_train_sampling.py"""
 
 import importlib.util
+import random
 import sys
 from argparse import Namespace
 from pathlib import Path
@@ -206,18 +207,70 @@ def test_connect_film_split_reads_the_test_list(tmp_path):
         train05.connect_film_split(_FakeTask(), f)
 
 
-def test_equal_factors_raise_every_class_to_the_most_common_one():
+def test_equal_factors_make_every_class_equal_to_the_most_common_one():
     # class 0 in 6 tiles, class 1 in 3, class 3 in 2 (one tile shares 0 and 3), 2 empty tiles
     classes = [{0}] * 5 + [{0, 3}] + [{1}] * 3 + [{3}] + [set()] * 2
     r_tile, r_class = train05.equal_factors(classes)
-    assert r_class == {0: 1.0, 1: 2.0, 3: 3.0}
-    assert r_tile[:5] == [1.0] * 5  # the most common class alone: once
-    assert r_tile[5] == 3.0  # a shared tile takes the largest factor of its classes
+    # target 6: class 1 x2, class 3 x3; the shared tile (x3) already gives class 0 three views, so the five
+    # tiles holding only class 0 keep a fraction (6 - 3) / 5 = 0.6
+    assert r_class == pytest.approx({0: 0.6, 1: 2.0, 3: 3.0})
+    assert r_tile[:5] == pytest.approx([0.6] * 5)
+    assert r_tile[5] == 3.0  # a shared tile takes the largest factor of its other classes
     assert r_tile[6:9] == [2.0] * 3 and r_tile[9] == 3.0
     assert r_tile[10:] == [1.0, 1.0]  # defect-free tiles: once
-    # expected views per epoch: class 0 = 5 + 3 = 8 (overshoots through the shared tile), 1 = 6, 3 = 6
     views = {c: sum(r for cs, r in zip(classes, r_tile) if c in cs) for c in (0, 1, 3)}
-    assert views == {0: 8.0, 1: 6.0, 3: 6.0}
+    assert views == pytest.approx({0: 6.0, 1: 6.0, 3: 6.0})
+
+
+def _mixed_tiles(n: int, pores_with_rare: float, seed: int = 1) -> list[set[int]]:
+    """Random tiles: rarer classes 1-5 at SWRD-like rates, sometimes two together; pores in about half of
+    the tiles without a rarer class and in a fraction ``pores_with_rare`` of the tiles with one."""
+    rng = random.Random(seed)
+    classes = []
+    for _ in range(n):
+        cs = set()
+        for c, p in ((1, 0.08), (2, 0.12), (3, 0.01), (4, 0.06), (5, 0.1)):
+            if rng.random() < p:
+                cs.add(c)
+        if rng.random() < (pores_with_rare if cs else 0.5):
+            cs.add(0)
+        classes.append(cs)
+    return classes
+
+
+def test_equal_factors_are_exact_when_the_pores_leave_room():
+    # in SWRD + run E, tiles shared with rarer classes give porosity 29,678 of its 44,259 target: room left
+    classes = _mixed_tiles(3000, pores_with_rare=0.2)
+    r_tile, _ = train05.equal_factors(classes)
+    target = max(sum(1 for cs in classes if c in cs) for c in range(6))
+    views = {c: sum(r for cs, r in zip(classes, r_tile) if c in cs) for c in range(6)}
+    assert views == pytest.approx({c: target for c in range(6)})
+    assert all(r >= 0 for r in r_tile)
+    # whole copies keep it within a few percent (each pores-only tile gets 0 or 1 copy)
+    copies = train05.round_repeats(r_tile, seed=0)
+    for c in range(6):
+        seen = sum(k for cs, k in zip(classes, copies) if c in cs)
+        assert abs(seen - target) / target < 0.05
+
+
+def test_equal_factors_cannot_lower_the_most_common_class_below_its_shared_views():
+    # pores in most rare-class tiles: repeating those alone already shows pores far above the target, so every
+    # pores-only tile is left out (factor 0) and porosity still ends above; the training script warns about this
+    classes = _mixed_tiles(3000, pores_with_rare=0.9)
+    r_tile, r_class = train05.equal_factors(classes)
+    target = max(sum(1 for cs in classes if c in cs) for c in range(6))
+    assert r_class[0] == 0.0
+    assert sum(r for cs, r in zip(classes, r_tile) if 0 in cs) > 1.02 * target
+    assert train05.equal_spread(classes, train05.round_repeats(r_tile, seed=0)) > 0.02
+
+
+def test_equal_spread_is_the_gap_between_the_most_and_least_seen_class():
+    classes = [{0}, {0}, {1}, {1, 0}, set()]
+    assert train05.equal_spread(classes, [1, 1, 1, 1, 1]) == pytest.approx((3 - 2) / 3)
+    assert train05.equal_spread(classes, [1, 0, 1, 1, 1]) == pytest.approx(
+        0.0
+    )  # both classes seen twice
+    assert train05.equal_spread([set()], [1]) == 0.0
 
 
 def test_equal_factors_without_defects_is_a_no_op():

@@ -21,11 +21,11 @@ Split and sampling (WP1 oversampling experiment, experiments/wp1_benchmark/overs
   --rfs-threshold t    repeat factor sampling (Gupta, Dollar, Girshick, LVIS, CVPR 2019): a class found in fewer
                        than a fraction t of the train tiles gets its tiles listed r = sqrt(t / share) times per
                        epoch. 0 = off (default).
-  --equal-sampling     (2026-10-22, Cecilia's reference arm) repeat tiles so that every class appears in as many
-                       training tiles per epoch as the most common class (porosity): class factor = most common
-                       class's tile count / this class's tile count, a tile takes the largest factor of its classes
-                       (at least 1), defect-free tiles once. Nothing is dropped. Classes that share tiles with rarer
-                       ones end above the target (porosity does). Not combinable with --rfs-threshold.
+  --equal-sampling     (2026-10-23, Cecilia's reference arm: "all classes the same number") every class is seen in
+                       exactly as many training tiles per epoch as the most common class (porosity) has tiles: rarer
+                       classes are repeated up to that count; because their tiles also hold pores, a share of the
+                       tiles that hold only pores is left out so that porosity lands on the same count (see
+                       equal_factors). Defect-free tiles once. Not combinable with --rfs-threshold.
 Only --split tile without oversampling trains from the dataset folder as it is. Every other choice trains from a
 folder of symlinks next to the run (<runs-dir>/<name>_view), so the downloaded dataset is never written to and
 the paper runs' label cache is left alone.
@@ -298,19 +298,64 @@ def repeat_factors(
 
 
 def equal_factors(classes_per_tile: list[set[int]]) -> tuple[list[float], dict[int, float]]:
-    """Equal sampling: raise every class to the tile count of the most common class.
+    """Equal sampling: every class is seen in as many tiles per epoch as the most common class has tiles.
 
-    n_c      = train tiles that contain class c
-    r_c      = max_k n_k / n_c                         the most common class keeps r_c = 1
-    r_tile   = max(1, max of r_c over the classes in the tile)   (1 for a defect-free tile)
+    n_c      = train tiles that contain class c; m = the most common class, target T = n_m
+    r_c      = T / n_c for every other class c
+    a tile holding any class other than m:  r_tile = max(1, max of r_c over those classes)
+    a tile holding only m:                  r_tile = f = (T - views of m in the tiles above) / (tiles holding only m)
+    a defect-free tile:                     r_tile = 1
+
+    Repeating the rarer classes also repeats every m in their tiles, so m would end above T; f < 1 brings it back to T
+    by keeping only a fraction f of the tiles that hold m alone (round_repeats then gives each of them 0 or 1 copy).
+    f never exceeds 1. r_class reports f for m.
+    Two rarer classes can share tiles too: a tile takes the larger factor, so the other class overshoots a little.
+    The factors r_c are therefore refined until every class other than m sees T views (each round scales r_c by
+    T / its current views; a few rounds suffice, at most 200).
     """
     tiles_with = Counter(c for cs in classes_per_tile for c in cs)
     if not tiles_with:
         return [1.0] * len(classes_per_tile), {}
-    target = max(tiles_with.values())
-    r_class = {c: target / k for c, k in sorted(tiles_with.items())}
-    r_tile = [max(1.0, max((r_class[c] for c in cs), default=1.0)) for cs in classes_per_tile]
-    return r_tile, r_class
+    m, target = max(sorted(tiles_with.items()), key=lambda kv: kv[1])
+    r_class = {c: target / k for c, k in sorted(tiles_with.items()) if c != m}
+    for _ in range(200):
+        views = Counter()
+        for cs in classes_per_tile:
+            others = [r_class[c] for c in cs if c != m]
+            if others:
+                r = max(1.0, max(others))
+                for c in cs:
+                    if c != m:
+                        views[c] += r
+        if all(abs(views[c] - target) <= 1e-9 * target for c in r_class):
+            break
+        r_class = {c: r * target / views[c] for c, r in r_class.items()}
+    r_tile, shared, only_m = [], 0.0, 0
+    for cs in classes_per_tile:
+        others = [r_class[c] for c in cs if c != m]
+        if others:
+            r = max(1.0, max(others))
+            shared += r if m in cs else 0.0
+        elif cs:  # only m
+            r, only_m = None, only_m + 1
+        else:
+            r = 1.0
+        r_tile.append(r)
+    f = max(0.0, (target - shared) / only_m) if only_m else 1.0
+    r_tile = [f if r is None else r for r in r_tile]
+    r_class[m] = f
+    return r_tile, dict(sorted(r_class.items()))
+
+
+def equal_spread(classes_per_tile: list[set[int]], copies: list[int]) -> float:
+    """(most - least) tile views per epoch over the classes present, relative to the most: 0 = all equal."""
+    seen = Counter()
+    for cs, k in zip(classes_per_tile, copies):
+        for c in cs:
+            seen[c] += k
+    if not seen:
+        return 0.0
+    return (max(seen.values()) - min(seen.values())) / max(seen.values())
 
 
 def round_repeats(r_tile: list[float], seed: int) -> list[int]:
@@ -412,6 +457,11 @@ def resolve_data_yaml(
         else:
             r_tile, r_class = repeat_factors(classes, args.rfs_threshold)
         copies = round_repeats(r_tile, args.seed)
+        if equal and (spread := equal_spread(classes, copies)) > 0.02:
+            print(
+                f"[data] WARNING equal sampling: classes differ by {spread:.1%} in tile views per epoch; "
+                "the most common class shares too many tiles with rarer ones to be lowered to the target"
+            )
         train_list = view / ("train_equal.txt" if equal else "train_rfs.txt")
         train_list.write_text(
             "".join(
