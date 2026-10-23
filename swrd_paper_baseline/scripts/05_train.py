@@ -21,11 +21,13 @@ Split and sampling (WP1 oversampling experiment, experiments/wp1_benchmark/overs
   --rfs-threshold t    repeat factor sampling (Gupta, Dollar, Girshick, LVIS, CVPR 2019): a class found in fewer
                        than a fraction t of the train tiles gets its tiles listed r = sqrt(t / share) times per
                        epoch. 0 = off (default).
-  --equal-sampling     (2026-10-23, Cecilia's reference arm: "all classes the same number") every class is seen in
-                       exactly as many training tiles per epoch as the most common class (porosity) has tiles: rarer
-                       classes are repeated up to that count; because their tiles also hold pores, a share of the
-                       tiles that hold only pores is left out so that porosity lands on the same count (see
-                       equal_factors). Defect-free tiles once. Not combinable with --rfs-threshold.
+  --equal-sampling     (2026-10-23, Cecilia's reference arm for run B: "all classes the same number") every class is
+                       seen in the same number of training tiles per epoch, --equal-target (max | second | N; default
+                       second = the second most common class's tile count, 15,042 on the real film-split tiles, which
+                       keeps the epoch length). Rarer classes are repeated up to it; classes above it keep a share of
+                       their tiles (the rest is left out of that run). Defect-free tiles once. Classes that share many
+                       tiles with rarer ones can stay above the target: porosity ends 6 % above on the real tiles (see
+                       equal_factors; the run warns). Not combinable with --rfs-threshold.
 Only --split tile without oversampling trains from the dataset folder as it is. Every other choice trains from a
 folder of symlinks next to the run (<runs-dir>/<name>_view), so the downloaded dataset is never written to and
 the paper runs' label cache is left alone.
@@ -177,7 +179,15 @@ def parse_args() -> argparse.Namespace:
     ap.add_argument(
         "--equal-sampling",
         action="store_true",
-        help="repeat tiles so every class is seen in as many tiles per epoch as the most common class",
+        help="sample tiles so every class is seen in the same number of tiles per epoch (--equal-target)",
+    )
+    ap.add_argument(
+        "--equal-target",
+        default="second",
+        help="with --equal-sampling: tile views per class per epoch: max, second (default) or a number",
+    )
+    ap.add_argument(
+        "--tags", nargs="*", default=[], help="ClearML tags for the task, e.g. benchmark-v1"
     )
     ap.add_argument(
         "--name", required=True, help="run name (ClearML task name and local run folder)"
@@ -196,6 +206,10 @@ def parse_args() -> argparse.Namespace:
         ap.error("--rfs-threshold is a fraction of tiles: 0 <= t < 1")
     if args.equal_sampling and args.rfs_threshold:
         ap.error("--equal-sampling and --rfs-threshold are two different samplers: choose one")
+    if args.equal_target not in ("max", "second") and not (
+        args.equal_target.isdigit() and int(args.equal_target) > 0
+    ):
+        ap.error("--equal-target must be max, second or a positive whole number")
     return args
 
 
@@ -297,54 +311,59 @@ def repeat_factors(
     return r_tile, r_class
 
 
-def equal_factors(classes_per_tile: list[set[int]]) -> tuple[list[float], dict[int, float]]:
-    """Equal sampling: every class is seen in as many tiles per epoch as the most common class has tiles.
+def equal_target(spec: str, classes_per_tile: list[set[int]]) -> int:
+    """The tile views per class per epoch that --equal-target asks for.
 
-    n_c      = train tiles that contain class c; m = the most common class, target T = n_m
-    r_c      = T / n_c for every other class c
-    a tile holding any class other than m:  r_tile = max(1, max of r_c over those classes)
-    a tile holding only m:                  r_tile = f = (T - views of m in the tiles above) / (tiles holding only m)
-    a defect-free tile:                     r_tile = 1
+    "max"    the tile count of the most common class (porosity in SWRD)
+    "second" the tile count of the second most common class (lack of penetration in SWRD, 15,042 on the film
+             split's training tiles): the epoch then stays about as long as without rebalancing
+    a number that number
+    """
+    counts = sorted(Counter(c for cs in classes_per_tile for c in cs).values(), reverse=True)
+    if spec == "max":
+        return counts[0]
+    if spec == "second":
+        return counts[1] if len(counts) > 1 else counts[0]
+    if spec.isdigit() and int(spec) > 0:
+        return int(spec)
+    raise ValueError(f"--equal-target must be max, second or a positive whole number, not {spec!r}")
 
-    Repeating the rarer classes also repeats every m in their tiles, so m would end above T; f < 1 brings it back to T
-    by keeping only a fraction f of the tiles that hold m alone (round_repeats then gives each of them 0 or 1 copy).
-    f never exceeds 1. r_class reports f for m.
-    Two rarer classes can share tiles too: a tile takes the larger factor, so the other class overshoots a little.
-    The factors r_c are therefore refined until every class other than m sees T views (each round scales r_c by
-    T / its current views; a few rounds suffice, at most 200).
+
+def equal_factors(
+    classes_per_tile: list[set[int]], target: float | None = None
+) -> tuple[list[float], dict[int, float]]:
+    """Equal sampling: every class is seen in ``target`` tiles per epoch (default: the most common class's count).
+
+    Each class c gets a factor r_c; a tile holding defects is listed max(r_c over its classes) times, a defect-free
+    tile once. Start with r_c = target / n_c (n_c = tiles holding c) and rescale every round
+        r_c <- r_c x target / (tile views of c this round)
+    until every class sees ``target`` (at most 500 rounds). The rescaling is needed because classes share tiles: a
+    tile repeated for its rarer class also shows its other classes again. A factor below 1 means its tiles are kept
+    at that rate (round_repeats gives each 0 or 1 copy): this is how a class above the target is brought down.
+
+    A class can stay above the target when it sits in too many tiles of rarer classes: its own factor then sinks
+    towards 0 (all its tiles that hold it alone are left out) and the shared tiles still show it more than
+    ``target`` times. On the SWRD film split's real tiles porosity ends 6 % above any target for this reason;
+    05_train.py warns when the classes end more than 2 % apart.
     """
     tiles_with = Counter(c for cs in classes_per_tile for c in cs)
     if not tiles_with:
         return [1.0] * len(classes_per_tile), {}
-    m, target = max(sorted(tiles_with.items()), key=lambda kv: kv[1])
-    r_class = {c: target / k for c, k in sorted(tiles_with.items()) if c != m}
-    for _ in range(200):
+    if target is None:
+        target = max(tiles_with.values())
+    r_class = {c: target / k for c, k in sorted(tiles_with.items())}
+    for _ in range(500):
         views = Counter()
         for cs in classes_per_tile:
-            others = [r_class[c] for c in cs if c != m]
-            if others:
-                r = max(1.0, max(others))
+            if cs:
+                w = max(r_class[c] for c in cs)
                 for c in cs:
-                    if c != m:
-                        views[c] += r
+                    views[c] += w
         if all(abs(views[c] - target) <= 1e-9 * target for c in r_class):
             break
         r_class = {c: r * target / views[c] for c, r in r_class.items()}
-    r_tile, shared, only_m = [], 0.0, 0
-    for cs in classes_per_tile:
-        others = [r_class[c] for c in cs if c != m]
-        if others:
-            r = max(1.0, max(others))
-            shared += r if m in cs else 0.0
-        elif cs:  # only m
-            r, only_m = None, only_m + 1
-        else:
-            r = 1.0
-        r_tile.append(r)
-    f = max(0.0, (target - shared) / only_m) if only_m else 1.0
-    r_tile = [f if r is None else r for r in r_tile]
-    r_class[m] = f
-    return r_tile, dict(sorted(r_class.items()))
+    r_tile = [max(r_class[c] for c in cs) if cs else 1.0 for cs in classes_per_tile]
+    return r_tile, r_class
 
 
 def equal_spread(classes_per_tile: list[set[int]], copies: list[int]) -> float:
@@ -451,16 +470,19 @@ def resolve_data_yaml(
     copies = [1] * len(classes)
     r_class: dict[int, float] = {}
     equal = getattr(args, "equal_sampling", False)
+    target = None
     if args.rfs_threshold or equal:
         if equal:
-            r_tile, r_class = equal_factors(classes)
+            target = equal_target(getattr(args, "equal_target", "second"), classes)
+            r_tile, r_class = equal_factors(classes, target)
         else:
             r_tile, r_class = repeat_factors(classes, args.rfs_threshold)
         copies = round_repeats(r_tile, args.seed)
         if equal and (spread := equal_spread(classes, copies)) > 0.02:
             print(
                 f"[data] WARNING equal sampling: classes differ by {spread:.1%} in tile views per epoch; "
-                "the most common class shares too many tiles with rarer ones to be lowered to the target"
+                "a class shares too many tiles with rarer ones to be brought down to the target "
+                f"({target:,}); see the per-class table"
             )
         train_list = view / ("train_equal.txt" if equal else "train_rfs.txt")
         train_list.write_text(
@@ -479,6 +501,8 @@ def resolve_data_yaml(
         "rfs_seed": args.seed if args.rfs_threshold else None,
         "equal_sampling": equal,
         "equal_sampling_seed": args.seed if equal else None,
+        "equal_target": target,
+        "train_tiles_left_out": sum(1 for k in copies if k == 0),
         "train_tiles": len(parts["train"]),
         "val_tiles": len(parts["val"]),
         "test_tiles_held_out": len(parts["test"]),
@@ -523,6 +547,8 @@ def main() -> None:
     )
     args = parse_args()
     task.set_name(args.name)
+    if args.tags:
+        task.add_tags(args.tags)
     task.set_base_docker(DOCKER_IMAGE, docker_arguments=DOCKER_ARGS)
     # The image (probed 2026-10-03) has torch 2.9.1+cu128, opencv 5.0, numpy 2.5 but no ultralytics; pin only
     # what is missing so pip does not pull a second torch.
@@ -576,6 +602,8 @@ def main() -> None:
         split=args.split,
         rfs_threshold=args.rfs_threshold,
         equal_sampling=args.equal_sampling,
+        equal_target=data_info.get("equal_target"),
+        train_tiles_left_out=data_info.get("train_tiles_left_out"),
         train_tiles=data_info["train_tiles"],
         train_entries=n_train,
         nbs=nbs,

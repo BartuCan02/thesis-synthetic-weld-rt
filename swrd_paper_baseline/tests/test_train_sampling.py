@@ -259,7 +259,7 @@ def test_equal_factors_cannot_lower_the_most_common_class_below_its_shared_views
     classes = _mixed_tiles(3000, pores_with_rare=0.9)
     r_tile, r_class = train05.equal_factors(classes)
     target = max(sum(1 for cs in classes if c in cs) for c in range(6))
-    assert r_class[0] == 0.0
+    assert r_class[0] < 0.01  # sinks towards 0: its pores-only tiles are (almost) all left out
     assert sum(r for cs, r in zip(classes, r_tile) if 0 in cs) > 1.02 * target
     assert train05.equal_spread(classes, train05.round_repeats(r_tile, seed=0)) > 0.02
 
@@ -282,7 +282,7 @@ def test_equal_sampling_builds_a_repeat_list_on_the_film_split(tmp_path):
     _fake_dataset(root)
     film = {"val_exposures": ["E3"], "expected_val_tiles": 2, "source": "test"}
     out, info = train05.resolve_data_yaml(
-        _args(root, tmp_path / "runs", split="film", equal_sampling=True), film
+        _args(root, tmp_path / "runs", split="film", equal_sampling=True, equal_target="max"), film
     )
     data = yaml.safe_load(out.read_text())
     view = Path(data["path"])
@@ -316,6 +316,59 @@ def test_equal_sampling_and_rfs_cannot_be_combined(monkeypatch):
             "--equal-sampling",
             "--rfs-threshold",
             "0.1",
+        ],
+    )
+    with pytest.raises(SystemExit):
+        train05.parse_args()
+
+
+def test_equal_target_reads_max_second_or_a_number():
+    classes = [{0}] * 5 + [{5}] * 3 + [{3}]
+    assert train05.equal_target("max", classes) == 5
+    assert train05.equal_target("second", classes) == 3
+    assert train05.equal_target("7", classes) == 7
+    with pytest.raises(ValueError):
+        train05.equal_target("lots", classes)
+
+
+def test_equal_factors_below_the_largest_classes_keep_a_share_of_their_tiles():
+    # target 3 = the second class's count: class 0 (6 tiles) keeps half its tiles, class 5 stays once,
+    # class 3 (1 tile) is repeated three times; nothing shares a tile, so all three land exactly on 3
+    classes = [{0}] * 6 + [{5}] * 3 + [{3}] + [set()] * 4
+    r_tile, r_class = train05.equal_factors(classes, target=3)
+    assert r_class == pytest.approx({0: 0.5, 3: 3.0, 5: 1.0})
+    views = {c: sum(r for cs, r in zip(classes, r_tile) if c in cs) for c in (0, 3, 5)}
+    assert views == pytest.approx({0: 3.0, 3: 3.0, 5: 3.0})
+    assert r_tile[-4:] == [1.0] * 4  # defect-free tiles: once
+
+
+def test_equal_sampling_default_target_is_the_second_class(tmp_path):
+    root = tmp_path / "ds"
+    _fake_dataset(root)
+    film = {"val_exposures": ["E3"], "expected_val_tiles": 2, "source": "test"}
+    # train: porosity in 2 tiles (A_E1 x0, A_E1 x5), undercut in 1 (B_E1), 1 empty: second class count = 1
+    _, info = train05.resolve_data_yaml(
+        _args(root, tmp_path / "runs", split="film", equal_sampling=True), film
+    )
+    assert info["equal_target"] == 1
+    porosity = next(r for r in info["per_class"] if r["class"] == "porosity")
+    assert porosity["r_class"] == pytest.approx(0.5) and porosity["tiles_per_epoch"] in (0, 1, 2)
+    assert info["train_tiles_left_out"] == 2 - porosity["tiles_per_epoch"]
+
+
+def test_equal_target_must_be_max_second_or_a_number(monkeypatch):
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "05_train.py",
+            "--data-dir",
+            "d",
+            "--name",
+            "t",
+            "--equal-sampling",
+            "--equal-target",
+            "x",
         ],
     )
     with pytest.raises(SystemExit):
