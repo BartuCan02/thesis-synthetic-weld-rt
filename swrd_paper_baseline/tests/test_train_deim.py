@@ -119,3 +119,18 @@ def test_data_dir_is_local_only(monkeypatch):
     monkeypatch.setattr(sys, "argv", base)  # neither source
     with pytest.raises(SystemExit):
         deim14.parse_args()
+
+
+def test_torchvision_shim_is_written_once_and_imports_cleanly(tmp_path):
+    import ast
+
+    pkg = tmp_path / "engine" / "data" / "transforms"
+    pkg.mkdir(parents=True)
+    (pkg / "__init__.py").write_text("from ._transforms import *\nfrom .mosaic import *\n")
+    assert deim14.patch_deim_transforms(tmp_path) is True
+    assert deim14.patch_deim_transforms(tmp_path) is False  # idempotent
+    init = (pkg / "__init__.py").read_text()
+    assert init.count("_tv_compat") == 1 and init.endswith("\n")
+    ast.parse((pkg / "_tv_compat.py").read_text())  # valid Python
+    with pytest.raises(FileNotFoundError):
+        deim14.patch_deim_transforms(tmp_path / "nowhere")

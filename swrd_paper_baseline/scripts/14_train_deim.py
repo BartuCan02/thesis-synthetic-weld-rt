@@ -264,6 +264,51 @@ def fetch_deim(dest: Path) -> Path:
     return repo_dir
 
 
+TV_COMPAT = """\"\"\"torchvision compatibility shim, written by 14_train_deim.py (thesis) when the DEIM repo is fetched.
+
+torchvision 0.21 renamed the hooks of transforms.v2.Transform (_transform -> transform, _get_params -> make_params,
+_check_inputs -> check_inputs) and torchvision 0.29 dropped the fallback to the old names. DEIM at the pinned commit
+still implements the old names (ConvertBoxes, ConvertPILImage, PadToSize), so every Transform subclass of this package
+that defines an old hook and not the new one gets the new name bound to the same function.
+\"\"\"
+
+import inspect
+
+import torchvision.transforms.v2 as T
+
+from . import _transforms, container, mosaic
+
+_RENAMES = (("_transform", "transform"), ("_get_params", "make_params"), ("_check_inputs", "check_inputs"))
+for _mod in (_transforms, mosaic, container):
+    for _cls in list(vars(_mod).values()):
+        if not (inspect.isclass(_cls) and issubclass(_cls, T.Transform) and _cls.__module__ == _mod.__name__):
+            continue
+        for _old, _new in _RENAMES:
+            if _old in _cls.__dict__ and _new not in _cls.__dict__:
+                setattr(_cls, _new, _cls.__dict__[_old])
+"""
+TV_COMPAT_IMPORT = (
+    "from . import _tv_compat  # noqa: E402,F401  (thesis: torchvision hook renames)\n"
+)
+
+
+def patch_deim_transforms(repo_dir: Path) -> bool:
+    """Write the torchvision shim into DEIM's transforms package and import it from its __init__ (idempotent).
+
+    Returns True when the package was changed by this call.
+    """
+    pkg = repo_dir / "engine" / "data" / "transforms"
+    init = pkg / "__init__.py"
+    if not init.is_file():
+        raise FileNotFoundError(init)
+    (pkg / "_tv_compat.py").write_text(TV_COMPAT)
+    text = init.read_text()
+    if TV_COMPAT_IMPORT in text:
+        return False
+    init.write_text(text.rstrip("\n") + "\n\n" + TV_COMPAT_IMPORT)
+    return True
+
+
 def ensure_hgnetv2_weights(deim_dir: Path) -> Path:
     """ImageNet HGNetv2-B4 weights where the derived config points; downloaded once, on the main process."""
     target = deim_dir / "weight" / "hgnetv2" / "PPHGNetV2_B4_stage1.pth"
@@ -444,6 +489,7 @@ def main() -> None:
     out_dir = runs_dir / args.name
     out_dir.mkdir(parents=True, exist_ok=True)
     deim_dir = fetch_deim(runs_dir / "third_party")
+    patch_deim_transforms(deim_dir)
     if args.data_dir:
         data_root = Path(args.data_dir).resolve()
     else:
