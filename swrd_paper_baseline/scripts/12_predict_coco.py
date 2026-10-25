@@ -53,10 +53,12 @@ def tile_paths(root: Path, split: dict, part: str) -> list[Path]:
 
 def model_for_weights(weights: str):
     """RTDETR for an RT-DETR checkpoint, YOLO otherwise."""
+    import torch
     from ultralytics import RTDETR, YOLO
-    from ultralytics.nn.tasks import attempt_load_one_weight
 
-    net, _ = attempt_load_one_weight(weights)
+    # the checkpoint pickles the model object; its class tells the architecture (no Ultralytics loader API needed)
+    ckpt = torch.load(weights, map_location="cpu", weights_only=False)
+    net = ckpt.get("ema") or ckpt.get("model")
     if type(net).__name__ == "RTDETRDetectionModel":
         return RTDETR(weights), "rtdetr"
     return YOLO(weights), "yolo"
