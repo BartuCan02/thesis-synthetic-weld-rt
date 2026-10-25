@@ -411,3 +411,49 @@ def test_equal_target_must_be_max_second_or_a_number(monkeypatch):
     )
     with pytest.raises(SystemExit):
         train05.parse_args()
+
+
+# ---- RT-DETR arm (reference-model comparison, 2026-10-25) ------------------------------------------------------
+
+
+def test_rtdetr_is_a_model_choice_without_a_segmentation_variant():
+    assert "rtdetr-l" in train05.MODEL_CHOICES and "rtdetr-x" in train05.MODEL_CHOICES
+    assert "rtdetr-l-seg" not in train05.MODEL_CHOICES
+    assert "yolov8m-seg" in train05.MODEL_CHOICES
+
+
+def test_rtdetr_emulates_yolov8m_paper_batch():
+    assert train05.PAPER_BATCH["rtdetr-l"] == train05.PAPER_BATCH["yolov8m"] == 480
+    assert train05.EMULATE_BATCH["rtdetr-l"] == train05.EMULATE_BATCH["yolov8m"]
+    assert train05.detect_base("rtdetr-l") == "rtdetr-l"
+
+
+def test_task_kind_and_deterministic_default_follow_the_model():
+    assert train05.task_kind("yolov8m") == "detect"
+    assert train05.task_kind("yolov8m-seg") == "segment"
+    assert train05.task_kind("rtdetr-l") == "detect-rtdetr"
+    assert train05.is_rtdetr("rtdetr-x") and not train05.is_rtdetr("yolov8x")
+    assert train05.deterministic_for("yolov8m", "auto") is True
+    assert train05.deterministic_for("rtdetr-l", "auto") is False
+    assert train05.deterministic_for("rtdetr-l", "true") is True
+    assert train05.deterministic_for("yolov8m", "false") is False
+
+
+def test_parse_args_accepts_rtdetr_and_deterministic(monkeypatch):
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "05_train.py",
+            "--data-dir",
+            "d",
+            "--name",
+            "t",
+            "--model",
+            "rtdetr-l",
+            "--deterministic",
+            "false",
+        ],
+    )
+    args = train05.parse_args()
+    assert args.model == "rtdetr-l" and args.deterministic == "false"

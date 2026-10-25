@@ -41,6 +41,15 @@ dataset whose labels are polygons (03_render.py --labels polygon). The paper bat
 the detection model of the same size. Ultralytics reports box metrics "(B)" and mask metrics "(M)"; the summary
 and the ClearML single values carry both, so the box mAP50 is directly comparable with the detection runs.
 
+RT-DETR arm (2026-10-25, reference-model comparison, experiments/wp1_benchmark/reference_models.md):
+``--model rtdetr-l`` (or rtdetr-x) trains Ultralytics' RT-DETR (Zhao et al., CVPR 2024: HGNetv2 backbone, hybrid
+encoder with one attention layer on the stride-32 map, 300 queries, 6 deformable decoder layers, Hungarian
+matching, no NMS) on the same tiles, split, imgsz and schedule as the YOLOv8m runs, from the COCO checkpoint
+``rtdetr-l.pt``. mAP50 / mAP50-95 and the per-class AP come from Ultralytics' RTDETRValidator on the identical val
+and test tiles, so the rows are directly comparable with the bm1 YOLOv8m numbers. --emulate-paper-batch maps
+rtdetr-* to yolov8m's paper batch, so optimizer steps per epoch and weight decay match the bm1 reference.
+RT-DETR's deformable attention has no deterministic CUDA backward: --deterministic defaults to false for it.
+
 Data: a ClearML Dataset id (downloaded on whichever machine runs this; the data yaml path is rewritten to the
 local copy) or a local folder with ``swrd6.yaml``. Remote execution: ``--queue multi-gpu`` enqueues the task
 and exits; the agent runs the same script. The multi-gpu agent has 4x T4 and 48 vCPU; the 4 vCPUs of the data
@@ -91,6 +100,9 @@ OUTPUT_URI = "s3://clearml-data-deeplify/clearml-artifacts"
 DOCKER_IMAGE = "862264091922.dkr.ecr.eu-central-1.amazonaws.com/model-training:latest"
 DOCKER_ARGS = "--gpus all --network host --shm-size=16g -e AWS_PROFILE=clearml-s3 -v /home/ec2-user/.aws:/root/.aws:ro"
 PAPER_BATCH = {"yolov8n": 480, "yolov8s": 480, "yolov8m": 480, "yolov8l": 320, "yolov8x": 240}
+# RT-DETR is not in the paper. Its entries copy yolov8m's, so that --emulate-paper-batch gives the RT-DETR arm the
+# same effective batch, nbs and weight decay as the bm1 YOLOv8m reference: the comparison then changes only the model.
+PAPER_BATCH |= {"rtdetr-l": PAPER_BATCH["yolov8m"], "rtdetr-x": PAPER_BATCH["yolov8m"]}
 ULTRALYTICS_NBS = (
     64  # nominal batch size: optimizer steps every nbs images; weight decay scales by batch/nbs
 )
@@ -102,13 +114,58 @@ EMULATE_BATCH = {
     "yolov8m": 24,
     "yolov8l": 20,
     "yolov8x": 16,
+    # RT-DETR: same per-GPU batch as yolov8m (x20 = 480). RT-DETR-L at 352 px should fit a 16 GB T4 at 24; watch
+    # the first epoch's memory and pass --batch 12 (accumulate 40) if it does not.
+    "rtdetr-l": 24,
+    "rtdetr-x": 16,
 }  # x8 / x10 / x20 / x16 / x15 = paper batch
-MODEL_CHOICES = list(PAPER_BATCH) + [f"{m}-seg" for m in PAPER_BATCH]
+MODEL_CHOICES = list(PAPER_BATCH) + [f"{m}-seg" for m in PAPER_BATCH if m.startswith("yolov8")]
 
 
 def detect_base(model: str) -> str:
     """'yolov8m-seg' -> 'yolov8m': the detection model whose paper batch and emulation values apply."""
     return model.removesuffix("-seg")
+
+
+def is_rtdetr(model: str) -> bool:
+    """'rtdetr-l' / 'rtdetr-x': the Ultralytics RT-DETR arm of the reference-model comparison."""
+    return model.startswith("rtdetr")
+
+
+def task_kind(model: str) -> str:
+    """ClearML user property: what kind of model the run trains."""
+    if model.endswith("-seg"):
+        return "segment"
+    if is_rtdetr(model):
+        return "detect-rtdetr"
+    return "detect"
+
+
+def model_class(model: str):
+    """The Ultralytics model class for a --model name: RTDETR for rtdetr-*, YOLO otherwise.
+
+    Imported lazily: the agent installs ultralytics only when the task runs, and the unit tests never need it.
+    RTDETR carries its own trainer, validator and predictor (300 queries, score threshold instead of NMS). Loading
+    an RT-DETR checkpoint through YOLO() would validate it with the YOLO postprocessing and NMS.
+    """
+    if is_rtdetr(model):
+        from ultralytics import RTDETR
+
+        return RTDETR
+    from ultralytics import YOLO
+
+    return YOLO
+
+
+def deterministic_for(model: str, choice: str) -> bool:
+    """--deterministic auto: True for YOLO (Ultralytics' default), False for RT-DETR.
+
+    RT-DETR's deformable attention (F.grid_sample) has no deterministic CUDA backward; Ultralytics documents
+    deterministic=False for it. Two RT-DETR runs with the same seed therefore differ slightly.
+    """
+    if choice == "auto":
+        return not is_rtdetr(model)
+    return choice == "true"
 
 
 def parse_args() -> argparse.Namespace:
@@ -142,6 +199,13 @@ def parse_args() -> argparse.Namespace:
         "--fraction", type=float, default=1.0, help="fraction of the train set (smoke tests)"
     )
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument(
+        "--deterministic",
+        default="auto",
+        choices=["auto", "true", "false"],
+        help="torch deterministic algorithms; auto = true for YOLO, false for RT-DETR (its deformable "
+        "attention has no deterministic CUDA backward)",
+    )
     ap.add_argument(
         "--emulate-paper-batch",
         action="store_true",
@@ -445,11 +509,14 @@ def write_test_view(
     return out
 
 
-def score_weights(weights: Path, data_yaml: Path, imgsz: int, device: int) -> dict:
-    """mAP50, mAP50-95 and per-class AP of one checkpoint on the "val" entry of a data yaml."""
-    from ultralytics import YOLO
+def score_weights(
+    weights: Path, data_yaml: Path, imgsz: int, device: int, model: str = "yolov8m"
+) -> dict:
+    """mAP50, mAP50-95 and per-class AP of one checkpoint on the "val" entry of a data yaml.
 
-    val = YOLO(str(weights)).val(
+    ``model`` is the --model name: it picks the validator (YOLO with NMS, or RT-DETR's score cut).
+    """
+    val = model_class(model)(str(weights)).val(
         data=str(data_yaml), imgsz=imgsz, batch=32, device=device, plots=False, verbose=False
     )
     names = val.names
@@ -613,13 +680,13 @@ def main() -> None:
         paper_batch=PAPER_BATCH[detect_base(args.model)],
         paper_epochs=100,
         paper="Zhao 2025 Table 4",
-        task_kind="segment" if args.model.endswith("-seg") else "detect",
+        task_kind=task_kind(args.model),
     )
     film_split = connect_film_split(task, args.split_file) if args.split == "film" else None
     if args.queue:
         task.execute_remotely(queue_name=args.queue)  # everything below runs on the agent
 
-    from ultralytics import YOLO, settings
+    from ultralytics import settings
 
     # keep only the ClearML integration; the key set differs between Ultralytics versions
     wanted = {
@@ -679,7 +746,10 @@ def main() -> None:
         f"nbs {nbs}; weight_decay {weight_decay:.5f}; paper: batch {PAPER_BATCH[detect_base(args.model)]}"
     )
 
-    model = YOLO(f"{args.model}.pt")  # COCO-pretrained, downloaded by Ultralytics on first use
+    deterministic = deterministic_for(args.model, args.deterministic)
+    print(f"[train] model class {model_class(args.model).__name__}, deterministic {deterministic}")
+    # COCO-pretrained, downloaded by Ultralytics on first use (yolov8m.pt, rtdetr-l.pt, ...)
+    model = model_class(args.model)(f"{args.model}.pt")
     results = model.train(
         data=str(data_yaml),
         epochs=args.epochs,
@@ -691,6 +761,7 @@ def main() -> None:
         workers=args.workers,
         fraction=args.fraction,
         seed=args.seed,
+        deterministic=deterministic,
         project=str(args.runs_dir),
         name=args.name,
         exist_ok=True,
@@ -751,7 +822,7 @@ def main() -> None:
             summary["best_mask_mAP50-95"] = {"value": bm5095[m5095], "epoch": int(bm5095["epoch"])}
             summary["last"].update({m50: rows[-1][m50], m5095: rows[-1][m5095]})
     try:
-        val = YOLO(str(run_dir / "weights" / "best.pt")).val(
+        val = model_class(args.model)(str(run_dir / "weights" / "best.pt")).val(
             data=str(data_yaml),
             imgsz=args.imgsz,
             batch=16,
@@ -802,6 +873,7 @@ def main() -> None:
                     Path(data_info["test_data_yaml"]),
                     args.imgsz,
                     devices[0],
+                    args.model,
                 )
             except Exception as e:  # noqa: BLE001 — as above
                 summary["test"][f"{ckpt}_error"] = repr(e)

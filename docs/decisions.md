@@ -371,3 +371,153 @@ rigour: same number of synthetic tiles per class, same number of null tiles, sam
 randomly drop the surplus tiles of the larger arm per class (seeded, recorded in the dataset metadata) before upload.
 For a repeat-sampling arm, fix its copy count per class to the synthetic arm's tile count instead of drawing it.
 Runs B–E stay as they are and are reported with their actual counts.
+
+## 2026-10-19 — Cecilia (call) — test split, stronger reference model, equal-sampling arm, move to generative
+Meeting note: `docs/meetings/2026-10-19_cecilia.md`. Suggestions from Cecilia, none decided yet:
+(1) carve a test set of about 100 films out of the 369 validation films; (2) survey state-of-the-art (transformer)
+detectors in a table (venue, data, code, GPUs) and fix one as the reference model for all data experiments, YOLOv8m staying
+as the paper baseline; (3) add an equal-sampling arm (same tile count per class) as a rebalancing reference; (4) upscaling
+338 px tiles to 640 px adds artefacts: check native resolution; (5) evaluate also defect-vs-clean with classes merged;
+(6) saliency or attention maps for explainability; (7) her reading of runs C–E: hand-made versions of what a generative
+model does, i.e. the motivation for WP3. Open conflict to settle with Felix before M1 (23 Oct): a new reference model
+changes the frozen benchmark; the test split changes the validation set (existing best.pt files can be re-scored on the
+new val and test without retraining; undercut sits in only 16 val films, so the split must be stratified by class).
+
+## 2026-10-19 — Bartu — A′ result and Cecilia's follow-up
+A′ (YOLOv8m, real only, film split, 50 epochs, seed 0; task `b1357e6011544643b07389cdc95297ea`): best.pt mAP50 0.452 /
+mAP50-95 0.242; AP50 porosity 0.736, inclusion 0.264, crack 0.546, undercut 0.148, lack of fusion 0.255, lack of
+penetration 0.766. Against the fair reference: run E (naive) +0.007 / +0.004 (crack +0.022, lack of fusion +0.018,
+undercut −0.016), within about 1.6× the 0.004 identical-run spread, so not a demonstrated gain; run D (physical) −0.028 /
+−0.013, undercut 0.041 vs 0.148. Undercut also moved from 0.101 (A, 100 epochs) to 0.148 (A′, 50 epochs) on identical
+data, which shows how noisy the 16-film undercut AP is. Cecilia's email after the call: next steps approved; generative
+approach after the other points or at lower priority; study what 16-bit single-channel data implies for adapting vision
+models; references in `docs/meetings/2026-10-19_cecilia.md`.
+
+## 2026-10-22 — Bartu — held-out test split built (not yet uploaded); the train/val "leak" did not exist
+`swrd_paper_baseline/scripts/09_test_split.py` (branch `wp1-test-split`) carves the test set out of the 369 film-split
+validation exposures by iterative stratification over classes, whole exposures, identical films kept together. Seed 0,
+target 100: 96 test exposures (132 crops, 4,240 tiles, 2,344 with a box) and 273 validation exposures (11,756 tiles); every
+class has 25–28 % of its validation exposures in test (undercut 4 of 16, lack of fusion 12 of 46). Training tiles are
+unchanged, so every model trained so far never saw a test tile; existing best.pt files can be scored on both parts.
+`05_train.py` now holds the test exposures out of training and validation (before, every tile outside the val list went to
+train). Output: `~/swrd_paper_baseline/data/work/split_films_test.json` and `_report.json` on the box.
+Correction: the "three training films that are byte copies of validation films (small leak)" named in earlier notes are not
+in the training data. The tiler ran with `--skip-duplicates`, which keeps only the first file of each byte-identical group,
+so those copies have no tiles at all; there is no train/val leak.
+
+## 2026-10-22 — Bartu — test set on ClearML; runs A–E and A′ scored on it
+Test set uploaded: ClearML dataset `3719b53abca846ada21f463f61203641` (`swrd-paper-tiles-film-test` 1.0.0, project
+`thesis_wp1_benchmark`): 4,240 tiles of 96 exposures, same 8-bit tiles and labels as v1.0, plus the split file and report.
+Each run's best.pt scored on it with `06_eval.py --dataset-id 3719b53a… --task-id <run>` (eval tasks: A `1d15c454…`,
+B `393c6150…`, C `4eb1d024…`, D `9a431f94…`, E `f20b8cd6…`, A′ `77c9360f…`). mAP50 / mAP50-95:
+A 0.466 / 0.241, B 0.479 / 0.241, C 0.439 / 0.228, D 0.433 / 0.228, E 0.474 / 0.248, A′ 0.469 / 0.240. AP50 undercut:
+A 0.151, B 0.275, C 0.115, D 0.035, E 0.212, A′ 0.231 (4 test exposures, 60 boxes: very noisy).
+Reading: the physical arms stay below real-only (C −0.027 vs A, D −0.036 vs A′); naive beats physical again (E − D =
++0.041); E vs A′ is +0.005 mAP50 / +0.009 mAP50-95, not a demonstrated gain; B's +0.013 over A comes almost entirely from
+undercut on 4 films. Caveat: every best.pt was chosen on the old 369-film validation set, which contained the test films, so
+the test numbers are slightly optimistic for all runs alike; runs trained from now on select checkpoints on the 273-film
+validation set only.
+
+## 2026-10-22 — Bartu — 50 epochs from now on; resolution check launched; equal-count matching built
+Bartu settles on 50 epochs for every run (A at 100 and A′ at 50 score the same: val 0.452 / 0.452, test 0.466 / 0.469).
+Test-split branch merged into main. Resolution check launched: task `b8d70cdb8fa54a72bd91a2ffd931ed1d`
+(`v1.0-filmtest-real-yolov8m-50ep-352-paperbatch-4gpu`): A′ with `--imgsz 352` instead of 640 and the new split file
+(agent log: train 143,918, val 11,756, test held out 4,240). Readout: last.pt and best.pt on test and on the 273-film val
+against A′ (scored at 640), porosity watched for small-defect loss; adopt 352 if within 0.01 or better, else try 416. B at
+50 epochs waits for the resolution decision (weekend batch). Equal-count rule implemented as
+`swrd_synthetic_physical/scripts/08_match_arms.py` (branch `wp2-match-arms`): per bucket (class or null) both arms keep the
+smaller count, surplus drawn with a fixed seed and moved to `trimmed/`, report read by `04_merge_upload.py`. Dry run on the
+D/E builds: physical would drop 201 tiles, naive 93, both ending at 33,224. Not built: fixing a repeat-sampling arm's copies
+to a synthetic arm's counts (no such comparison planned yet).
+
+## 2026-10-22 — Bartu — equal-sampling run: raise every class to porosity's level, on run E's data, once
+Cecilia's equal-sampling reference is run once, on the best synthetic arm so far (E, naive), not for every arm.
+Definition (Bartu): oversample only, nothing discarded. Per tile repeat factor = max over its classes of
+(porosity tiles / class tiles), at least 1; clean and null tiles once per epoch. Simulated on real + E tiles: inclusion,
+crack, undercut, lack of fusion and lack of penetration each about 44,300 views per epoch, porosity 63,900 (pores share
+tiles with the rarer classes), undercut tiles repeated 5.7 times, epoch 1.86 times longer (about 9 h at 352 px), clean
+share per epoch 42 % → 23 %. Its comparison partner is the E rerun on the same setup; both use E's dataset trimmed to
+D's counts (08_match_arms.py), so the only difference is the sampling. Order: decide resolution, match D/E and upload,
+build the option in 05_train.py, run equal sampling, then rerun B, D, E (new names, prefix to be fixed).
+
+## 2026-10-22 — Bartu — resolution check: 352 px is at least as good as 640 px at a third of the cost
+Run `b8d70cdb8fa54a72bd91a2ffd931ed1d` (A′ recipe, `--imgsz 352`, new split with the 96-film test set held out) completed
+15:36 UTC: 5.8 min per epoch vs about 18 at 640. Scored each at its own training size (eval tasks: 352 last test
+`40cd8d1e…`, last val `0a4675d3…`, best test `dbb5156f…`, best val `fb2394eb…`; 640 last test `bcf59938…`, last val
+`5f7f1e3b…`, best test `4eaa225c…`, best val `2c7b6e29…`). mAP50 / mAP50-95, 352 vs 640:
+last.pt (the fair comparison) test 0.477 / 0.235 vs 0.439 / 0.218, val (273 films) 0.437 / 0.226 vs 0.427 / 0.224;
+best.pt (640 had seen the test films during its checkpoint choice) test 0.469 / 0.235 vs 0.469 / 0.240, val 0.462 / 0.245
+vs 0.450 / 0.247. Porosity AP50 352 vs 640: last test 0.704 / 0.690, last val 0.710 / 0.700, best test 0.718 / 0.729,
+best val 0.734 / 0.740: no sign of small-defect loss beyond about 0.01. A′'s final epoch is weaker than its best one
+(test 0.439 vs 0.469); the 352 run's final epoch is close to its best (0.477 vs 0.469). By the agreed rule (adopt if within
+0.01 or better) 352 px is adopted for all following runs, pending Bartu's confirmation. One seed each.
+
+## 2026-10-22 — Bartu — 352 px adopted; bm1 naming; D and E matched and uploaded as 3.1.0
+352 px adopted for all following runs (Bartu). New runs get the prefix `bm1-` and the ClearML tag `benchmark-v1`; the
+352 px run `b8d70cdb…` is renamed `bm1-real-yolov8m-352-50ep` and tagged: it is the bm1 real-only reference.
+D and E matched with `08_match_arms.py --apply` (seed 0): both builds hold 33,224 synthetic tiles, per bucket inclusion
+9,564, crack 5,193, undercut 7,010, lack of fusion 9,227, null 2,230; dropped from D: crack 23, undercut 100, lack of fusion
+36, null 42; from E: inclusion 93 (moved to `trimmed/`, nothing deleted). Uploaded as version 3.1.0, children of v1.0,
+tagged `benchmark-v1`: physical `a0c693fce6914d4d89fa50876319467c`, naive `dedf6895eeab497cba026592e701fb61`; each 177,147
+train files (143,923 parent + 33,224) and val unchanged. The 3.0.0 datasets of runs D and E stay as they were.
+
+## 2026-10-23 — Bartu — equal-sampling run launched on real tiles (Cecilia's reference for run B)
+Cecilia's "all classes the same number" was said about run B (rebalancing real data), so the equal-sampling run uses the
+real-only tiles, not run E's data (the 2026-10-22 entry is superseded on that point). On real tiles all six classes cannot
+be made exactly equal by sampling whole tiles: pores sit in 44 % of the lack-of-penetration tiles and 23 % of the inclusion
+tiles, so porosity rides along and ends about 6 % above any target; no common level exists without leaving tiles out.
+Chosen target: 15,042 (the second most common class), which keeps the epoch as long as `bm1-real` (145,595 vs 143,918 tile
+views), so the two runs differ only in class balance. Per epoch: inclusion 15,096, crack 15,131, undercut 15,024 (each tile
+x19.6), lack of fusion 15,061, lack of penetration 15,039, porosity 16,010; 34,757 tiles left out of this run (all
+pores-only tiles and a few lack-of-penetration tiles), none deleted. `05_train.py --equal-sampling --equal-target second`
+(branch `wp1-equal-sampling`), `--tags` added. Task `fa0fa5a1925b42a4a91362aef17d2ef6` (`bm1-equal-yolov8m-352-50ep`, tag
+`benchmark-v1`), launched by Bartu; agent log confirms train 143,918, val 11,756, test held out 4,240, 145,595 per epoch.
+
+## 2026-10-23 — Bartu — clean start: the bm1 main set (A, B, D, E), all 50 epochs at 352 px
+Everything that counts from now on is one set of four runs. Same recipe for all four: YOLOv8m, 352 px, 50 epochs, seed 0,
+paper batch on 4 GPUs, `split_films_test.json` (val 11,756 tiles, test 4,240 held out). Old and new splits have identical
+training films (checked), so the 3.1.0 synthetic builds, whose host films are all training films, are valid for it. ClearML
+tags `benchmark-v1`, `bm1-main` and `run-A`/`run-B`/`run-D`/`run-E`; filter on `bm1-main` to see only this set.
+- A, real only: `bm1-real-yolov8m-352-50ep` `b8d70cdb…` (done; tags added today).
+- D, physical 3.1.0: `bm1-D-physical-v3.1.0-yolov8m-352-50ep` `7e5127fe6ce243659dabba4283f66682` (queued by Claude on
+  Bartu's request).
+- E, naive 3.1.0: `bm1-E-naive-v3.1.0-yolov8m-352-50ep` `235e98c2eec242db9c910b26a601254c` (queued).
+- B, equal sampling at porosity's level: `bm1-B-equal-max-yolov8m-352-50ep` `96b3ca2417a34474841dd2f01624c6e6` (queued; `--equal-target max`). Bartu judged
+  15,042 per class too low. Target 44,259 (tiles with porosity, the most common class) is the highest level the data
+  supplies without pushing every class above its own tile count: about 2.0x the epoch of A, undercut tiles x57.8. As with
+  15,042, exact equality still needs about 34,000 pores-only tiles left out, because pores ride along in the repeated tiles
+  of other classes; spread about 6 %. B therefore trains about twice as many steps as A in its 50 epochs.
+The 15,042 run `fa0fa5a1…` (`bm1-equal-yolov8m-352-50ep`, val mAP50 0.402 / mAP50-95 0.210 at best epoch vs A's 0.4625 /
+0.2457) is tagged `superseded`. Old-setup runs (640 px, old split: A, A′, B, C, D, E) stay as history and are not compared
+against the bm1 set. Reference-model choice: Bartu, over the weekend.
+
+## 2026-10-25 — results of the bm1 main set (A, B, D, E), one seed each
+D `7e5127fe…` 13:52–19:41 UTC 23 Oct, E `235e98c2…` 19:41–01:29, B `96b3ca24…` 01:30–10:44 24 Oct, all completed.
+Scored by `06_eval.py` on the box T4 at 352 px, real tiles only (`yolo_v1.0_papergrid`, `split_films_test.json`), ClearML
+tasks `eval-bm1-{B,D,E}-{best,last}-{test,val}`; A is `eval-res352-*`. mAP50 / mAP50-95:
+
+| run | test best.pt | test last.pt | val best.pt | val last.pt | best epoch |
+|---|---|---|---|---|---|
+| A real only | 0.469 / 0.235 | 0.477 / 0.235 | 0.462 / 0.245 | 0.437 / 0.226 | 32 |
+| B equal sampling (44,259) | 0.418 / 0.212 | 0.357 / 0.178 | 0.399 / 0.207 | 0.347 / 0.172 | 11 |
+| D physical 3.1.0 | 0.468 / 0.238 | 0.465 / 0.234 | 0.441 / 0.235 | 0.438 / 0.231 | 34 |
+| E naive 3.1.0 | 0.476 / 0.244 | 0.484 / 0.241 | 0.469 / 0.252 | 0.458 / 0.241 | 50 |
+
+Test AP50 per class, best.pt (porosity, inclusion, crack, undercut, LoF, LoP): A 0.718 0.225 0.535 0.168 0.397 0.772;
+B 0.634 0.141 0.480 0.093 0.409 0.749; D 0.731 0.202 0.535 0.167 0.400 0.773; E 0.729 0.253 0.551 0.181 0.368 0.777.
+Reading: equal sampling at 44,259 hurts. B peaks at epoch 11 and then falls (val undercut AP50 0.000 at the end), which
+fits 766 undercut tiles shown 58 times per epoch. E is again slightly above D (test best.pt +0.008 mAP50); both are within
+about 0.01 of A on test. One seed and 96 test exposures: undercut AP alone moves 0.168 → 0.271 between A's two
+checkpoints, so differences of 0.01 are not yet separable from noise.
+
+## 2026-10-25 — Claude for Bartu's review — reference-model branch built, nothing launched
+Branch `wp1-reference-models`: the three shortlisted detectors of `docs/literature/model_survey_2026-10-22.md` on the bm1
+recipe (real tiles, `split_films_test.json`, 352 px, 50 epochs, seed 0). Arm 1 RT-DETR-L via `05_train.py --model rtdetr-l`
+(same Ultralytics recipe as YOLOv8m, `--deterministic` auto = false for RT-DETR); arm 2 DEIM-D-FINE-L via `14_train_deim.py`
+(repo pinned to `09d35d53`, derived config: 6 classes, 352 px everywhere, schedule 42 augmented + 8 plain epochs,
+fine-tune from the model-zoo checkpoint); arm 3 RF-DETR Large via `15_train_rfdetr.py` (`rfdetr[train]==1.11.2`, torchrun
+child, resolution 352 allowed by its block size 32). One scorer for all four models: `11_export_coco.py` writes COCO
+ground truth (category id = class index, image id = sorted position) and uploads it as a child dataset of `de772ad9…`;
+`12_predict_coco.py` + `13_score_coco.py` score Ultralytics weights with pycocotools; the two wrappers write and score
+their own COCO predictions on val and test. 77 unit tests pass; no GPU run yet. Launch order and review notes:
+`experiments/wp1_benchmark/reference_models.md`. Decision pending: Bartu reviews, then launches the three 50-epoch runs.

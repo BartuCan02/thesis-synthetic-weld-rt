@@ -144,11 +144,17 @@ swrd_paper_baseline/
   scripts/04_upload_clearml.py step 3c  ClearML Dataset with metadata
   scripts/fetch_from_official_zip.py   HTTP-range reader for the official SWXD_Data.zip (list / fetch selected members)
   scripts/reconstruct_missing_crops.py rebuild unpublished crops from Raw_data originals (validated pixel-exact)
-  scripts/05_train.py      step 4   Ultralytics training, ClearML task, remote queue; --split film, --rfs-threshold, --model yolov8*-seg
+  scripts/05_train.py      step 4   Ultralytics training, ClearML task, remote queue; --split film, --rfs-threshold, --model yolov8*-seg | rtdetr-l
   scripts/06_eval.py       step 5   score saved weights on the tile- or film-level val split
+  scripts/11_export_coco.py step 11  COCO json (train/val/test) from the YOLO tiles + film split; --upload as a child dataset
+  scripts/12_predict_coco.py step 12 Ultralytics weights (YOLO or RT-DETR) -> COCO predictions on val/test, scored on the spot
+  scripts/13_score_coco.py  step 13  the one scorer for every model: pycocotools mAP50 / mAP50-95 / per-class AP
+  scripts/14_train_deim.py  step 14  DEIM-D-FINE-L (CVPR 2025) ClearML wrapper, pinned repo tarball, derived config
+  scripts/15_train_rfdetr.py step 15 RF-DETR Large (rfdetr 1.11.2) ClearML wrapper, torchrun child, TensorBoard replay
   scripts/_customer.py, export_customer_films.py, run_customer_pipeline.sh, 07_merge_upload.py   side run (customer films)
   tests/test_common.py   unit tests for the window rule, the D7 box rule, the stretch, the polygon tracing
   tests/test_train_sampling.py  unit tests for the film split and repeat factor sampling in 05_train.py
+  tests/test_export_coco.py, test_score_coco.py, test_train_deim.py, test_train_rfdetr.py   reference-model arms (config and data side)
   results/               numbers, curves, tables (small files only; no images, no weights)
 ```
 Data and runs live on the box and are never committed:

@@ -6,6 +6,9 @@ they did, the one number that matters, how it relates to this thesis, verified-o
 Overview of the papers read so far (link, summary, key points, relevance): `literature_review.xlsx` in the
 repo root. Add a row when a paper is finished.
 
+Reference-model survey for Cecilia (candidate detectors, the 16-bit / single-channel question, her three references):
+`model_survey_2026-10-22.md`.
+
 Verified in the 2026-09-20 sweep (Crossref/CVF), all cited in proposal v0.2:
 - Rogers 2016 (TIP, IEEE ICCST) — multiplicative projection from Beer–Lambert
 - Mery & Katsaggelos 2017 (CVPRW) — explicit log-additive form, offset/gain calibration
