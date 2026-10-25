@@ -107,3 +107,15 @@ def test_parse_log_reads_json_lines(tmp_path):
     rows = deim14.parse_log(log)
     assert [r["epoch"] for r in rows] == [0, 1]
     assert deim14.parse_log(tmp_path / "missing.txt") == []
+
+
+def test_data_dir_is_local_only(monkeypatch):
+    base = ["14_train_deim.py", "--name", "t"]
+    monkeypatch.setattr(sys, "argv", base + ["--data-dir", "/x", "--queue", "multi-gpu"])
+    with pytest.raises(SystemExit):
+        deim14.parse_args()
+    monkeypatch.setattr(sys, "argv", base + ["--data-dir", "/x"])
+    assert deim14.parse_args().data_dir == Path("/x")
+    monkeypatch.setattr(sys, "argv", base)  # neither source
+    with pytest.raises(SystemExit):
+        deim14.parse_args()

@@ -81,3 +81,12 @@ def test_parse_args_enforces_the_block_size(monkeypatch):
         args.imgsz == 352 and args.variant == "large" and args.batch == 4 and args.grad_accum == 1
     )
     assert rfdetr15.VARIANTS[args.variant] == "RFDETRLarge"
+
+
+def test_data_dir_is_local_only(monkeypatch):
+    base = ["15_train_rfdetr.py", "--name", "t"]
+    monkeypatch.setattr(sys, "argv", base + ["--data-dir", "/x", "--queue", "multi-gpu"])
+    with pytest.raises(SystemExit):
+        rfdetr15.parse_args()
+    monkeypatch.setattr(sys, "argv", base + ["--data-dir", "/x"])
+    assert rfdetr15.parse_args().data_dir == Path("/x")
