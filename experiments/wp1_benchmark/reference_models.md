@@ -1,4 +1,4 @@
-# Reference-model comparison (branch `wp1-reference-models`, built 2026-10-25, not yet run)
+# Reference-model comparison (branch `wp1-reference-models`, built and launched 2026-10-25)
 
 Cecilia (2026-10-19): pick one peer-reviewed, state-of-the-art detector as the fixed reference and run every data
 strategy on it. Survey and shortlist: `../../docs/literature/model_survey_2026-10-22.md`. Three arms, all on the
@@ -10,6 +10,17 @@ bm1 recipe (real tiles, `split_films_test.json`, 352 px, 50 epochs, seed 0, 4 x 
 | 1 | RT-DETR-L (HGNetv2-L) | Zhao et al., CVPR 2024 | Ultralytics, `05_train.py --model rtdetr-l` | `bm1-real-rtdetr-l-352-50ep` |
 | 2 | DEIM-D-FINE-L (HGNetv2-B4) | Huang et al., CVPR 2025 on Peng et al., ICLR 2025 | github `Intellindust-AI-Lab/DEIM` @ `09d35d53`, `14_train_deim.py` | `bm1-real-deim-dfine-l-352-50ep` |
 | 3 | RF-DETR Large (DINOv2-S windowed) | Robinson et al., arXiv 2511.09554 (ICLR 2026 per Roboflow, unverified) | pip `rfdetr[train]==1.11.2`, `15_train_rfdetr.py` | `bm1-real-rfdetr-l-352-50ep` |
+
+## Status 2026-10-25 (launched by Claude on Bartu's "go for it")
+
+| step | result |
+|---|---|
+| COCO ground truth | `11_export_coco.py` on the box: train 143,918 / val 11,756 / test 4,240 images (matches the bm1 agent log); boxes train 134,996 / val 11,215 / test 4,840. ClearML dataset **`bee4e92541cf4ad5b420865573113204`** (`swrd-paper-tiles-coco 1.0.0`, child of `de772ad9…`). Local copies: `~/swrd_paper_baseline/data/coco_v1.0/{coco,images}` (images = symlink to the v1.0 tiles), smoke subset `~/swrd_paper_baseline/data/coco_smoke` (600 / 200 / 100). |
+| RT-DETR smoke | `smoke-rtdetr-l-352` on the box T4, 1 epoch on 1 %: training, val, best.pt and last.pt test scoring and summary all OK (per-class AP present). Ultralytics put the run folder under `~/deeplify-wt-weldsuite/runs/detect/runs/` (the box's Ultralytics `runs_dir` setting); the summary step found it. |
+| Arm 1 queued | `bm1-real-rtdetr-l-352-50ep` task **`c0c4f2fcda6f4e97b5b2a5369e07fd7d`**, queue multi-gpu, batch 96 x accumulate 5. |
+| DEIM smoke | First attempt failed: torchvision 0.29 dropped the `_transform` hook DEIM implements. Fixed by `patch_deim_transforms` (writes `engine/data/transforms/_tv_compat.py` into the fetched repo). Second attempt `smoke-deim-dfine-l-352`, 10 epochs on the subset: training, best_stg1/best_stg2/last, predictions and pycocotools scores on val and test, summary all OK (val best mAP50 0.057 after 10 x 75 iterations, lr still in the 2,000-iteration warm-up: a smoke artefact). The tuning load reports the 80-class heads and the size-dependent anchors as unmatched, as expected. |
+| Arm 2 queued | `bm1-real-deim-dfine-l-352-50ep` task **`4e41d179d6964e359f5b821616634e20`**, checkpoint `~/deim_dfine_l_coco.pth` (model zoo, 126 MB) uploaded as the task's `init_checkpoint` artifact. |
+| RF-DETR smoke | `smoke-rfdetr-l-352`, 3 epochs on the subset: see below. |
 
 ## How the comparison stays fair
 

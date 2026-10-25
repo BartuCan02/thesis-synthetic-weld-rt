@@ -224,17 +224,25 @@ def label_to_category(class_names: list[str], gt_categories: list[dict]) -> dict
 
 def predict_coco(
     model, data_root: Path, gt_path: Path, label_map: dict[int, int], conf: float
-) -> list[dict]:
-    """COCO predictions of a loaded rfdetr model on every image of a ground-truth json."""
+) -> tuple[list[dict], int]:
+    """COCO predictions of a loaded rfdetr model on every image of a ground-truth json.
+
+    Returns (rows, skipped): rfdetr's classifier has one extra slot (index num_classes) that absorbs
+    "no object"; at a 0.001 threshold a few near-zero detections carry that id (smoke: 38 of 12,000, max
+    score 0.03). They have no category and are dropped and counted.
+    """
     from PIL import Image
 
     gt = json.loads(Path(gt_path).read_text())
-    rows = []
+    rows, skipped = [], 0
     for im in gt["images"]:
         det = model.predict(Image.open(data_root / im["file_name"]).convert("RGB"), threshold=conf)
         for (x1, y1, x2, y2), s, c in zip(
             det.xyxy.tolist(), det.confidence.tolist(), det.class_id.tolist()
         ):
+            if int(c) not in label_map:
+                skipped += 1
+                continue
             rows.append(
                 {
                     "image_id": im["id"],
@@ -243,7 +251,7 @@ def predict_coco(
                     "score": round(float(s), 5),
                 }
             )
-    return rows
+    return rows, skipped
 
 
 def main() -> None:
@@ -362,12 +370,12 @@ def main() -> None:
     model = RFDETR.from_checkpoint(str(best))
     for part in ("val", "test"):
         gt_path = data_root / "coco" / f"instances_{part}.json"
-        preds = predict_coco(model, data_root, gt_path, label_map, args.conf)
+        preds, skipped = predict_coco(model, data_root, gt_path, label_map, args.conf)
         pred_path = out_dir / f"preds_{part}_best.json"
         pred_path.write_text(json.dumps(preds))
         task.upload_artifact(f"preds_{part}_best", artifact_object=pred_path)
         result = coco_score(gt_path, preds)
-        summary[f"{part}_best"] = result
+        summary[f"{part}_best"] = result | {"skipped_padding_class": skipped}
         log.report_single_value(f"{part} best mAP50", result["mAP50"])
         log.report_single_value(f"{part} best mAP50-95", result["mAP50-95"])
         for cname, v in result["per_class_AP50"].items():
