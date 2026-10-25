@@ -159,6 +159,44 @@ def test_film_split_holds_test_exposures_out_of_train_and_val(tmp_path):
     assert info["train_tiles"] == 1 and info["val_tiles"] == 2 and info["test_tiles_held_out"] == 3
 
 
+def test_test_tiles_get_their_own_view_that_the_training_yaml_never_names(tmp_path):
+    root = tmp_path / "ds"
+    _fake_dataset(root)
+    film = {
+        "val_exposures": ["E3"],
+        "expected_val_tiles": 2,
+        "test_exposures": ["E1"],
+        "expected_test_tiles": 3,
+        "source": "test",
+    }
+    out, info = train05.resolve_data_yaml(_args(root, tmp_path / "runs", split="film"), film)
+    train_data = yaml.safe_load(out.read_text())
+    test_data = yaml.safe_load(Path(info["test_data_yaml"]).read_text())
+    test_view = Path(test_data["path"])
+
+    # the test yaml scores exactly the three E1 tiles, each a symlink with its label beside it
+    assert test_data["val"] == "images/test" and test_data["names"] == train_data["names"]
+    imgs = sorted((test_view / "images" / "test").iterdir())
+    assert [p.stem for p in imgs] == ["A_E1__x0__y0__s10", "A_E1__x5__y0__s10", "B_E1__x0__y0__s10"]
+    for img in imgs:
+        assert img.is_symlink() and (test_view / "labels" / "test" / f"{img.stem}.txt").is_symlink()
+
+    # training sees a different folder, and no path in its yaml leads to the test view
+    train_view = Path(train_data["path"])
+    assert train_view != test_view and test_view not in train_view.parents
+    assert "test" not in train_data
+    assert not any(str(test_view) in str(v) for v in train_data.values())
+
+
+def test_no_test_list_means_no_test_view(tmp_path):
+    root = tmp_path / "ds"
+    _fake_dataset(root)
+    film = {"val_exposures": ["E3"], "expected_val_tiles": 2, "source": "old split file"}
+    _, info = train05.resolve_data_yaml(_args(root, tmp_path / "runs", split="film"), film)
+    assert info["test_data_yaml"] is None
+    assert not (tmp_path / "runs" / "t_test_view").exists()
+
+
 def test_film_split_refuses_a_test_count_that_does_not_match_the_split_file(tmp_path):
     root = tmp_path / "ds"
     _fake_dataset(root)

@@ -10,6 +10,10 @@ What batch size really does:   Ultralytics steps the optimizer once per ``nbs`` 
                                weight decay = 0.0005 x paper_batch / 64, per-GPU batch a divisor of it (accumulate
                                = paper_batch / batch). Only BatchNorm statistics still see the smaller batch.
 What we add:                   ClearML task (scalars, per-class AP, best.pt as output model), a results JSON.
+                               With a split file that has a test list (09_test_split.py): after the last epoch,
+                               best.pt and last.pt are scored on the held-out test tiles, which sit in a folder of
+                               their own that training never reads; the scores land in the same task ("test
+                               best.pt mAP50" ...) and in summary.json under "test".
 
 Split and sampling (WP1 oversampling experiment, experiments/wp1_benchmark/oversampling_rfs.md):
   --split film         (default, the thesis protocol) the tiles split by original exposure: val = every tile of
@@ -408,6 +412,56 @@ def class_table(
     return rows
 
 
+def write_test_view(
+    args: argparse.Namespace, root: Path, data: dict, test_images: list[Path]
+) -> Path | None:
+    """Put the held-out test tiles in a folder of their own and return a data yaml that points only at it.
+
+    The folder sits next to the training view, not inside it, and the training yaml never names it, so
+    Ultralytics cannot see a test tile while it trains or while it picks best.pt. Only the scoring after
+    the last epoch (score_weights) reads this yaml. None when the split has no test list.
+    """
+    if not test_images:
+        return None
+    view = (Path(args.runs_dir) / f"{args.name}_test_view").resolve()
+    shutil.rmtree(view, ignore_errors=True)  # holds only symlinks and Ultralytics label caches
+    for sub in ("images", "labels"):
+        (view / sub / "test").mkdir(parents=True)
+    for img in test_images:
+        label = label_of(root, img)
+        if not label.is_file():
+            raise FileNotFoundError(label)
+        (view / "images" / "test" / img.name).symlink_to(img)
+        (view / "labels" / "test" / label.name).symlink_to(label)
+    # Ultralytics scores the yaml's "val" entry; "train" must exist, so it names the same folder
+    test_data = {
+        "path": str(view),
+        "train": "images/test",
+        "val": "images/test",
+        "names": data["names"],
+    }
+    out = Path(args.runs_dir) / f"{args.name}_test_data.yaml"
+    out.write_text(yaml.safe_dump(test_data, sort_keys=False, allow_unicode=True))
+    return out
+
+
+def score_weights(weights: Path, data_yaml: Path, imgsz: int, device: int) -> dict:
+    """mAP50, mAP50-95 and per-class AP of one checkpoint on the "val" entry of a data yaml."""
+    from ultralytics import YOLO
+
+    val = YOLO(str(weights)).val(
+        data=str(data_yaml), imgsz=imgsz, batch=32, device=device, plots=False, verbose=False
+    )
+    names = val.names
+    idx = val.box.ap_class_index.tolist()
+    return {
+        "mAP50": float(val.box.map50),
+        "mAP50-95": float(val.box.map),
+        "per_class_AP50": {names[i]: float(v) for i, v in zip(idx, val.box.ap50.tolist())},
+        "per_class_AP50-95": {names[i]: float(v) for i, v in zip(idx, val.box.ap.tolist())},
+    }
+
+
 def resolve_data_yaml(
     args: argparse.Namespace, film_split: dict | None = None
 ) -> tuple[Path, dict]:
@@ -465,6 +519,7 @@ def resolve_data_yaml(
                 raise FileNotFoundError(label)
             (view / "images" / part / img.name).symlink_to(img)
             (view / "labels" / part / label.name).symlink_to(label)
+    test_yaml = write_test_view(args, root, data, parts["test"])
 
     classes = [tile_classes(label_of(root, img)) for img in parts["train"]]
     copies = [1] * len(classes)
@@ -506,6 +561,7 @@ def resolve_data_yaml(
         "train_tiles": len(parts["train"]),
         "val_tiles": len(parts["val"]),
         "test_tiles_held_out": len(parts["test"]),
+        "test_data_yaml": str(test_yaml) if test_yaml else None,
         "train_entries": sum(copies),
         "per_class": class_table(classes, copies, r_class, data["names"]),
     }
@@ -736,6 +792,30 @@ def main() -> None:
             task.get_logger().report_single_value("best.pt mask mAP50-95", float(seg.map))
     except Exception as e:  # noqa: BLE001 — the summary must never kill a finished run
         summary["best_pt_val_error"] = repr(e)
+    # ---- held-out test set, scored once, after training: it played no part in training or in picking best.pt
+    if data_info.get("test_data_yaml"):
+        summary["test"] = {"tiles": data_info["test_tiles_held_out"]}
+        for ckpt in ("best", "last"):
+            try:
+                r = score_weights(
+                    run_dir / "weights" / f"{ckpt}.pt",
+                    Path(data_info["test_data_yaml"]),
+                    args.imgsz,
+                    devices[0],
+                )
+            except Exception as e:  # noqa: BLE001 — as above
+                summary["test"][f"{ckpt}_error"] = repr(e)
+                continue
+            summary["test"][ckpt] = r
+            log = task.get_logger()
+            log.report_single_value(f"test {ckpt}.pt mAP50", r["mAP50"])
+            log.report_single_value(f"test {ckpt}.pt mAP50-95", r["mAP50-95"])
+            for cname, v in r["per_class_AP50"].items():
+                log.report_single_value(f"test {ckpt}.pt AP50/{cname}", v)
+            print(
+                f"[test] {ckpt}.pt on {data_info['test_tiles_held_out']:,} test tiles: "
+                f"mAP50 {r['mAP50']:.4f}, mAP50-95 {r['mAP50-95']:.4f}"
+            )
     (run_dir / "summary.json").write_text(json.dumps(summary, indent=2))
     task.upload_artifact("summary", artifact_object=run_dir / "summary.json")
     for w in ("best.pt", "last.pt"):
