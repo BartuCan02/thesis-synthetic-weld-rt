@@ -521,3 +521,14 @@ ground truth (category id = class index, image id = sorted position) and uploads
 `12_predict_coco.py` + `13_score_coco.py` score Ultralytics weights with pycocotools; the two wrappers write and score
 their own COCO predictions on val and test. 77 unit tests pass; no GPU run yet. Launch order and review notes:
 `experiments/wp1_benchmark/reference_models.md`. Decision pending: Bartu reviews, then launches the three 50-epoch runs.
+
+## 2026-10-25 — Bartu ("go for it") — reference-model runs launched
+Branch `wp1-reference-models` (commits d8b0765…4381af6). COCO ground truth exported (train 143,918 / val 11,756 / test 4,240
+images, counts equal to the bm1 agent log) and uploaded as ClearML dataset `bee4e92541cf4ad5b420865573113204`. All three
+wrappers smoke-tested on the box T4 first; two fixes were needed (torchvision 0.29 hook renames for DEIM; rfdetr's padding
+class in predictions) and one for `12_predict_coco.py` (ultralytics 8.4 API). Queued on multi-gpu, in this order:
+RT-DETR-L `c0c4f2fcda6f4e97b5b2a5369e07fd7d` (running, 22 min/epoch, epoch-1 val mAP50 0.348), DEIM-D-FINE-L
+`4e41d179d6964e359f5b821616634e20`, RF-DETR-L `7c17a7c9d4124218aeb4e0dc5eaecc41`. Reference for the comparison, scored with
+the same pycocotools scorer on the same ground truth: bm1 YOLOv8m best.pt val 0.435 / 0.236, test 0.443 / 0.228 (mAP50 /
+mAP50-95); pycocotools runs about 0.03 below Ultralytics' own mAP50, so the arms are compared against these numbers.
+Details, per-class numbers and duration estimates: `experiments/wp1_benchmark/reference_models.md`.
