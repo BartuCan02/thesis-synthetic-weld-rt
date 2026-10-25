@@ -83,10 +83,12 @@ def parse_args() -> argparse.Namespace:
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
-    ap.add_argument(
-        "--dataset-id",
-        required=True,
-        help="ClearML COCO child dataset (11_export_coco.py --upload)",
+    src = ap.add_mutually_exclusive_group(required=True)
+    src.add_argument("--dataset-id", help="ClearML COCO child dataset (11_export_coco.py --upload)")
+    src.add_argument(
+        "--data-dir",
+        type=Path,
+        help="local folder with images/ and coco/instances_*.json (smoke tests on the box); not for --queue",
     )
     ap.add_argument(
         "--init-checkpoint", type=Path, help="DEIM-D-FINE-L COCO .pth (local; uploaded as artifact)"
@@ -119,6 +121,8 @@ def parse_args() -> argparse.Namespace:
     ap.add_argument("--queue", default="", help="ClearML queue; empty = run here")
     ap.add_argument("--runs-dir", type=Path, default=Path("runs"))
     args = ap.parse_args()
+    if args.data_dir and args.queue:
+        ap.error("--data-dir is for local runs; remote runs need --dataset-id")
     if args.imgsz % 32:
         ap.error("--imgsz must be a multiple of 32")
     if args.epochs - args.no_aug_epochs < 8:
@@ -440,7 +444,10 @@ def main() -> None:
     out_dir = runs_dir / args.name
     out_dir.mkdir(parents=True, exist_ok=True)
     deim_dir = fetch_deim(runs_dir / "third_party")
-    data_root = Path(Dataset.get(dataset_id=args.dataset_id).get_local_copy())
+    if args.data_dir:
+        data_root = Path(args.data_dir).resolve()
+    else:
+        data_root = Path(Dataset.get(dataset_id=args.dataset_id).get_local_copy())
     for part in ("train", "val", "test"):
         if not (data_root / "coco" / f"instances_{part}.json").is_file():
             raise FileNotFoundError(

@@ -64,10 +64,12 @@ def parse_args() -> argparse.Namespace:
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
-    ap.add_argument(
-        "--dataset-id",
-        required=True,
-        help="ClearML COCO child dataset (11_export_coco.py --upload)",
+    src = ap.add_mutually_exclusive_group(required=True)
+    src.add_argument("--dataset-id", help="ClearML COCO child dataset (11_export_coco.py --upload)")
+    src.add_argument(
+        "--data-dir",
+        type=Path,
+        help="local folder with images/ and coco/instances_*.json (smoke tests on the box); not for --queue",
     )
     ap.add_argument("--variant", default="large", choices=sorted(VARIANTS))
     ap.add_argument("--epochs", type=int, default=50)
@@ -90,6 +92,8 @@ def parse_args() -> argparse.Namespace:
     ap.add_argument("--queue", default="", help="ClearML queue; empty = run here")
     ap.add_argument("--runs-dir", type=Path, default=Path("runs"))
     args = ap.parse_args()
+    if args.data_dir and args.queue:
+        ap.error("--data-dir is for local runs; remote runs need --dataset-id")
     if args.imgsz % BLOCK_SIZE:
         ap.error(f"--imgsz must be a multiple of {BLOCK_SIZE} for RF-DETR (patch 16 x 2 windows)")
     return args
@@ -279,7 +283,10 @@ def main() -> None:
     runs_dir = Path(args.runs_dir).resolve()
     out_dir = runs_dir / args.name
     out_dir.mkdir(parents=True, exist_ok=True)
-    data_root = Path(Dataset.get(dataset_id=args.dataset_id).get_local_copy())
+    if args.data_dir:
+        data_root = Path(args.data_dir).resolve()
+    else:
+        data_root = Path(Dataset.get(dataset_id=args.dataset_id).get_local_copy())
     for part in ("train", "val", "test"):
         if not (data_root / "coco" / f"instances_{part}.json").is_file():
             raise FileNotFoundError(
