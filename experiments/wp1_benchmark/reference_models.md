@@ -25,6 +25,31 @@ bm1 recipe (real tiles, `split_films_test.json`, 352 px, 50 epochs, seed 0, 4 x 
 | Reference scores | `12_predict_coco.py` on `bm1-real-yolov8m-352-50ep` `b8d70cdb…`, pycocotools, box T4 (runs `coco-bm1-real-yolov8m-{best,last}-{val,test}` under `~/thesis/swrd_paper_baseline/runs/`). mAP50 / mAP50-95: best.pt val **0.435 / 0.236**, test **0.443 / 0.228**; last.pt val 0.414 / 0.219, test 0.446 / 0.222. Per-class AP50 best.pt test: porosity 0.724, inclusion 0.191, crack 0.505, undercut 0.083, LoF 0.386, LoP 0.765. pycocotools sits about 0.03 below Ultralytics' own mAP50 on the same weights (val 0.435 vs 0.462): compare the three arms with these numbers, not with the bm1 table. |
 | Expected duration | Queue is sequential. Arm 1: epoch 1 took 22 min (val mAP50 0.348 after it), so about 19 h. Arm 2: smoke ran 0.5 s per batch of 8 on one T4, so about 40 min per epoch on 4 GPUs at batch 32, about 35 h. Arm 3: smoke ran 0.31 s per batch of 4, so about 45 min per epoch at effective batch 16, about 40 h. All three done around 2026-10-29. |
 
+## Results so far (2026-10-26)
+
+**Arm 1 RT-DETR-L `c0c4f2fc…` completed** (15 h; epochs 2–50 took 17–18 min each). Ultralytics' own validator: best.pt
+(epoch 29) val 0.445 / 0.240, test 0.442 / 0.231; last.pt test 0.450 / 0.221. Shared pycocotools scorer
+(`coco-bm1-real-rtdetr-l-*` runs on the box), against the bm1 YOLOv8m reference scored the same way:
+
+| mAP50 / mAP50-95 | YOLOv8m best.pt | RT-DETR-L best.pt | YOLOv8m last.pt | RT-DETR-L last.pt |
+|---|---|---|---|---|
+| val (273 films) | 0.435 / 0.236 | **0.445 / 0.242** | 0.414 / 0.219 | 0.422 / 0.218 |
+| test (96 films) | 0.443 / 0.228 | 0.442 / 0.232 | 0.446 / 0.222 | 0.450 / 0.222 |
+
+Per-class AP50, test, best.pt (porosity, inclusion, crack, undercut, LoF, LoP): YOLOv8m 0.724 0.191 0.505 0.083 0.386 0.765;
+RT-DETR-L 0.738 0.272 0.507 0.076 0.335 0.724. Reading: RT-DETR is level with YOLOv8m overall (+0.01 val, ±0.00 test), better on
+porosity and inclusion, worse on lack of fusion and lack of penetration, undercut noise-level for both. Its AR@100 is much higher
+(0.55 vs 0.42) because it keeps 300 low-score queries per tile; irrelevant to AP. Interesting: Ultralytics' RT-DETR validator agrees
+with pycocotools (0.445 both) while the YOLO validator sits 0.03 above it, so the bm1 table flatters YOLOv8m relative to this one.
+One seed each; the equal-sampling experience says ±0.01 is within noise.
+
+**Arm 2 DEIM `4e41d179…` FAILED at start** (my bug: `parse_args` required the local checkpoint path on the agent, where only the
+artifact exists). Fixed in `d2a99ab`; re-queued as **`745142720e244ddba96fc5a7e1a83003`**, now behind arm 3.
+
+**Arm 3 RF-DETR-L `7c17a7c9…` running** since 03:42 UTC, about 47 min per epoch (so about 40 h, done around 2026-10-27 20:00 UTC).
+rfdetr's own EMA metric (COCO mAP50-95 on val) after epochs 1–5: 0.248 → 0.257, already above both YOLOv8m (0.236) and
+RT-DETR (0.242) best.pt under the same metric family. Its ClearML scalars appear only at the end (TensorBoard replay).
+
 ## How the comparison stays fair
 
 - Same tiles, same film split, same 352 px input, same 50 epochs, same seed. The three arms differ in model and in

@@ -532,3 +532,10 @@ RT-DETR-L `c0c4f2fcda6f4e97b5b2a5369e07fd7d` (running, 22 min/epoch, epoch-1 val
 the same pycocotools scorer on the same ground truth: bm1 YOLOv8m best.pt val 0.435 / 0.236, test 0.443 / 0.228 (mAP50 /
 mAP50-95); pycocotools runs about 0.03 below Ultralytics' own mAP50, so the arms are compared against these numbers.
 Details, per-class numbers and duration estimates: `experiments/wp1_benchmark/reference_models.md`.
+
+## 2026-10-26 — Bartu — RT-DETR-L done, level with YOLOv8m; DEIM re-queued; RF-DETR running
+Arm 1 `c0c4f2fc…` finished in 15 h. Shared pycocotools scorer, best.pt: val 0.445 / 0.242 vs YOLOv8m 0.435 / 0.236; test
+0.442 / 0.232 vs 0.443 / 0.228. Per class it gains on porosity and inclusion and loses on LoF and LoP. One seed: a tie.
+DEIM `4e41d179…` failed at start on an argument check of mine; fixed (`d2a99ab`) and re-queued as `74514272…`. RF-DETR
+`7c17a7c9…` is at epoch 5 of 50 (47 min/epoch), rfdetr's val mAP50-95 already 0.257. Decision on the reference model waits for
+both. Numbers and per-class table: `experiments/wp1_benchmark/reference_models.md`.
