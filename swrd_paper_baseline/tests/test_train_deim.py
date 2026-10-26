@@ -91,9 +91,9 @@ def test_parse_args_refuses_bad_sizes_and_schedules(monkeypatch):
     monkeypatch.setattr(sys, "argv", base + ["--epochs", "10"])
     with pytest.raises(SystemExit):
         deim14.parse_args()
+    # a missing checkpoint path is accepted by parse_args: on the agent the file never exists (artifact instead)
     monkeypatch.setattr(sys, "argv", base + ["--init-checkpoint", "/nowhere/x.pth"])
-    with pytest.raises(SystemExit):
-        deim14.parse_args()
+    assert deim14.parse_args().init_checkpoint == Path("/nowhere/x.pth")
     monkeypatch.setattr(sys, "argv", base)
     args = deim14.parse_args()
     assert args.epochs == 50 and args.imgsz == 352 and args.init_checkpoint is None

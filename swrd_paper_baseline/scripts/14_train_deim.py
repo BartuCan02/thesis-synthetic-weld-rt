@@ -127,8 +127,8 @@ def parse_args() -> argparse.Namespace:
         ap.error("--imgsz must be a multiple of 32")
     if args.epochs - args.no_aug_epochs < 8:
         ap.error("--epochs must leave at least 8 augmented epochs before the no-aug phase")
-    if args.init_checkpoint and not args.init_checkpoint.is_file():
-        ap.error(f"--init-checkpoint {args.init_checkpoint} does not exist here")
+    # The path is checked in main(), not here: on the agent the stored arguments are replayed and the file does
+    # not exist there; the agent reads the checkpoint back from the task's "init_checkpoint" artifact.
     return args
 
 
@@ -475,10 +475,14 @@ def main() -> None:
         else "ImageNet HGNetv2-B4 only",
         task_kind="detect-deim",
     )
-    if args.init_checkpoint:
-        # uploaded now, where the file exists; the agent fetches it back from the task's artifacts
+    if args.init_checkpoint and args.init_checkpoint.is_file():
+        # launch side: uploaded now, where the file exists; the agent fetches it back from the task's artifacts
         task.upload_artifact(
             "init_checkpoint", artifact_object=str(args.init_checkpoint), wait_on_upload=True
+        )
+    elif args.init_checkpoint and "init_checkpoint" not in task.artifacts:
+        raise SystemExit(
+            f"--init-checkpoint {args.init_checkpoint} does not exist here and the task has no artifact"
         )
     if args.queue:
         task.execute_remotely(queue_name=args.queue)  # everything below runs on the agent
